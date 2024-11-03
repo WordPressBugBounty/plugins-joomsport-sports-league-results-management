@@ -4,7 +4,7 @@ Tags: sports, football, hockey, sports team, league
 Requires at least: 4.0
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 5.6.10
+Stable tag: 5.6.13
 License: GPLv3 
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -14,10 +14,10 @@ Create PRO sports website for your club, sports team or sports league! Soccer, F
 = Sport league manager for your league, sport tournament, team and club =
 Complex solution to build a sports web site. Developed since 2009 JoomSport offers the features essential for any sports site - sports league standings, sports teams with description and stats, players with their profiles, photos and personal achievements, fixtures analytics and match results with score and game details, and finally all this put into well-structured seasons and leagues.
 
-READY solution for UEFA EURO Cup [Statorium package](https://statorium.com/uefa-euro-cup-2024-api)! *Requires pro version
+Ready solution for FIFA World Cup [Statorium package](https://statorium.com/uefa-euro-cup-2024-api)! (*pro edition with data)
 
-Check [complete overview on JoomSport.com](https://joomsport.com/?utm_source=wpcatalogue&utm_medium=web&utm_campaign=passiveweb "WordPress sport plugin")!
-Check [Statorium sports API service](https://statorium.com "Statorium sports API") connected (pro edition)
+Complete overview on [JoomSport.com](https://joomsport.com/?utm_source=wpcatalogue&utm_medium=web&utm_campaign=passiveweb "WordPress sport plugin")!
+Live Scores via [Statorium sports API] (https://statorium.com "Statorium sports API") connected (pro edition)
 
 = Main features =
 * **Robust structure** - allows you to create different types of Leagues with chronologically organized Seasons that consist of one or several MatchDays with Matches inside.
@@ -41,8 +41,8 @@ View [Pro edition DEMO](http://wp-demo.joomsport.com/ "JoomSport wordpress plugi
 
 = Complementary products =
 * Statorium.com sports API integration. Helps to import public leagues data automatically.
-* [Sport Mobile App](https://app.joomsport.com/ "Sport Mobile App") 
-* [Sport predictions](https://wordpress.org/plugins/joomsport-prediction/ "Sport predictions for JoomSport WordPress plugin") WordPress plugin 
+* [Sports Mobile App](https://app.joomsport.com/ "Sport Mobile App") 
+* [Sports predictions](https://wordpress.org/plugins/joomsport-prediction/ "Sport predictions for JoomSport WordPress plugin") WordPress plugin 
 * [JoomSport Achievements](https://wordpress.org/plugins/joomsport-achievements/ "Plugin for Athletic type of sports") - solution for sports where many players compete with each other simultaneously
 
 = Themes with integrated design =
@@ -122,6 +122,12 @@ We are changing the sport industry by creating comprehensive software infrastruc
 18. Knockout matchday edit (pro version)
 
 == Changelog ==
+
+= 5.6.11-13 =
+
+Bugfixes:
+* display extra fields in player list bug
+* other small adjustments
 
 = 5.6.10 =
 

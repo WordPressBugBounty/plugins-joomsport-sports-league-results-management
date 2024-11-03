@@ -649,6 +649,7 @@ class jsHelper
         }
 
         if(count($partc)){
+            //$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->joomsport_teamstats} WHERE seasonID=%d AND eventID=%d",$season_id,$event_id));
             foreach ($partc as $key => $value){
                 if(count($value)){
                     $sum = array_sum($value);

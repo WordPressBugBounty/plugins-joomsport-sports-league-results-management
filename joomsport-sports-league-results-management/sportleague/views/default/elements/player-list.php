@@ -252,8 +252,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         ?>
                         <td class="jsTextAlignCenter">
                             <?php
-                            if (isset($playerST->{$key})) {
-                                echo wp_kses_post($playerST->{$key});
+                            if (isset($playerST->fields[$key])) {
+                                echo wp_kses_post($playerST->fields[$key]);
                             }
                         ?>
                             

@@ -175,6 +175,8 @@ class JoomSportcalcTable
             }
         }else{
             $participants = JoomSportHelperObjects::getParticipiants($this->id);
+
+
         }
             
         $seasonOpt = get_post_meta($this->id,'_joomsport_season_ranking',true);
@@ -244,7 +246,7 @@ class JoomSportcalcTable
                     $array[$intA]['otlost_chk'] = $optionsCol['otlost_chk'];
                     $array[$intA]['percent_chk'] = $optionsCol['percent_chk'];
                     $array[$intA]['played_chk'] = $optionsCol['played_chk'];
-
+                    $array[$intA]['goalscore_away_chk'] = $optionsCol['goalscore_away_chk'];
 
 
                     if ($group_id) {
@@ -274,6 +276,7 @@ class JoomSportcalcTable
                     $points_home = 0;
                     $points_away = 0;
                     $played = 0;
+                    $goalscore_away_chk = 0;
 
                     $seas_bonus = get_post_meta($participant->ID, '_joomsport_team_bonuses_'.$this->id,true);
 
@@ -365,6 +368,7 @@ class JoomSportcalcTable
                             $away_score = $matches_away[$intM]->scoreAway;
                             if($home_score != '' && $away_score != ''){
                                 $goalscore_chk += $away_score;
+                                $goalscore_away_chk = $away_score;
                                 $goalconc_chk += $home_score;
                                 $jmscore = get_post_meta($matches_away[$intM]->ID, '_joomsport_match_jmscore',true);
                                 $is_extra = 0;
@@ -468,6 +472,8 @@ class JoomSportcalcTable
                     $array[$intA]['otlost_chk'] = $loosextra;
                     $array[$intA]['percent_chk'] = $percent_chk;
                     $array[$intA]['played_chk'] = $played;
+                    $array[$intA]['goalscore_away_chk'] = $goalscore_away_chk;
+
 
 
 
@@ -1009,6 +1015,9 @@ class JoomSportcalcTable
                         case '6': $argsort[][0] = $sort_arr['played_chk'];        break;
                         case '7': $argsort[][0] = $sort_arr['win_chk'];        break;
 
+                        case '10': $argsort[][0] = $sort_arr['goalscore_away_chk'];        break;
+                        case '11': $argsort[][0] = $sort_arr['winaway_chk'];        break;
+
                         case '100': $argsort[][0] = $sort_arr['avulka_v'];        break;
                         case '101': $argsort[][0] = $sort_arr['avulka_scored_away'];        break;
                         case '102': $argsort[][0] = $sort_arr['avulka_qc'];        break;
@@ -1415,8 +1424,7 @@ class JoomSportcalcPlayerList
             if (!$is_col) {
                 $wpdb->query(
                     $wpdb->prepare(
-                        'ALTER TABLE '.$wpdb->joomsport_playerlist.' ADD %s FLOAT NOT NULL DEFAULT  "0"',
-                        array($tblCOl)
+                        'ALTER TABLE '.$wpdb->joomsport_playerlist.' ADD `'.$tblCOl.'` FLOAT NOT NULL DEFAULT  "0"'
                     )
                 );
             }

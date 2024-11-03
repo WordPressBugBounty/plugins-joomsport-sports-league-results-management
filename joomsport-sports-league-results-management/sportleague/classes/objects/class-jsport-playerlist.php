@@ -99,7 +99,7 @@ class classJsportPlayerlist
                 $players_object[$intC] = $obj->getRowSimple();
                 $players_object[$intC]->teamID = $players[$intC]->team_id;
                 for ($intB = 0; $intB < count($ef); ++$intB) {
-                    $players_object[$intC]->{'ef_'.$ef[$intB]->id} = classJsportExtrafields::getExtraFieldValue($ef[$intB], $row->player_id, 0, $this->season_id);
+                    $players_object[$intC]->fields['ef_'.$ef[$intB]->id] = classJsportExtrafields::getExtraFieldValue($ef[$intB], $row->player_id, 0, $this->season_id);
                     if(isset($ef_type) && $ef_type == 3){
                         $orderValue = -1;
                         $meta = get_post_meta($row->player_id,'_joomsport_player_ef',true);
@@ -113,10 +113,11 @@ class classJsportPlayerlist
                                 $orderValue = $ef_ordering_assocc[$meta_s[$ef[$intB]->id]];
                             }
                         }
-                        $players_object[$intC]->{'ef0_'.$ef[$intB]->id} = $orderValue;
+                        $players_object[$intC]->fields['ef0_'.$ef[$intB]->id] = $orderValue;
 
                     }
                 }
+
                 
             }
             
@@ -138,15 +139,15 @@ class classJsportPlayerlist
     }
     public function sortPlayers($a,$b){
         if($this->ef_type == '3'){
-            if ($a->{'ef0_'.$this->ef_sort_id} == $b->{'ef0_'.$this->ef_sort_id}) {
+            if ($a->fields['ef0_'.$this->ef_sort_id] == $b->fields['ef0_'.$this->ef_sort_id]) {
                 return 0;
             }
-            return ($a->{'ef0_'.$this->ef_sort_id} < $b->{'ef0_'.$this->ef_sort_id}) ? -1 : 1;
+            return ($a->fields['ef0_'.$this->ef_sort_id] < $b->fields['ef0_'.$this->ef_sort_id]) ? -1 : 1;
         }else{
-            if ($a->{'ef_'.$this->ef_sort_id} == $b->{'ef_'.$this->ef_sort_id}) {
+            if ($a->fields['ef_'.$this->ef_sort_id] == $b->fields['ef_'.$this->ef_sort_id]) {
                 return 0;
             }
-            return ($a->{'ef_'.$this->ef_sort_id} < $b->{'ef_'.$this->ef_sort_id}) ? -1 : 1;
+            return ($a->fields['ef_'.$this->ef_sort_id] < $b->fields['ef_'.$this->ef_sort_id]) ? -1 : 1;
         }
         
         

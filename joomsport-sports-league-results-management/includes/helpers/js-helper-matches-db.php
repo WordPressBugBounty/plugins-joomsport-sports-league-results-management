@@ -148,7 +148,9 @@ class jsHelperMatchesDB
 
 
             ///update teamstats
+
             $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->joomsport_teamstats} WHERE seasonID=%d",$metas["_joomsport_seasonid"][0]));
+
         }
 
 

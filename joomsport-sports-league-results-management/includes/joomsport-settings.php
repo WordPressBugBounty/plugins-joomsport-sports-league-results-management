@@ -90,6 +90,8 @@ class JoomsportSettings {
             5 => __("Goal scored", "joomsport-sports-league-results-management"),
             6 => __("Played", "joomsport-sports-league-results-management"),
             7 => __("Win games", "joomsport-sports-league-results-management"),
+            10 => __("Away goals scored", "joomsport-sports-league-results-management"),
+            11 => __("Away win games", "joomsport-sports-league-results-management"),
             100 => __("Head-to-head points", "joomsport-sports-league-results-management"),
             101 => __("Head-to-head away goals scored", "joomsport-sports-league-results-management"),
             102 => __("Head-to-head goals difference", "joomsport-sports-league-results-management"),

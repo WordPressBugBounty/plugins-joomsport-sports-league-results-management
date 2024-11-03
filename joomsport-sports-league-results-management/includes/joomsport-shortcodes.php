@@ -639,11 +639,11 @@ class JoomsportShortcodes {
         if($args["quantity"]){
             $orderby .= " LIMIT ".intval($args["quantity"]);
         }
-        $res = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->joomsport_teamstats} WHERE seasonID=%d AND eventID=%d %s",array(intval($args['id']),intval($args['event']), $orderby)));
+        $res = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->joomsport_teamstats} WHERE seasonID=%d AND eventID=%d {$orderby}",array(intval($args['id']),intval($args['event']))));
         if(!count($res)) {
             jsHelper::getSeasonTeamsStat($args['seasonid'], $args['event']);
         }
-        $res = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->joomsport_teamstats} WHERE seasonID=%d AND eventID=%d %s",array(intval($args['id']),intval($args['event']), $orderby)));
+        $res = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->joomsport_teamstats} WHERE seasonID=%d AND eventID=%d {$orderby}",array(intval($args['id']),intval($args['event']))));
 
         $counting = ($args["counting"]?"sumVal":"avgVal");
 

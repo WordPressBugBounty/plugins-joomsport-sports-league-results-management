@@ -13,7 +13,7 @@ function jоomsport_filter_seasontitle($title, $id = null) {
 
     if($pagenow == 'nav-menus.php'){
         $tpost  = get_post($id);
-        if($tpost->post_type == 'joomsport_season'){
+        if(isset($tpost->post_type) && $tpost->post_type == 'joomsport_season'){
             $terms = wp_get_object_terms( $id, 'joomsport_tournament' );
             $post_name = '';
             if( $terms ){
@@ -158,4 +158,3 @@ function joomsport_filter_has_team_thumb( $has_thumbnail, $post, $thumbnail_id )
 
     return $has_thumbnail;
 }
-
