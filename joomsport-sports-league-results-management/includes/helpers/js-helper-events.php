@@ -110,7 +110,8 @@ class jsHelperEvents
             foreach($mdays as $mday){
                 $season_id = $mday->season_id;
                 $md_type = $mday->matchday_type;
-                if($seasonID == $season_id && $md_type == '0'){
+
+                if($seasonID == $season_id && $md_type == '0' && $mday->is_playoff == '0'){
                     $opts["hideTable"] = 0;
                     update_post_meta($seasonID, '_joomsport_seas_opt',$opts);
                     return false;

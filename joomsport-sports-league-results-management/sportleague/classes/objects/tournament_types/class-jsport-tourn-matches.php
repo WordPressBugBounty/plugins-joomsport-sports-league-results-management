@@ -164,7 +164,7 @@ class classJsportTournMatches
         //$show_table = false;
 
         $show_table = jsHelperEvents::isHideTable($this->id);
-
+var_dump($show_table);
         if (!$show_table || (!count($this->lists['playoffs']) && !count($this->lists['knockout']))) {
             //get groups
             $groupsObj = new classJsportGroup($this->id);
