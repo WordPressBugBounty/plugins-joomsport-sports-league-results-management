@@ -2,9 +2,9 @@
 Contributors: beardev, irenejs
 Tags: sports, football, hockey, sports team, league
 Requires at least: 4.0
-Tested up to: 6.6
-Requires PHP: 7.4
-Stable tag: 5.6.14
+Tested up to: 6.7
+Requires PHP: 7.2
+Stable tag: 5.6.15
 License: GPLv3 
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -14,10 +14,10 @@ Create PRO sports website for your club, sports team or sports league! Soccer, F
 = Sport league manager for your league, sport tournament, team and club =
 Complex solution to build a sports web site. Developed since 2009 JoomSport offers the features essential for any sports site - sports league standings, sports teams with description and stats, players with their profiles, photos and personal achievements, fixtures analytics and match results with score and game details, and finally all this put into well-structured seasons and leagues.
 
-Ready solution for FIFA World Cup [Statorium package](https://statorium.com/uefa-euro-cup-2024-api)! (*pro edition with data)
+Ready solution for FIFA World Cup [Statorium package](https://statorium.com/fifa-world-cup-2026-api)! (*pro edition with data)
 
 Complete overview on [JoomSport.com](https://joomsport.com/?utm_source=wpcatalogue&utm_medium=web&utm_campaign=passiveweb "WordPress sport plugin")!
-Live Scores via [Statorium sports API] (https://statorium.com "Statorium sports API") connected (pro edition)
+Live Scores via [Statorium sports API](https://statorium.com/?utm_source=wpcatalogue&utm_medium=web&utm_campaign=passiveweb "Statorium sports API") connected (pro edition)
 
 = Main features =
 * **Robust structure** - allows you to create different types of Leagues with chronologically organized Seasons that consist of one or several MatchDays with Matches inside.
@@ -122,6 +122,11 @@ We are changing the sport industry by creating comprehensive software infrastruc
 18. Knockout matchday edit (pro version)
 
 == Changelog ==
+
+= 5.6.15 =
+
+Bugfixes:
+* minor code fixes
 
 = 5.6.14 =
 
