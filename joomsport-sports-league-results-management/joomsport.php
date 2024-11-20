@@ -3,7 +3,7 @@
 Plugin Name: JoomSport
 Plugin URI: http://joomsport.com
 Description: Sport league plugin
-Version: 5.6.15
+Version: 5.6.16
 Author: BearDev
 Author URI: http://BearDev.com
 License: GPLv3

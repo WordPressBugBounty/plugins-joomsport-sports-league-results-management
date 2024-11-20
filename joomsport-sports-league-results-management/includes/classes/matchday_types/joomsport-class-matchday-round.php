@@ -623,7 +623,7 @@ class JoomSportClassMatchdayRound{
     {
         check_ajax_referer("joomsportajaxnonce", "security");
 
-        $form_data = isset($_POST['formdata'])?urldecode(sanitize_text_field(wp_unslash($_POST['formdata']))):'';
+        $form_data = isset($_POST['formdata'])?urldecode((wp_unslash($_POST['formdata']))):'';
 
         if($form_data){
             parse_str($form_data, $output);
@@ -687,6 +687,7 @@ class JoomSportClassMatchdayRound{
                     if(isset($output["m_date_foot"])){
                         update_post_meta($post_id, '_joomsport_match_date', sanitize_text_field($output["m_date_foot"]));
                     }
+
                     if(isset($output["m_time_foot"])){
                         update_post_meta($post_id, '_joomsport_match_time', sanitize_text_field($output["m_time_foot"]));
                     }

@@ -3,8 +3,8 @@ Contributors: beardev, irenejs
 Tags: sports, football, hockey, sports team, league
 Requires at least: 4.0
 Tested up to: 6.7
-Requires PHP: 7.2
-Stable tag: 5.6.15
+Requires PHP: 7.0
+Stable tag: 5.6.16
 License: GPLv3 
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -122,6 +122,16 @@ We are changing the sport industry by creating comprehensive software infrastruc
 18. Knockout matchday edit (pro version)
 
 == Changelog ==
+
+= 5.6.16 =
+
+Bugfixes:
+* minor text changes
+* box score for second team edit
+* CSV examples update (pro)
+* time not saved on matchday
+* paging for events
+* substitutes icon css
 
 = 5.6.15 =
 

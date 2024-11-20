@@ -115,7 +115,7 @@ class wpb_joomsport_standings extends WP_Widget {
             $displayname = $instance['displayname'];
             $displaylegend = isset($instance['displaylegend'])?$instance['displaylegend']:0;
         } else {
-            $title = __( 'Standing', 'joomsport-sports-league-results-management' );
+            $title = __( 'Standings', 'joomsport-sports-league-results-management' );
             $season_id = 0;
             $place = 0;
             $jsshrtcolumns = array();

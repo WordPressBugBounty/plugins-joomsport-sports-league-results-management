@@ -3020,3 +3020,6 @@ table.cansorttbl th span.short { padding-right: 0; }
 	padding: 0;
 	text-align: center;
 }
+#joomsport-container .jsSquadContent .jsSubs > img {
+  	max-width: 30px;
+}

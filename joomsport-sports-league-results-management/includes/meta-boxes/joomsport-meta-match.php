@@ -1652,6 +1652,7 @@ class JoomSportMetaMatch {
                        ,array($post_id,$h_players[$intA],$home_team)
                        )
            );
+
            if($dobl){
                if($update_vals){
                     $wpdb->query(
@@ -1679,6 +1680,7 @@ class JoomSportMetaMatch {
            $insert_vals = '';
            $update_vals = '';
            $alltnull = true;
+           
            $box_data = filter_input(INPUT_POST, 'boxstat_'.$away_team.'_'.$a_players[$intA], FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
            if(is_array($box_data) && count($box_data)){
                foreach($box_data as $key=>$value){
@@ -1701,11 +1703,14 @@ class JoomSportMetaMatch {
                    )
            );
            if($dobl){
+               
                if($update_vals){
-                   $wpdb->prepare(
-                    $wpdb->query("UPDATE {$wpdb->joomsport_box_match} SET $update_vals"
-                       . " WHERE id=%d"
-                    ), array($dobl));
+                   $wpdb->query(
+                       $wpdb->prepare(
+                           "UPDATE {$wpdb->joomsport_box_match} SET $update_vals"
+                           . " WHERE id=%d",
+                           array($dobl))
+                   );
                }
            }elseif(!$alltnull){
                $wpdb->query(

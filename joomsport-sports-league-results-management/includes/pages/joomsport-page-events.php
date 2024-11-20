@@ -132,6 +132,7 @@ class JoomSportEvents_List_Table extends WP_List_Table {
         
 
         $per_page     = $this->get_items_per_page( 'jsevents_per_page', 5 );
+
         $current_page = $this->get_pagenum();
         $total_items  = self::record_count();
 
@@ -237,9 +238,9 @@ class JoomSportEvents_Plugin {
 	 * Screen options
 	 */
 	public function screen_option() {
-        $mscr = isset($_POST['wp_screen_options']['option'])?intval($_POST['wp_screen_options']['option']):0;
+        $mscr = isset($_POST['wp_screen_options']['option'])?intval($_POST['wp_screen_options']['value']):0;
 
-        if(isset($mscr)){
+        if(isset($mscr) && $mscr){
             update_user_meta(get_current_user_id(), 'jsevents_per_page', $mscr);
         }
 		$option = 'per_page';

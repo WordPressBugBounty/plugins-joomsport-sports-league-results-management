@@ -254,7 +254,7 @@ class JoomSportBoxField_Plugin {
 	 * Screen options
 	 */
 	public function screen_option() {
-        $mscr = isset($_POST['wp_screen_options']['option'])?intval($_POST['wp_screen_options']['option']):0;
+        $mscr = isset($_POST['wp_screen_options']['option'])?intval($_POST['wp_screen_options']['value']):0;
         if($mscr){
             update_user_meta(get_current_user_id(), 'boxfields_per_page', $mscr);
 
