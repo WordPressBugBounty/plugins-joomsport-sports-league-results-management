@@ -1,10 +1,10 @@
 === JoomSport - for Sports: Team & League, Football, Hockey & more ===
-Contributors: beardev, irenejs
+Contributors: beardev
 Tags: sports, football, hockey, sports team, league
 Requires at least: 4.0
 Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 5.6.16
+Stable tag: 5.6.17
 License: GPLv3 
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -122,6 +122,11 @@ We are changing the sport industry by creating comprehensive software infrastruc
 18. Knockout matchday edit (pro version)
 
 == Changelog ==
+
+= 5.6.17 =
+
+Bugfix:
+* player total time fix for players in from subs
 
 = 5.6.16 =
 

@@ -1848,7 +1848,7 @@ $time_start = microtime(true);
         }
         if (!$this->single && $duration) {
             $query = 'UPDATE ' . $wpdb->joomsport_playerlist . ' as pl JOIN (SELECT SUM(IF(s.squad_type = 1, 
-       IF(s.minutes != "",s.minutes,IF(p.duration,p.duration,'.intval($duration).')),IF(s.is_subs = 1,IF(p.duration,(p.duration - s.minutes),'.intval($duration).'-s.minutes),s.minutes))) as mins,'
+       IF(s.minutes != "",s.minutes,IF(p.duration,p.duration,'.intval($duration).')),IF(s.is_subs = -1,IF(p.duration,(p.duration - s.minutes),'.intval($duration).'-s.minutes),IF(s.is_subs = 1,IF(p.duration,(s.minutes-p.duration),s.minutes-90),s.minutes)))) as mins,'
                 . ' s.season_id,s.team_id,s.player_id'
                 . ' FROM ' . $wpdb->joomsport_squad . ' as s'
                 . ' JOIN ' . $wpdb->joomsport_matches . ' as p ON p.postID=s.match_id '
