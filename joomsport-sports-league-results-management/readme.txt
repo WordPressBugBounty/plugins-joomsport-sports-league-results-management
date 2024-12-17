@@ -4,7 +4,7 @@ Tags: sports, football, hockey, sports team, league
 Requires at least: 4.0
 Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 5.6.17
+Stable tag: 5.6.18
 License: GPLv3 
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -50,6 +50,7 @@ View [Pro edition DEMO](http://wp-demo.joomsport.com/ "JoomSport wordpress plugi
 * [Alchemists](https://themeforest.net/item/alchemists-sports-club-and-news-wordpress-theme/20256220 "Alchemists WordPress sport theme") by dan Fisher. Available on request.
 * [Splash](https://themeforest.net/item/splash-basketball-sports-wordpress-theme/16751749?ref=beardev "Bestselling WordPress sport theme") by StylemixThemes. Available on request.
 * [Kodiak football sport](https://wordpress.org/themes/kodiak-football-sport "WordPress Football Sport theme") by BearDev.
+* new! [FC United](https://themeforest.net/item/fc-united-football-soccer-wordpress-sports-theme/23390465 "FC United wordpress sports theme")
 
 = Professional edition available =
 We offer fully functional commercial edition that delivers large number of extras and actually provides our development team investments to improve the product features significantly. Browse [Pro edition demo](http://wp-demo.joomsport.com/ "JoomSport WordPress sport plugin - professional edition demo") or [buy from our shop](https://joomsport.com/web-shop/joomsport-wordpress-sports-plugin.html "buy JoomSport pro - wordpress sports plugin").
@@ -122,6 +123,11 @@ We are changing the sport industry by creating comprehensive software infrastruc
 18. Knockout matchday edit (pro version)
 
 == Changelog ==
+
+= 5.6.18 =
+
+Bugfix:
+* XSS vulnerability (for admin level) fix.
 
 = 5.6.17 =
 

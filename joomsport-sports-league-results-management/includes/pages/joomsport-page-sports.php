@@ -74,7 +74,7 @@ class JoomSportSports_List_Table extends WP_List_Table {
         $title = '<strong><a href="'.get_admin_url(get_current_blog_id(), 'admin.php?page=joomsport-sports-form&id='.absint( $item['sportID'] )).'">' . $item['sportName'] . '</a></strong>';
 
         $actions = array(
-          'delete' => sprintf( '<a href="?page=%s&action=%s&sport=%s&_wpnonce=%s" class="wpjsDeleteConfirm">Delete</a>', (isset($_REQUEST['page'])?( sanitize_text_field(wp_unslash($_REQUEST['page'])) ):''), 'delete', absint( $item['sportID'] ), $delete_nonce )
+          'delete' => sprintf( '<a href="?page=%s&action=%s&sport=%s&_wpnonce=%s" class="wpjsDeleteConfirm">Delete</a>', (isset($_GET['page'])?( esc_attr(wp_unslash($_GET['page'])) ):''), 'delete', absint( $item['sportID'] ), $delete_nonce )
         );
 
         return $title . $this->row_actions( $actions );
