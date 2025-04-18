@@ -19,6 +19,7 @@ class classJsportDate
         'm-d-Y I:M p' => 'm-d-Y g:i A',
         'm B, Y H:M' => 'j F, Y H:i',
         'm B, Y I:H p' => 'j F, Y g:i A',
+        'm b, Y I:H p' => 'j M, Y g:i A',
         'd-m-Y' => 'd-m-Y',
         'A d B, Y H:M' => 'l d F, Y H:i',
         'd/m/Y H:M' => 'd/m/Y H:i',

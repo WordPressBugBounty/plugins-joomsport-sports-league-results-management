@@ -4,6 +4,7 @@
  * @author      BearDev
  * @package     JoomSport
  */
+
 ?>
     <div class="table-responsive">
         <div class="jsmainscroll jsrelatcont">
@@ -57,6 +58,12 @@
                                                 echo '<div class="jsmatchseason" title="'.esc_attr($seasObj->getName()).'">'.$seasObj->getName().'</div>';
                                             }
                                         }
+                                        $seasidA = JoomSportHelperObjects::getMatchSeason($match->id);
+
+                                        $sportID = JoomSportHelperObjects::getSportType($seasidA);
+                                        $sportTemplClass = JoomSportHelperObjects::getSportTemplate($sportID);
+
+
                                         ?>
                                         <div class="jsmatchdate">
                                             <?php echo esc_html($match_date);?>
@@ -85,9 +92,12 @@
                                                     }
                                                     ?>
                                                 </td>
-                                                <?php if($m_played == 1) { ?>
-                                                <td width="30">
-                                                    <?php echo '<div class="scoreScrMod">'.classJsportLink::match($home_score, $match->id,false,'').'</div>';
+                                                <?php if($m_played == 1) {
+                                                    $argsv = array("match"=>$match,"home_score"=>$home_score);
+                                                    if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'getScoreModuleScoreHome')){
+                                                        $sportTemplClass::getScoreModuleScoreHome($argsv);
+                                                    }
+
                                                 } else {
                                                     ?>
                                                 <td width="30" rowspan="2">
@@ -97,17 +107,19 @@
                                                             foreach ($match->lists['mStatuses'] as $ml) {
                                                                 if (isset($ml->id) && $ml->id == $m_played) {
                                                                     $tooltip = $ml->stName;
-                                                                    echo "<span title='".htmlspecialchars($tooltip)."'>" . esc_html($ml->stShort) ."</span>";
+                                                                    $tmp =  "<span title='".htmlspecialchars($tooltip)."'>" . esc_html($ml->stShort) ."</span>";
+                                                                    echo classJsportLink::match($tmp, $match->id, false, '');
                                                                 }
                                                             }
 
                                                         } else {
                                                             echo classJsportLink::match('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>', $match->id, false, '');
                                                         }
+                                                        echo '</div>';
+                                                        echo '</td>';
                                                     }
                                                         ?>
-                                                    </div>
-                                                </td>
+
                                             </tr>
                                             <tr>
                                                 <td class="tdminembl">
@@ -124,11 +136,13 @@
                                                     }
                                                     ?>
                                                 </td>
-                                                <?php if($m_played == 1){ ?>
-                                                    <td>
-                                                        <?php echo '<div class="scoreScrMod">'.classJsportLink::match($away_score, $match->id,false,'').'</div>'; ?>
-                                                    </td>
-                                                    <?php
+                                                <?php if($m_played == 1){
+
+                                                    $argsv = array("match"=>$match,"away_score"=>$away_score);
+                                                    if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'getScoreModuleScoreAway')){
+                                                        $sportTemplClass::getScoreModuleScoreAway($argsv);
+                                                    }
+
                                                 }
                                                 ?>
                                             </tr>

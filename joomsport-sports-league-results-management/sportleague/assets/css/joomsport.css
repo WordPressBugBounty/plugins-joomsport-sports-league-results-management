@@ -3023,3 +3023,34 @@ table.cansorttbl th span.short { padding-right: 0; }
 #joomsport-container .jsSquadContent .jsSubs > img {
   	max-width: 30px;
 }
+
+.tennisSetDiv{
+	width:50px;
+	height: 50px;
+	background-color: #bdbdbd;
+	color:white;
+	font-size:30px;
+	text-align: center;
+	vertical-align: middle;
+}
+.tenSetWinner{
+	background-color: #555;
+}
+.jsExtraField{
+	display:block;
+}
+
+.teamEventGraphNegative{
+	opacity: 0.5;
+	background-color: #b1301c;
+}
+.teamEventGraphNegativeMore{
+	opacity: 1 !important;
+}
+.teamEventGraphPositive{
+	opacity: 0.5;
+	background-color: #0BB32A;
+}
+.teamEventGraphPositiveMore{
+	opacity: 1 !important;
+}

@@ -220,6 +220,8 @@ class jsHelper
     {
         $html = '';
         $jmscore = get_post_meta($match->id, '_joomsport_match_jmscore',true);
+        $sportID = JoomSportHelperObjects::getSportType($match->season_id);
+        $sportTemplClass = JoomSportHelperObjects::getSportTemplate($sportID);
 
         if(JoomsportSettings::get('partdisplay_awayfirst',0) == 1){
             $away_score = get_post_meta( $match->id, '_joomsport_home_score', true );
@@ -245,9 +247,13 @@ class jsHelper
             }
         }
         $m_played = get_post_meta( $match->id, '_joomsport_match_played', true );
-        
+
         if (in_array($m_played,array(-1,1))) {
-            $text = $home_score.JSCONF_SCORE_SEPARATOR.$away_score;
+            $text = '';
+            if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'getScoreFESmall')){
+                $args = array("match"=>$match,"home_score"=>$home_score,"away_score"=>$away_score);
+                $text = $sportTemplClass::getScoreFESmall($args);
+            }
             $html .= classJsportLink::match($text, $match->id, false, '', $itemid);
         } elseif ($m_played == '0' || $m_played == '') {
             $html .= classJsportLink::match(JSCONF_SCORE_SEPARATOR_VS, $match->id, false, '', $itemid);
@@ -257,7 +263,7 @@ class jsHelper
                 foreach($match->lists['mStatuses'] as $ml){
                     if(isset($ml->id) && $ml->id == $m_played){ 
                         $tooltip = $ml->stName;
-                        $html .= $ml->stShort;
+                        $html .= classJsportLink::match($ml->stShort, $match->id, false, '', $itemid);
                     }
                 }
                 
@@ -279,7 +285,13 @@ class jsHelper
         }
         
         //$tooltip = '<table><tr><td style="width:200px;background-color:blue; vertical-align:top;"><div>Player 1 goal 55min</div><div>Player 1 goal 55min</div><div>Player 1 goal 55min</div></td><td style="background-color:red;vertical-align:top; width:50%;"><div>Player 1 goal 55min</div></td></tr></table>';
-        return '<div class="jsScoreDiv '.$class.'" data-toggle2="tooltip" data-placement="bottom" title="" data-original-title="'.htmlspecialchars(($tooltip)).'">'.$htmlLive.$html.$match->getETLabel().'</div>'.$match->getBonusLabel();
+        $resHtml = '';
+        if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'getScoreHTMLHelper')){
+            $argsv = array("class"=>$class,"tooltip"=>$tooltip,"match"=>$match,"html"=>$html,"m_played"=>$m_played);
+            $resHtml = $sportTemplClass::getScoreHTMLHelper($argsv);
+        }
+
+        return $resHtml;
     }
     public static function getScoreBigM($match)
     {

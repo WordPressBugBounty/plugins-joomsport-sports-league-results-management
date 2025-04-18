@@ -42,12 +42,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</div>
 		</div>
 		<div class="jsMatchStatHeader jscenter">
-			<h3>
-				<?php echo esc_html__('Starting lineups','joomsport-sports-league-results-management');?>
-			</h3>
+            <?php
+            $header1 = '<h3>' . esc_html__('Starting lineups', 'joomsport-sports-league-results-management') . '</h3>';
+            echo apply_filters("headers_starting_lineup", $header1, $partic_home, $partic_away);
+
+            ?>
+
 		</div>
 		<div class="jsSquadContent clearfix">
 			<div class="col-sm-6 jsMatchStatHome jsactive" data-tab="jsMatchStatHome">
+                <?php
+                echo apply_filters("headers_starting_team", '', $partic_home);
+                ?>
 				<div class="jstable">
 					<?php for ($intP = 0; $intP < count($rows->lists['squard1']); ++$intP) {
 						?>
@@ -96,6 +102,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 			</div>
 			<div class="col-sm-6 jsMatchStatAway" data-tab="jsMatchStatAway">
+                <?php
+                echo apply_filters("headers_starting_team", '', $partic_away);
+                ?>
 				<div class="jstable">
 					<?php for ($intP = 0; $intP < count($rows->lists['squard2']); ++$intP) {
 						?>
@@ -146,12 +155,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 		<div class="jsSquadMatchDiv">
 			<div class="jsMatchStatHeader jscenter">
-				<h3>
-					<?php echo esc_html__('Substitutes','joomsport-sports-league-results-management'); ?>
-				</h3>
+                <?php
+                $header1 = '<h3>' . esc_html__('Substitutes', 'joomsport-sports-league-results-management') . '</h3>';
+                echo apply_filters("headers_starting_subst", $header1, $partic_home, $partic_away);
+
+                ?>
+
 			</div>
 			<div class="jsSquadContent clearfix">
 				<div class="col-sm-6 jsMatchStatHome jsactive" data-tab="jsMatchStatHome">
+                    <?php
+                    echo apply_filters("headers_subst_team", '', $partic_home);
+                    ?>
 					<div class="jstable">
 						<?php for ($intP = 0; $intP < count($rows->lists['squard1_res']); ++$intP) {
 							?>
@@ -208,6 +223,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 				</div>
 				<div class="col-sm-6 jsMatchStatAway" data-tab="jsMatchStatAway">
+                    <?php
+                    echo apply_filters("headers_subst_team", '', $partic_away);
+                    ?>
 					<div class="jstable">
 						<?php for ($intP = 0; $intP < count($rows->lists['squard2_res']); ++$intP) {
 							?>

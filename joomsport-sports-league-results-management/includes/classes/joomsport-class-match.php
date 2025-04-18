@@ -18,18 +18,19 @@ class JoomSportClassMatch{
 
     public function getScore(){
         global $wpdb;
+        $args = array("id" => $this->_mID);
         $md = wp_get_post_terms($this->_mID,'joomsport_matchday');
         $mdID = $md[0]->term_id;
         $metas = JoomsportTermsMeta::getTermMeta($mdID);
-        $knock = $metas['matchday_type'];
-        $home_team = get_post_meta( $this->_mID, '_joomsport_home_team', true );
-        $away_team = get_post_meta( $this->_mID, '_joomsport_away_team', true );
-        $home_score = get_post_meta( $this->_mID, '_joomsport_home_score', true );
-        $away_score = get_post_meta( $this->_mID, '_joomsport_away_score', true );
+        $knock = $args["knock"] = $metas['matchday_type'];
+        $home_team  = $args["home_team"] = get_post_meta( $this->_mID, '_joomsport_home_team', true );
+        $away_team= $args["away_team"] = get_post_meta( $this->_mID, '_joomsport_away_team', true );
+        $home_score = $args["home_score"] = get_post_meta( $this->_mID, '_joomsport_home_score', true );
+        $away_score = $args["away_score"] = get_post_meta( $this->_mID, '_joomsport_away_score', true );
         
-        $hTeam = $home_team ? get_the_title($home_team) : __('Undefined','joomsport-sports-league-results-management');
-        $aTeam = $away_team ? get_the_title($away_team) : __('Undefined','joomsport-sports-league-results-management');
-        $season_id = JoomSportHelperObjects::getMatchSeason($this->_mID);
+        $hTeam = $args["hTeam"] = $home_team ? get_the_title($home_team) : __('Undefined','joomsport-sports-league-results-management');
+        $aTeam = $args["aTeam"] = $away_team ? get_the_title($away_team) : __('Undefined','joomsport-sports-league-results-management');
+        $season_id = $args["season_id"] = JoomSportHelperObjects::getMatchSeason($this->_mID);
         $stages = get_post_meta($season_id,'_joomsport_season_stages',true);
         
         $is_field = array();
@@ -44,7 +45,15 @@ class JoomSportClassMatch{
         $maps = get_post_meta($this->_mID, '_joomsport_match_maps',true);
         $jmscore = get_post_meta($this->_mID, '_joomsport_match_jmscore',true);
 
+
+        $sportID = JoomSportHelperObjects::getSportType($season_id);
+        $sportTemplClass = JoomSportHelperObjects::getSportTemplate($sportID);
+
+        if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'getScoreMatchBE')){
+            $sportTemplClass::getScoreMatchBE($args);
+        }
         ?>
+
         <div class="jstable jsminwdhtd">
             <div class="jstable-row">
                 <div class="jstable-cell" style="width:200px;"></div>
@@ -56,58 +65,7 @@ class JoomSportClassMatch{
                     <?php echo esc_html__('Away','joomsport-sports-league-results-management');?>
                 </div>
             </div>
-            <div class="jstable-row">
-                <div class="jstable-cell" style="width:200px;">
-                    <?php echo esc_html__('Score','joomsport-sports-league-results-management');?>
-                    <?php if($knock){echo '<img width="12" class="jsknchange" src="'.esc_url(plugins_url( '../../assets/images/reverse_order.png', __FILE__ )).'">';}; ?>
-                </div>
 
-                <?php 
-                if($knock){
-                    ?>
-                    <div class="jstable-cell" style="width:15%;">
-                        <span class="jsSpanHome">
-                            <?php echo esc_html($hTeam)?>
-                            <input type="hidden" name="knteamid[]" value="<?php echo esc_attr($home_team);?>" />
-                        </span>
-                    </div>
-                    <div class="jstable-cell" style="width:20%;">
-                        <span class="jsSpanHomeScore" style="width:52px;display: inline-block;text-align: center;">
-                            <?php echo esc_html($home_score)?>
-                            <input type="hidden" name="knteamscore[]" value="<?php echo esc_attr($home_score);?>" />
-                        </span>
-                        &nbsp;:&nbsp;
-                        <span class="jsSpanAwayScore" style="width:52px;display: inline-block;text-align: center;">
-                            <?php echo esc_html($away_score)?>
-                            <input type="hidden" name="knteamscore[]" value="<?php echo esc_attr($away_score);?>" />
-                        </span>
-                    </div>
-                    <div class="jstable-cell" >
-                        <span class="jsSpanAway">
-                            <?php echo esc_html($aTeam)?>
-                            <input type="hidden" name="knteamid[]" value="<?php echo esc_attr($away_team);?>" />
-                        </span>
-                    </div>
-                    <?php
-                }else{
-                    ?>
-                    <div class="jstable-cell">
-                        <span class="jsSpanHome">
-                            <?php echo esc_html($hTeam)?>
-                        </span>
-                    </div>
-                    <div class="jstable-cell">
-                        <input type="number" class="form-control" <?php echo $knock?' disabled':'';?> style="max-width:50px;" name="score1" value="<?php echo esc_attr($home_score)?>" size="5" maxlength="5" />&nbsp;:&nbsp;<input type="number" class="form-control" <?php echo $knock?' disabled':'';?> style="max-width:50px;" name="score2" value="<?php echo esc_attr($away_score)?>" size="5" maxlength="5"/>
-                    </div>
-                    <div class="jstable-cell">
-                        <span class="jsSpanHome">
-                            <?php echo esc_html($aTeam)?>
-                        </span>
-                    </div>
-                    <?php
-                }
-                ?>
-            </div>
             
             <?php 
             if($enabla_extra){

@@ -213,6 +213,8 @@ class JoomSportAdminInstall {
 
       $wpdb->joomsport_sports_template = $wpdb->prefix . 'joomsport_sports_template';
       $wpdb->joomsport_sports = $wpdb->prefix . 'joomsport_sports';
+
+        JoomsportSettings::loadSportTemplates();
     }
 
     public static function _installdb(){
@@ -429,7 +431,6 @@ class JoomSportAdminInstall {
 
         }
 
-
       }
         //add minutes string field
       $is_col = $wpdb->get_results("SHOW COLUMNS FROM {$wpdb->joomsport_match_events} LIKE 'minutes_input'");
@@ -633,6 +634,23 @@ class JoomSportAdminInstall {
             $wpdb->query("ALTER TABLE {$wpdb->joomsport_events} ADD `sportID` INT NOT NULL DEFAULT '1'");
         }
 
+        if(!$wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->joomsport_sports_template} WHERE sportTemplateName='Tennis'")) {
+            $wpdb->query("INSERT INTO {$wpdb->joomsport_sports_template} (`sportTemplateID`, `sportTemplateName`, `sportTemplateClass`) VALUES(2, 'Tennis', 'JoomSportSportTennisTmpl')");
+        }
+
+
+        $is_col = $wpdb->get_results("SHOW COLUMNS FROM {$wpdb->joomsport_events} LIKE 'events_style'");
+
+        if (empty($is_col)) {
+            $wpdb->query("ALTER TABLE ".$wpdb->joomsport_events." ADD `events_style` VARCHAR(1) NOT NULL DEFAULT '0'");
+        }
+
+        //options
+        $is_col = $wpdb->get_results("SHOW COLUMNS FROM {$wpdb->joomsport_sports} LIKE 'options'");
+
+        if (empty($is_col)) {
+            $wpdb->query('ALTER TABLE '.$wpdb->joomsport_sports.' ADD `options` text DEFAULT NULL');
+        }
 
         $joomsport_refactoring_v = (int) get_option("joomsport_refactoring_v", 0);
         if(!$joomsport_refactoring_v){
@@ -640,6 +658,25 @@ class JoomSportAdminInstall {
             joomsportUpgradeRef::upgradeMatchDuration();
             joomsportUpgradeRef::upgradeEvents();
             update_option("joomsport_refactoring_v", 1);
+        }
+        if($joomsport_refactoring_v == 1){
+            $sumev = $wpdb->get_results("SELECT * FROM {$wpdb->joomsport_events} WHERE events_sum = '1'");
+            if($sumev && count($sumev)){
+                foreach ($sumev as $se){
+                    $newJson = array();
+                    $subev = json_decode($se->subevents, true);
+                    if($subev && count($subev)){
+                        foreach ($subev as $sb){
+                            $newJson[] = array(intval($sb), 1);
+                        }
+
+                    }
+                    $wpdb->update($wpdb->joomsport_events, array("subevents" => json_encode($newJson)), array("id" => $se->id), array("%s"), array("%d"));
+                }
+
+            }
+
+            update_option("joomsport_refactoring_v", 2);
         }
 
         $res = jsHelperMatchesDB::checkMatchesSeason();

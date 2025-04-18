@@ -326,7 +326,8 @@ class classJsportPlayer
         //var_dump($this->lists['players']);
         $jsblock_career = JoomsportSettings::get('jsblock_career');
         $jsblock_career_fields_selected = json_decode(JoomsportSettings::get('jsblock_career_options'),true);
-        
+        $jsblock_career_fields_selected = apply_filters("jsblock_career_fields_selected", $jsblock_career_fields_selected, $this->id, $this->season_id);
+
         if(!$jsblock_career){
             $this->lists['career'] = $this->lists['career_head'] = array();
                 return;
@@ -429,6 +430,7 @@ class classJsportPlayer
         }
         $this->lists['career_head'] = $outputhead;
         $this->lists['career'] = $output;
+
         
     }
     public function getMatchesBlock(){

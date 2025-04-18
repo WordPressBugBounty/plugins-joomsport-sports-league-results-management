@@ -74,7 +74,7 @@ class jsHelperEvents
         if($events){
             return $events;
         }
-
+        $sportID = JoomSportHelperObjects::getSportType($season_id);
         $events = $jsDatabase->selectColumn('SELECT * FROM (SELECT DISTINCT(ev.id) as id, ev.e_name as name,ev.ordering'
             . ' FROM '.$jsDatabase->db->joomsport_events.' as ev'
             . ' JOIN '.$jsDatabase->db->joomsport_match_events.' as mev ON ev.id=mev.e_id'
@@ -87,6 +87,11 @@ class jsHelperEvents
             . ' JOIN '.$jsDatabase->db->joomsport_match_events.' as mev2 ON mev2.id=mad.parent_event'
             . ' WHERE ev2.player_event="1"'
             . ($season_id?(is_array($season_id)?' AND mev2.season_id IN ('.implode(',',$season_id).')':' AND mev2.season_id='.$season_id):'')
+            . ' UNION ALL '
+            . ' SELECT DISTINCT(ev3.id) as id, ev3.e_name as name,ev3.ordering'
+            . ' FROM '.$jsDatabase->db->joomsport_events.' as ev3'
+            . ' WHERE ev3.player_event="1" AND ev3.events_sum="1" AND ev3.sportID='.intval($sportID)
+
             .' ) as a'
             . ' ORDER BY ordering') ;
 

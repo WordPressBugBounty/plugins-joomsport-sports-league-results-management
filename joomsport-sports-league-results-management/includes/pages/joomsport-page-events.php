@@ -289,7 +289,8 @@ class JoomSportEventsNew_Plugin {
             'events_sum' => 0,
             'subevents' => '',
             'dependson' => '',
-            'sportID' => 1
+            'sportID' => 1,
+            "events_style" => 0,
         );
         
         $item = array();
@@ -301,12 +302,21 @@ class JoomSportEventsNew_Plugin {
             // validate data, and if all ok save item to database
             // if id is zero insert otherwise update
             $item_valid = self::joomsport_events_validate($item);
-            if(isset($_POST['subevents']) && count($_POST['subevents'])){
-                $item['subevents'] = json_encode(array_map( 'sanitize_text_field', wp_unslash( $_POST['subevents'] ) ));
-            }
+
             if(isset($_POST['dependson']) && count($_POST['dependson'])){
                 $item['dependson'] = json_encode(array_map( 'sanitize_text_field', wp_unslash( $_POST['dependson'] ) ));
             }
+
+            if(isset($_POST["complexEvent"])){
+                $evOp = array();
+                for($intA=0;$intA<count($_POST["complexEvent"]);$intA++){
+                    $evOp[] = array($_POST["complexEvent"][$intA],$_POST["complexEventNum"][$intA]);
+                }
+                $item["subevents"] = json_encode($evOp);
+            }else{
+                $item["subevents"] = '';
+            }
+
             if ($item_valid === true) {
                 if ($item['id'] == 0) {
                     $result = $wpdb->insert($table_name, $item);
@@ -522,18 +532,51 @@ class JoomSportEventsNew_Plugin {
 					</table>				
 				</td>	
 			</tr>
-                        <tr>
+            <tr id="eventStyleTr" <?php echo ($item['player_event'] == 1) ? "style='display:none;'":"";?>>
+                <td width="200" valign="middle">
+                    <?php echo esc_html__('Event style', 'joomsport-sports-league-results-management'); ?>
+                </td>
+                <td>
+                    <?php echo wp_kses($lists['events_style'], JoomsportSettings::getKsesRadio());?>
+                </td>
+            </tr>
+            <tr>
 				<td colspan="2">
 					<table cellpadding="0" id="calctp_es" <?php echo ($item['player_event'] == 1) ? '' : "style='display:none;'";?>>
 						<tr>
 							<td width="202" valign="middle">
 								<?php echo esc_html__('Sum of other events', 'joomsport-sports-league-results-management'); ?>
 							</td>
-							<td style="width:250px;">
+							<td width="300">
 								<?php echo wp_kses($lists['events_sum'], JoomsportSettings::getKsesRadio());?>
-                                                            <div class="displ_subevents" <?php echo ($item['events_sum'] == 1) ? '' : "style='display:none;'";?>>
-                                                                <?php echo wp_kses($lists['subevents'], JoomsportSettings::getKsesSelect());?>
-                                                            </div>
+                                <div class="displ_subevents" <?php echo ($item['events_sum'] == 1) ? '' : "style='display:none;'";?>>
+                                    <table id="jsEventComplexTbl" style="width:100%;">
+                                        <tbody>
+                                        <?php
+                                        $subevents = !is_array($item['subevents'])?json_decode($item['subevents'],true):$item['subevents'];
+
+                                        if($subevents && is_array($subevents)){
+                                            foreach ($subevents as $ropt){
+                                                echo '<tr><td><a class="delCmplEvent" href="javascript:void(0);" title="Remove" onClick="javascript:Delete_tbl_rowE(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td><td>'.(isset($lists["plEventsK"][$ropt[0]])?$lists["plEventsK"][$ropt[0]]->name:'').'<input type="hidden" name="complexEvent[]" value="'.$ropt[0].'" /></td><td>× '.$ropt[1].'<input type="hidden" name="complexEventNum[]" value="'.$ropt[1].'" /></td></tr>';
+                                            }
+                                        }
+                                        ?>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th colspan="2">
+                                                <?php echo wp_kses($lists['subevents'], JoomsportSettings::getKsesSelect());?>
+                                            </th>
+                                            <th style="width: 130px;">
+                                                <span>×</span>
+                                                <input type="number" id="sumevNum" min="1" step="1" value="1" style="width: 60px;" />
+                                                <input class="jsEventComplexAdd button button-secondary" type="button" value="Add" />
+                                            </th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
 							</td>
 						</tr>
 					</table>				
@@ -549,10 +592,10 @@ class JoomSportEventsNew_Plugin {
                             </td>
                         </tr>
                         <tr>
-				<td width="200" valign="middle">
-					<?php echo esc_html__('Event image', 'joomsport-sports-league-results-management'); ?>
-				</td>
-				<td>
+                            <td width="200" valign="middle">
+                                <?php echo esc_html__('Event image', 'joomsport-sports-league-results-management'); ?>
+                            </td>
+                            <td>
                                     <div>
                                         <div class="jsev-img-container">
                                             <?php
@@ -623,7 +666,14 @@ class JoomSportEventsNew_Plugin {
         $is_field[] = JoomSportHelperSelectBox::addOption(1, __("Player", "joomsport-sports-league-results-management"));
         
         $lists['player_event'] = JoomSportHelperSelectBox::Radio('player_event', $is_field,$item['player_event'],'onclick = "calctpfun();"',false);
-        
+
+        $is_field = array();
+        $is_field[] = JoomSportHelperSelectBox::addOption(0, __("Select", "joomsport-sports-league-results-management"));
+        $is_field[] = JoomSportHelperSelectBox::addOption(1, __("Negative", "joomsport-sports-league-results-management"));
+        $is_field[] = JoomSportHelperSelectBox::addOption(2, __("Positive", "joomsport-sports-league-results-management"));
+        $lists['events_style'] = JoomSportHelperSelectBox::Radio('events_style', $is_field,$item['events_style'],'',false);
+
+
         $is_field = array();
         $is_field[] = JoomSportHelperSelectBox::addOption(0, __("Sum", "joomsport-sports-league-results-management"));
         $is_field[] = JoomSportHelperSelectBox::addOption(1, __("Average", "joomsport-sports-league-results-management"));
@@ -648,6 +698,15 @@ class JoomSportEventsNew_Plugin {
                 .' AND id != %d'
                 . ' ORDER BY ordering', array($item['id']))
                     , 'OBJECT') ;
+            $lists['plEventsK']= $wpdb->get_results(
+                $wpdb->prepare(
+                    'SELECT id, e_name as name'
+                    . ' FROM '.$wpdb->joomsport_events.' '
+                    . ' WHERE player_event="1" AND events_sum="0" '
+                    .' AND id != %d'
+                    . ' ORDER BY ordering', array($item['id']))
+                , 'OBJECT_K') ;
+
         }else{
             $plEvents = $wpdb->get_results(
 
@@ -656,18 +715,21 @@ class JoomSportEventsNew_Plugin {
                     . ' WHERE player_event="1" AND events_sum="0" '
                     . ' ORDER BY ordering'
                 , 'OBJECT') ;
+            $lists['plEventsK'] = $wpdb->get_results(
+
+                'SELECT id, e_name as name'
+                . ' FROM '.$wpdb->joomsport_events.' '
+                . ' WHERE player_event="1" AND events_sum="0" '
+                . ' ORDER BY ordering'
+                , 'OBJECT_K') ;
         }
 
-        $lists['subevents'] = '<select name="subevents[]"  class="jswf-chosen-select" data-placeholder="'.esc_attr(__('Add item','joomsport-sports-league-results-management')).'" multiple>';
-
-        $subevents = !is_array($item['subevents'])?json_decode($item['subevents'],true):$item['subevents'];
+        $lists['subevents'] = '<select name="sumevT" id="sumevT"  class="jswf-chosen-select" >';
+        $lists['subevents'] .=  '<option value="0">'.esc_html(__("Select", "joomsport-sports-league-results-management")).'</option>';
         if(count($plEvents)){
             foreach ($plEvents as $tm) {
-                $selected = '';
-                if(is_array($subevents) && in_array($tm->id, $subevents)){
-                    $selected = ' selected';
-                }
-                $lists['subevents'] .=  '<option value="'.esc_attr($tm->id).'" '.$selected.'>'.esc_html($tm->name).'</option>';
+
+                $lists['subevents'] .=  '<option value="'.esc_attr($tm->id).'">'.esc_html($tm->name).'</option>';
             }
         }
         $lists['subevents'] .=  '</select>';

@@ -270,6 +270,8 @@ class classJsportMatch
         $this->lists['options']['titleSocial'] = $title;//$title;
         $this->lists['options']['calendar'] = $this->season_id;
         $this->lists['options']['standings'] = $this->season_id;
+
+        $this->lists['options'] = apply_filters('joomsport_fe_list_heders',$this->lists['options'],'match');
     }
 
     public function getLocation($linkable = true)

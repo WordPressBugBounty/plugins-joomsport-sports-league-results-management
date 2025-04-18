@@ -247,7 +247,7 @@ class JoomSportMetaVenue {
         if($ef && count($ef)){
             foreach ($ef as $key => $value){
                 if(isset($_POST['ef_'.$key])){
-                    $meta_array[$key] = sanitize_text_field(wp_unslash($_POST['ef_'.$key]));
+                    $meta_array[$key] = wp_kses_post(wp_unslash($_POST['ef_'.$key]));
                 }else{
                     $meta_array[$key] = sanitize_text_field($value);
                 }

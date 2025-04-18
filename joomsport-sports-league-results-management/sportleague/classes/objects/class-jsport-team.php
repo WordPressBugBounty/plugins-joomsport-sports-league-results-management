@@ -280,6 +280,7 @@ class classJsportTeam
         $attr = array('team_id' => $this->id, 'season_id' => $this->season_id);
         
         $plorder = JoomsportSettings::get('pllist_order');
+        $plorder = apply_filters("pllist_order_sport", $plorder, $this->id, $this->season_id);
 
         if($plorder){
             $plorder = explode('_', $plorder);
@@ -366,6 +367,8 @@ class classJsportTeam
 
         $jsblock_career = JoomsportSettings::get('jsblock_career');
         $jsblock_career_fields_selected = json_decode(JoomsportSettings::get('jsblock_career_options'),true);
+
+        $jsblock_career_fields_selected = apply_filters("jsblock_career_fields_selected", $jsblock_career_fields_selected, $this->id, $this->season_id);
 
         $this->lists['career'] = $this->lists['career_head'] = array();
 

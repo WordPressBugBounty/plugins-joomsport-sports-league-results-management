@@ -419,3 +419,26 @@ class jsHelperHighlightPlayers
         return static::$instance;
     }
 }
+
+class jsHelperAllSports
+{
+    protected static $instance = null;
+
+    protected function __construct() {
+
+    }
+
+    public static function getInstance()
+    {
+
+        if (!isset(static::$instance)) {
+            global $wpdb;
+            $sports = $wpdb->get_results("SELECT s.sportID,st.sportTemplateClass FROM {$wpdb->joomsport_sports} as s "
+            ." JOIN {$wpdb->joomsport_sports_template} as st ON s.sportTemplateID=st.sportTemplateID", OBJECT_K);
+            static::$instance = $sports;
+
+
+        }
+        return static::$instance;
+    }
+}

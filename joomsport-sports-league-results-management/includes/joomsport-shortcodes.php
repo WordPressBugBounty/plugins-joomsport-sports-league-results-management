@@ -33,6 +33,7 @@ class JoomsportShortcodes {
           'columns' => '',
           'display_name' => 0,
           'display_legend' => 0,
+          'highlightpartic' => '',
           ), $attr );
         $legends = null;
         wp_enqueue_style('jscssbtstrp',plugin_dir_url( __FILE__ ).'../sportleague/assets/css/btstrp.css');
@@ -48,6 +49,11 @@ class JoomsportShortcodes {
         require_once JOOMSPORT_PATH . DIRECTORY_SEPARATOR. 'sportleague' . DIRECTORY_SEPARATOR . 'sportleague.php';
         require_once JOOMSPORT_PATH_OBJECTS . 'class-jsport-season.php';
         $seasObj = new classJsportSeason($args['id']);
+
+        $highlightpartic = array();
+        if($args["highlightpartic"]){
+            $highlightpartic = explode(",",$args["highlightpartic"]);
+        }
 
         if($seasObj->isComplex() == '1'){
             $childrens = $seasObj->getSeasonChildrens();

@@ -52,63 +52,16 @@ $m_venue = get_post_meta($rows->id,'_joomsport_match_venue',true);
             </div>
         </div>
         <div class="jsMatchResults">
-            <?php 
-            $width = JoomsportSettings::get('set_emblemhgonmatch', 60);
-            $match = $rows;
-            $partic_home = $match->getParticipantHome();
-            $partic_away = $match->getParticipantAway();
+            <?php
+
+            $sportID = JoomSportHelperObjects::getSportType($rows->season_id);
+            $sportTemplClass = JoomSportHelperObjects::getSportTemplate($sportID);
+            if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'getScoreFE')){
+                $sportTemplClass::getScoreFE($rows);
+            }
+
+                do_action("joomsport_matchpage_after_score", $rows->id, $rows->season_id);
             ?>
-            
-            <div class="row">
-                <div class="jsMatchTeam jsMatchHomeTeam col-xs-6 col-sm-5 col-md-4">
-                    <div class="row">
-                        <div class="jsMatchEmbl jscenter col-md-5">
-                            <?php echo $partic_home ? wp_kses_post($partic_home->getEmblem(true, 0, 'emblInline', $width)) : ''; ?>
-                        </div>
-                        <div class="jsMatchPartName col-md-7">
-                            <div class="row">
-                                <span>
-                                    <?php echo ($partic_home) ? wp_kses_post($partic_home->getName(true)) : ''; ?>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="jsMatchTeam jsMatchAwayTeam col-xs-6 col-sm-5 col-sm-offset-2 col-md-4 col-md-push-4">
-                    <div class="row">
-                        <div class="jsMatchEmbl jscenter col-md-5 col-md-push-7">
-                            <?php echo $partic_away ? wp_kses_post($partic_away->getEmblem(true, 0, 'emblInline', $width)) : ''; ?>
-                        </div>
-                        <div class="jsMatchPartName col-md-7 col-md-pull-5">
-                            <div class="row">
-                                <span>
-                                    <?php echo ($partic_away) ? wp_kses_post($partic_away->getName(true)) : ''; ?>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="jsMatchScore col-xs-12 col-md-4 col-md-pull-4">
-                    <?php if (isset($jmscore['is_extra']) && $jmscore['is_extra']) {
-                        ?>
-                        <div class="jsMatchExtraTime">
-                            <?php
-                            if(isset($jmscore['aet1'])){
-                                echo '<span class="aetSmDivScoreH">'.wp_kses_post($jmscore['aet1']).'</span>';
-                            }
-                            ?>
-                            <img  src="<?php echo JOOMSPORT_LIVE_ASSETS?>images/extra-t.png" alt="<?php echo esc_html__('Won in extra time','joomsport-sports-league-results-management');?>" title="<?php echo esc_html__('Won in extra time','joomsport-sports-league-results-management');?>" />
-                            <?php
-                            if(isset($jmscore['aet2'])){
-                                echo '<span class="aetSmDivScoreA">'.wp_kses_post($jmscore['aet2']).'</span>';
-                            }
-                            ?>
-                        </div>
-                        <?php
-                    } ?>
-                    <?php echo jsHelper::getScoreBigM($match); ?>
-                </div>
-            </div>
 
             <!-- MAPS -->
             <?php
@@ -118,7 +71,7 @@ $m_venue = get_post_meta($rows->id,'_joomsport_match_venue',true);
             ?>
         </div>
     </div>
-    <?php apply_filters("joomsport_custom_votes", $match->id);?>
+    <?php apply_filters("joomsport_custom_votes", $rows->id);?>
     <div class="jsMatchContentSection clearfix">
         <?php
         $tabs = $rows->getTabs();

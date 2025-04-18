@@ -98,7 +98,19 @@ class JoomsportSettings {
             103 => __("Head-to-head win games", "joomsport-sports-league-results-management"),
             104 => __("Head-to-head goals scored", "joomsport-sports-league-results-management"),
 
-    );
+        );
         return $array;
+    }
+
+    public static function loadSportTemplates(){
+        global $wpdb;
+        $teamplateClass = $wpdb->get_col("SELECT st.sportTemplateClass FROM {$wpdb->joomsport_sports} as s "
+                ." JOIN {$wpdb->joomsport_sports_template} as st ON s.sportTemplateID=st.sportTemplateID");
+
+        for($intA=0;$intA<count($teamplateClass);$intA++){
+            if(is_file(JOOMSPORT_PATH_INCLUDES.'classes'.DIRECTORY_SEPARATOR.'sports'.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.$teamplateClass[$intA].".php")){
+                require_once JOOMSPORT_PATH_INCLUDES.'classes'.DIRECTORY_SEPARATOR.'sports'.DIRECTORY_SEPARATOR.'templates'.DIRECTORY_SEPARATOR.$teamplateClass[$intA].".php";
+            }
+        }
     }
 }

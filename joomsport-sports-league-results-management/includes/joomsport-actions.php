@@ -295,11 +295,14 @@ class JoomSportcalcTable
                                 $goalscore_chk += $home_score;
                                 $goalconc_chk += $away_score;
                                 $jmscore = get_post_meta($matches_home[$intM]->ID, '_joomsport_match_jmscore',true);
-                                $is_extra = 0;
+                                $is_extra = $aet1 = $aet2 = 0;
                                 $new_points = null;
                                 $bonus = 0;
                                 if($jmscore){
                                     $is_extra = (isset($jmscore['is_extra']))?$jmscore['is_extra']:0;
+                                    $aet1 = (isset($jmscore['aet1']))?$jmscore['aet1']:0;
+                                    $aet2 = (isset($jmscore['aet2']))?$jmscore['aet2']:0;
+
                                     $bonus = isset($jmscore['bonus1'])?intval($jmscore['bonus1']):0;
                                     if(isset($jmscore['new_points']) && $jmscore['new_points']){
                                         $new_points = isset($jmscore['points1'])?$jmscore['points1']:null;
@@ -308,9 +311,9 @@ class JoomSportcalcTable
 
                                 if($home_score > $away_score){
                                     if($is_extra){
-                                       $winextra ++; 
+                                        $winextra ++;
                                     }else{
-                                       $winhome_chk ++;
+                                        $winhome_chk ++;
                                     }
                                     if($new_points === null){
                                         if($is_extra){
@@ -326,9 +329,9 @@ class JoomSportcalcTable
 
                                 }elseif($home_score < $away_score){
                                     if($is_extra){
-                                       $loosextra ++; 
+                                        $loosextra ++;
                                     }else{
-                                       $losthome_chk ++;
+                                        $losthome_chk ++;
                                     }
                                     if($new_points === null){
                                         if($is_extra){
@@ -343,9 +346,25 @@ class JoomSportcalcTable
                                     $points += $bonus;
 
                                 }else{
-                                    $drawhome_chk ++;
-                                    if($new_points === null){ 
-                                        $points += $s_draw_point;
+                                    $tmPt = $s_draw_point;
+                                    if($is_extra){
+                                        if($aet1>$aet2){
+
+                                            $winextra ++;
+                                            $tmPt = $s_extra_win;
+                                        }elseif($aet1<$aet2){
+
+                                            $loosextra ++;
+                                            $tmPt = $s_extra_lost;
+                                        }else{
+                                            $drawhome_chk ++;
+                                        }
+                                    }else{
+                                        $drawhome_chk ++;
+                                    }
+
+                                    if($new_points === null){
+                                        $points += $tmPt;
                                     }else{
                                         $points += $new_points;
                                     }
@@ -371,11 +390,13 @@ class JoomSportcalcTable
                                 $goalscore_away_chk = $away_score;
                                 $goalconc_chk += $home_score;
                                 $jmscore = get_post_meta($matches_away[$intM]->ID, '_joomsport_match_jmscore',true);
-                                $is_extra = 0;
+                                $is_extra = $aet1 = $aet2 = 0;
                                 $new_points = null;
                                 $bonus = 0;
                                 if($jmscore){
                                     $is_extra = (isset($jmscore['is_extra']))?$jmscore['is_extra']:0;
+                                    $aet1 = (isset($jmscore['aet1']))?$jmscore['aet1']:0;
+                                    $aet2 = (isset($jmscore['aet2']))?$jmscore['aet2']:0;
                                     $bonus = isset($jmscore['bonus2'])?intval($jmscore['bonus2']):0;
                                     if(isset($jmscore['new_points']) && $jmscore['new_points']){
                                         $new_points = isset($jmscore['points2'])?$jmscore['points2']:null;
@@ -384,9 +405,9 @@ class JoomSportcalcTable
 
                                 if($home_score < $away_score){
                                     if($is_extra){
-                                       $winextra ++; 
+                                        $winextra ++;
                                     }else{
-                                       $winaway_chk ++;
+                                        $winaway_chk ++;
                                     }
                                     if($new_points === null){
                                         if($is_extra){
@@ -402,9 +423,9 @@ class JoomSportcalcTable
 
                                 }elseif($home_score > $away_score){
                                     if($is_extra){
-                                       $loosextra ++; 
+                                        $loosextra ++;
                                     }else{
-                                       $lostaway_chk ++;
+                                        $lostaway_chk ++;
                                     }
                                     if($new_points === null){
                                         if($is_extra){
@@ -419,9 +440,24 @@ class JoomSportcalcTable
                                     $points += $bonus;
 
                                 }else{
-                                    $drawaway_chk ++;
-                                    if($new_points === null){ 
-                                        $points += $s_draw_away;
+                                    $tmPt = $s_draw_point;
+                                    if($is_extra){
+                                        if($aet1<$aet2){
+
+                                            $winextra ++;
+                                            $tmPt = $s_extra_win;
+                                        }elseif($aet1>$aet2){
+
+                                            $loosextra ++;
+                                            $tmPt = $s_extra_lost;
+                                        }else{
+                                            $drawhome_chk ++;
+                                        }
+                                    }else{
+                                        $drawhome_chk ++;
+                                    }
+                                    if($new_points === null){
+                                        $points += $tmPt;
                                     }else{
                                         $points += $new_points;
                                     }
@@ -431,6 +467,7 @@ class JoomSportcalcTable
                             }
                         }
                     }
+
 
                     $points_away = $points - $points_home;
 
@@ -1409,9 +1446,9 @@ class JoomSportcalcPlayerList
         $playersInSeason = array();
 
 
-        $events = $wpdb->get_results('SELECT * FROM '.$wpdb->joomsport_events."  WHERE player_event = '1'");
-        for ($intA = 0; $intA < count($events); ++$intA) {
-            $event = $events[$intA];
+        $eventsAll = $wpdb->get_results('SELECT * FROM '.$wpdb->joomsport_events."  WHERE player_event = '1'");
+        for ($intA = 0; $intA < count($eventsAll); ++$intA) {
+            $event = $eventsAll[$intA];
             $tblCOl = 'eventid_'.$event->id;
             $is_col = $wpdb->get_var(
                 $wpdb->prepare(
@@ -1434,8 +1471,9 @@ $time_start = microtime(true);
 
 
     ///
+        $events = $wpdb->get_results('SELECT * FROM '.$wpdb->joomsport_events."  WHERE player_event = '1' AND events_sum != '1'");
 
-    if(count($events)){
+        if(count($events)){
 
                 for ($intA = 0; $intA < count($events); ++$intA) {
                     $event = $events[$intA];
@@ -1752,7 +1790,61 @@ $time_start = microtime(true);
                 
             }
 
+        $events = $wpdb->get_results('SELECT * FROM '.$wpdb->joomsport_events."  WHERE player_event = '1' AND events_sum = '1'");
 
+        if(count($events)){
+            for ($intA = 0; $intA < count($events); ++$intA) {
+                $event = $events[$intA];
+                $tblCOl = 'eventid_' . intval($event->id);
+
+                if ($event->events_sum == '1' && $event->subevents) {
+                    $events_ids = json_decode($event->subevents, true);
+                    if (count($events_ids)) {
+                        $queryS = '';
+                        foreach ($events_ids as $evIda){
+                            $queryS .= $queryS?'+':'';
+                            $queryS .= 'SUM(eventid_'.intval($evIda[0]).')*'.intval($evIda[1]);
+                            $events_idsS[] = intval($evIda[0]);
+                        }
+
+
+                        if($event->result_type == 1){
+                            $wpdb->query(
+                                $wpdb->prepare(
+                                    'UPDATE '.$wpdb->joomsport_playerlist.' as pl '
+                                    . ' JOIN (SELECT ROUND(AVG(me.ecount),3) as esum, me.player_id,me.t_id,me.season_id'
+                                    .' FROM '.$wpdb->joomsport_match_events.' as me'
+                                    .' JOIN '.$wpdb->joomsport_matches.' as p ON p.postID=me.match_id  AND p.status="1"'
+                                    .' WHERE me.e_id IN ('.$events_idsS.')'
+                                    ." AND me.season_id = %d"
+                                    .' GROUP BY me.player_id,me.t_id) as fk'
+                                    . ' ON pl.player_id=fk.player_id AND pl.team_id=fk.t_id AND fk.season_id=pl.season_id'
+                                    . ' SET pl.'.$tblCOl.' = fk.esum',
+                                    array($this->season_id)
+                                )
+                            );
+                        }else{
+                            $wpdb->query(
+                                $wpdb->prepare(
+                                    'UPDATE '.$wpdb->joomsport_playerlist.' as pl '
+                                    . ' JOIN (SELECT '.$queryS.' as esum, me.player_id,me.team_id,me.season_id'
+                                    .' FROM '.$wpdb->joomsport_playerlist.' as me'
+                                    .' WHERE 1=1'
+                                    ." AND me.season_id = %d"
+                                    .' GROUP BY me.player_id,me.team_id) as fk'
+                                    . ' ON pl.player_id=fk.player_id AND pl.team_id=fk.team_id AND fk.season_id=pl.season_id'
+                                    . ' SET pl.'.$tblCOl.' = fk.esum',
+                                    array($this->season_id)
+                                )
+                            );
+
+
+                        }
+                    }
+                }
+            }
+
+        }
 
         $wpdb->query($wpdb->prepare(
             'UPDATE '.$wpdb->joomsport_playerlist.' as pl '
@@ -1941,3 +2033,139 @@ class JoomSportcalcBoxScore{
         }
     }
 }
+
+add_filter("jsblock_career_fields_selected", function($value, $itemID, $seasonID){
+    global $wpdb;
+
+    if($seasonID) {
+        $sportID = JoomSportHelperObjects::getSportType($seasonID);
+        $options = $wpdb->get_var("SELECT options FROM {$wpdb->joomsport_sports} WHERE sportID=".intval($sportID));
+        $options = $options?json_decode($options, true):'';
+
+        if($options && is_array($options)){
+            if(isset($options["jsblock_career_options"]) && is_array($options["jsblock_career_options"])){
+                return $options["jsblock_career_options"];
+            }
+        }
+    }else{
+        if(get_post_type($itemID) == 'joomsport_team'){
+            $seasons = $wpdb->get_col(
+                $wpdb->prepare(
+                    "SELECT season_id FROM {$wpdb->joomsport_season_table} WHERE participant_id = %d GROUP BY season_id",
+                    array($itemID)
+                )
+            );
+            $resSportID = array();
+            if(count($seasons)){
+                foreach($seasons as $s){
+                    $resSportID[] = JoomSportHelperObjects::getSportType($s);
+                }
+                $resSportID = array_unique($resSportID);
+                if(count($resSportID) == 1){
+                    $options = $wpdb->get_var("SELECT options FROM {$wpdb->joomsport_sports} WHERE sportID=".intval($resSportID[0]));
+                    $options = $options?json_decode($options, true):'';
+
+                    if($options && is_array($options)){
+                        if(isset($options["jsblock_career_options"]) && is_array($options["jsblock_career_options"])){
+                            return $options["jsblock_career_options"];
+                        }
+                    }
+                }
+            }
+        }elseif(get_post_type($itemID) == 'joomsport_player'){
+            $seasons = $wpdb->get_col(
+                $wpdb->prepare(
+                    "SELECT season_id FROM {$wpdb->joomsport_playerlist} WHERE player_id = %d GROUP BY season_id",
+                    array($itemID)
+                )
+            );
+            $resSportID = array();
+            if(count($seasons)){
+                foreach($seasons as $s){
+                    $resSportID[] = JoomSportHelperObjects::getSportType($s);
+                }
+                $resSportID = array_unique($resSportID);
+                if(count($resSportID) == 1){
+                    $options = $wpdb->get_var("SELECT options FROM {$wpdb->joomsport_sports} WHERE sportID=".intval($resSportID[0]));
+                    $options = $options?json_decode($options, true):'';
+
+                    if($options && is_array($options)){
+                        if(isset($options["jsblock_career_options"]) && is_array($options["jsblock_career_options"])){
+                            return $options["jsblock_career_options"];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $value;
+}, 10, 3);
+
+add_filter("pllist_order_sport", function($value, $itemID, $seasonID){
+    global $wpdb;
+
+    if($seasonID) {
+        $sportID = JoomSportHelperObjects::getSportType($seasonID);
+        $options = $wpdb->get_var("SELECT options FROM {$wpdb->joomsport_sports} WHERE sportID=".intval($sportID));
+        $options = $options?json_decode($options, true):'';
+
+        if($options && is_array($options)){
+            if(isset($options["pllist_order"])){
+                return $options["pllist_order"];
+            }
+        }
+    }else{
+        if(get_post_type($itemID) == 'joomsport_team'){
+            $seasons = $wpdb->get_col(
+                $wpdb->prepare(
+                    "SELECT season_id FROM {$wpdb->joomsport_season_table} WHERE participant_id = %d GROUP BY season_id",
+                    array($itemID)
+                )
+            );
+            $resSportID = array();
+            if(count($seasons)){
+                foreach($seasons as $s){
+                    $resSportID[] = JoomSportHelperObjects::getSportType($s);
+                }
+                $resSportID = array_unique($resSportID);
+                if(count($resSportID) == 1){
+                    $options = $wpdb->get_var("SELECT options FROM {$wpdb->joomsport_sports} WHERE sportID=".intval($resSportID[0]));
+                    $options = $options?json_decode($options, true):'';
+
+                    if($options && is_array($options)){
+                        if(isset($options["pllist_order"])){
+                            return $options["pllist_order"];
+                        }
+                    }
+                }
+            }
+        }elseif(get_post_type($itemID) == 'joomsport_player'){
+            $seasons = $wpdb->get_col(
+                $wpdb->prepare(
+                    "SELECT season_id FROM {$wpdb->joomsport_playerlist} WHERE player_id = %d GROUP BY season_id",
+                    array($itemID)
+                )
+            );
+            $resSportID = array();
+            if(count($seasons)){
+                foreach($seasons as $s){
+                    $resSportID[] = JoomSportHelperObjects::getSportType($s);
+                }
+                $resSportID = array_unique($resSportID);
+                if(count($resSportID) == 1){
+                    $options = $wpdb->get_var("SELECT options FROM {$wpdb->joomsport_sports} WHERE sportID=".intval($resSportID[0]));
+                    $options = $options?json_decode($options, true):'';
+
+                    if($options && is_array($options)){
+                        if(isset($options["pllist_order"])){
+                            return $options["pllist_order"];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return $value;
+}, 10, 3);

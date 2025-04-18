@@ -65,6 +65,7 @@ class classJsportgetplayers
             }
             
         }
+        $sql_select .= ',COALESCE(SUM(l.career_lineup),0) as career_lineup,COALESCE(SUM(l.career_minutes),0) as career_minutes,COALESCE(SUM(l.career_subsin),0) as career_subsin,COALESCE(SUM(l.career_subsout),0) as career_subsout,COALESCE(SUM(l.played),0) as played';
 
         if ((isset($season_id) && $season_id)) {
             //$season = new modelJsportSeason($season_id);
@@ -143,9 +144,12 @@ class classJsportgetplayers
                 }
 
                 $query .= (isset($player_id) && $player_id ? ' AND l.player_id = '.$player_id : '');
+                $query .= (isset($departed) && $departed!="" ? ' AND l.departed = '.intval($departed) : '');
+
                 if($stdoptions == 'std'){
                     $query .= ' GROUP BY l.player_id';
                 }
+
                 $query .= ' ORDER BY '.($ordering)
                     .(isset($limit) && $limit ? " LIMIT {$limit}" : '')
                     .(isset($limit) && $limit && isset($offset) ? " OFFSET {$offset}" : '');
@@ -240,7 +244,11 @@ class classJsportgetplayers
             for ($intA = 0; $intA < count($events_sum); ++$intA) {
                 $subevents = json_decode($events_sum[$intA]->subevents, true);
                 if(is_array($subevents) && count($subevents)){
-                    $res = array_intersect($pickedEvents, $subevents);
+                    $subeventsA = array();
+                    foreach ($subevents as $seV){
+                        $subeventsA[] = $seV[0];
+                    }
+                    $res = array_intersect($pickedEvents, $subeventsA);
                     if(count($res)){
                     	// ensure original sorting get not lost
                     	$pos = $jsDatabase->selectColumn('select x.nbr, x.id

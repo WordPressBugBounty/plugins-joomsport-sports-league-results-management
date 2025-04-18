@@ -160,7 +160,7 @@ if (isset($row->lists['columnsCell'])) {
                                     $efid = 'ef_'.$ef->id;
                                     ?>
                                     <td class="jsNoWrap jsalignleft">
-                                            <?php echo esc_html($val->{$efid});
+                                            <?php echo wp_kses_post($val->{$efid});
                                     ?>
                                         </td>
                                     <?php

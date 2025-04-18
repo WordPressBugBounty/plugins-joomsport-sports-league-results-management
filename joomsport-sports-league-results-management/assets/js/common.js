@@ -429,11 +429,13 @@ function calctpfun(){
                 jQuery("#calctp").show();
                 jQuery("#calctp_es").show();
                 jQuery(".hideFromMatchEv").show();
+                jQuery("#eventStyleTr").hide();
                 
         }else{
                 jQuery("#calctp").hide();
                 jQuery("#calctp_es").hide();
                 jQuery(".hideFromMatchEv").hide();
+            jQuery("#eventStyleTr").show();
         }
         
 
@@ -1920,5 +1922,30 @@ jQuery( document ).ready(function() {
         });
     }
 
+    jQuery(".btnAddTenSet").on("click", function(){
+        jQuery('<div class="jstable-cell">\n' +
+            '                    <div>\n' +
+            '                        <input type="number" name="tHomescore[]" class="form-control" style="max-width:50px;" value="" />\n' +
+            '                        <input type="number" name="tHomescoreExp[]" class="jsScrHmVExp" value="" />\n'+
+            '                    </div>\n' +
+            '                    <div>\n' +
+            '                        <input type="number" name="tAwayscore[]" class="form-control" style="max-width:50px;" value="" />\n' +
+            '                        <input type="number" name="tAwayscoreExp[]" class="jsScrHmVExp" value="" />\n'+
+            '                    </div>\n' +
+            '                </div>').insertBefore(jQuery(this).closest(".jstable-cell"));
+    })
+
+    jQuery(".jsEventComplexAdd").on("click", function(){
+        if(jQuery("#sumevT").val() != '0'){
+            var evID = jQuery("#sumevT").val();
+            var evName = jQuery("#sumevT option:selected").text();
+            var sume = jQuery("#sumevNum").val();
+            jQuery("#jsEventComplexTbl > tbody").append('<tr><td><a class="delCmplEvent" href="javascript:void(0);" title="Remove" onClick="javascript:Delete_tbl_rowE(this);"><i class="fa fa-trash" aria-hidden="true"></i></a></td><td>'+evName+'<input type="hidden" name="complexEvent[]" value="'+evID+'" /></td><td>× '+sume+'<input type="hidden" name="complexEventNum[]" value="'+sume+'" /></td></tr>');
+        }
+    })
 
 });
+function Delete_tbl_rowE(element) {
+    var del_index = element.parentNode.parentNode.sectionRowIndex;
+    element.parentNode.parentNode.parentNode.deleteRow(del_index);
+}

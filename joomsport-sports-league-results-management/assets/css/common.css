@@ -597,3 +597,20 @@ select[name="venue_id_foot"],select[name="venue_id[]"] {
 #moder_conf_div .jsBEsettings table ~ div {
     font-weight: 700;
 }
+/*tennis*/
+.beScoreMatchTennisCont > .jstable-row > div.jstable-cell > div{
+    padding:5px 0px;
+}
+.jsScrHmVExp {
+    width: 30px !important;
+    font-size: 10px;
+    padding: 0px !important;
+    margin: 0px !important;
+    height: 20px;
+    min-height: 20px !important;
+    margin-top: -20px !important;
+}
+
+.delCmplEvent{
+    color: red;
+}

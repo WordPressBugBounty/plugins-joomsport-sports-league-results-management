@@ -2,9 +2,9 @@
 Contributors: beardev
 Tags: sports, football, hockey, sports team, league
 Requires at least: 4.0
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 5.6.18
+Stable tag: 5.7
 License: GPLv3 
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -12,7 +12,7 @@ Create PRO sports website for your club, sports team or sports league! Soccer, F
 
 == Description ==
 = Sport league manager for your league, sport tournament, team and club =
-Complex solution to build a sports web site. Developed since 2009 JoomSport offers the features essential for any sports site - sports league standings, sports teams with description and stats, players with their profiles, photos and personal achievements, fixtures analytics and match results with score and game details, and finally all this put into well-structured seasons and leagues.
+Complex solution to build a sports website. Developed since 2009, JoomSport offers the features essential for any sports site: sports league standings, sports teams with description and stats, players with their profiles, photos and personal achievements, fixtures analytics and match results with score and game details, and finally all this put into well-structured seasons and leagues.
 
 Ready solution for FIFA World Cup [Statorium package](https://statorium.com/fifa-world-cup-2026-api)! (*pro edition with data)
 
@@ -26,7 +26,7 @@ Live Scores via [Statorium sports API](https://statorium.com/?utm_source=wpcatal
 * **Team** and **Player** profiles with comprehensive statistic
 * **Round robin and knockout** (pro edition) matchdays used in football, hockey and other sports leagues or tournaments
 * **Venue** page with maps and description
-* **Extra fields** that allows you adding more sport data
+* **Extra fields** allows you to add more sport data
 * **Persons** to add information about team coaches, sport game referees and other personnel involved (pro edition) 
 * Team and player moderation (pro edition)
 * [Match / Schedule generator](https://beardev.com/blog/joomsport-match-generator-add-on-saves-your-forces-for-bigger-challenges "WordPress sport league schedule generator") (pro edition)
@@ -37,7 +37,7 @@ Live Scores via [Statorium sports API](https://statorium.com/?utm_source=wpcatal
 Check the [full features list on JoomSport.com](https://joomsport.com/product-features/compare-editions.html "JoomSport - wordpress sport plugin features")
 
 = Product Demo =
-View [Pro edition DEMO](http://wp-demo.joomsport.com/ "JoomSport wordpress plugin demo")
+View [Pro edition DEMO](https://wp-demo.joomsport.com/ "JoomSport wordpress plugin demo")
 
 = Complementary products =
 * Statorium.com sports API integration. Helps to import public leagues data automatically.
@@ -53,7 +53,7 @@ View [Pro edition DEMO](http://wp-demo.joomsport.com/ "JoomSport wordpress plugi
 * new! [FC United](https://themeforest.net/item/fc-united-football-soccer-wordpress-sports-theme/23390465 "FC United wordpress sports theme")
 
 = Professional edition available =
-We offer fully functional commercial edition that delivers large number of extras and actually provides our development team investments to improve the product features significantly. Browse [Pro edition demo](http://wp-demo.joomsport.com/ "JoomSport WordPress sport plugin - professional edition demo") or [buy from our shop](https://joomsport.com/web-shop/joomsport-wordpress-sports-plugin.html "buy JoomSport pro - wordpress sports plugin").
+We offer fully functional commercial edition that delivers large number of extras and actually provides our development team investments to improve the product features significantly. Browse [Pro edition demo](https://wp-demo.joomsport.com/ "JoomSport WordPress sport plugin - professional edition demo") or [buy from our shop](https://joomsport.com/web-shop/joomsport-wordpress-sports-plugin.html "buy JoomSport pro - wordpress sports plugin").
 
 = Sports JoomSport known to be used for =
 * European Football, Soccer (e.g. Champions league, FIFA World Cup Qatar 2022, UEFA EURO 2020, English Premier League, Bundesliga, La Liga)
@@ -89,7 +89,7 @@ Check translations available on [translation page](https://translate.wordpress.o
 * Statorium.com sports API integration. Helps to import public leagues data automatically.
 * [JoomSport documentation](https://joomsport.com/support/documentation/joomsport-wordpress-sports-plugin-documentation.html "JoomSport WordPress sport plugin documentation")
 * [JoomSport project site](https://joomsport.com "JoomSport WordPress sport plugin")
-* Professional edition [demo](http://wp-demo.joomsport.com "JoomSport WordPress sport plugin - professional edition demo")
+* Professional edition [demo](https://wp-demo.joomsport.com "JoomSport WordPress sport plugin - professional edition demo")
 * Read our [Sport technology blog](https://beardev.com/blog "Sport technology blog")
 * or find BearDev on [Facebook](https://www.facebook.com/BearDev.company) & [Twitter](https://twitter.com/BearDev)
 
@@ -123,6 +123,24 @@ We are changing the sport industry by creating comprehensive software infrastruc
 18. Knockout matchday edit (pro version)
 
 == Changelog ==
+
+= 5.7=
+[version overview](https://beardev.com/release-notes-joomsport-5-7-for-wordpress "JoomSport sports software release notes") 
+
+Features:
+* Negative and positive match events
+* The new flexible extra tabs plugin for match, player and team pages (pro version)
+* The new way to calculate sum for player stats. Excellent way to calculate PIMS in Hockey, player points in basketball.
+* The new date format 18 Aug, 2025 2:30 PM
+
+Changes, small improvements and bugfixes:
+* (Pro advanced) System recounts squads after CSV player upload operation was done
+* Custom match status is now linked to the match in calendar and shortcodes
+* SEO: added team shortname as dynamic text for match title configuration
+* The order of matches is changed on team page curent form section
+* Sum events fix in player stats list for specific cases
+* Add person to the Standings fix
+* Minor CSS adjustment for match additional information: each extra field with new raw now
 
 = 5.6.18 =
 

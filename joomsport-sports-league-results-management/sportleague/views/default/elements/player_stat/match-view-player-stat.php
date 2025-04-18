@@ -20,9 +20,12 @@ if(count($rows->lists['eventsByStage'])) {
 if (count($rows->lists['eventsNotByStage']) || $bystageExist) {
     ?>
     <div class="jsMatchStatHeader jscenter">
-        <h3>
-            <?php echo esc_html__('Player statistic','joomsport-sports-league-results-management'); ?>
-        </h3>
+        <?php
+        $header1 = '<h3>' . esc_html__('Player statistic', 'joomsport-sports-league-results-management') . '</h3>';
+        echo apply_filters("headers_match_plstats", $header1, $partic_home, $partic_away);
+
+        ?>
+
     </div>
     <?php
     if(count($rows->lists['eventsNotByStage'])){

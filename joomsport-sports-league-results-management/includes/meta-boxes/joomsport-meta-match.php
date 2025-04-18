@@ -1210,37 +1210,23 @@ class JoomSportMetaMatch {
             }
         }
         update_post_meta($post_id, '_joomsport_match_maps', $maps);
-        
-        
-        $prev_home_score = get_post_meta( $post_id, '_joomsport_home_score', true );
-        $prev_away_score = get_post_meta( $post_id, '_joomsport_away_score', true );
-        
-        
-        
+
         $jmscore = isset($post['jmscore']) ? $post['jmscore']:array();
         $jmscore = array_map( 'sanitize_text_field', wp_unslash($jmscore));
         update_post_meta($post_id, '_joomsport_match_jmscore', $jmscore);
-        if(!$metas['matchday_type']){
-            update_post_meta($post_id, '_joomsport_home_score', intval($post['score1']));
-            update_post_meta($post_id, '_joomsport_away_score', intval($post['score2']));
-            
-            $home_score = intval($post['score1']);
-            $away_score = intval($post['score2']);
-        }
-        if(isset($post['knteamid']) && count($post['knteamid'])){
-            update_post_meta($post_id, '_joomsport_home_team', intval($post['knteamid'][0]));
-            update_post_meta($post_id, '_joomsport_away_team', intval($post['knteamid'][1]));
-            if(isset($post['knteamscore']) && count($post['knteamscore'])){
-                update_post_meta($post_id, '_joomsport_home_score', intval($post['knteamscore'][0]));
-                update_post_meta($post_id, '_joomsport_away_score', intval($post['knteamscore'][1]));
-                $home_score = intval($post['knteamscore'][0]);
-                $away_score = intval($post['knteamscore'][1]);
-            }
+
+
+        $season_id = $args["season_id"] = JoomSportHelperObjects::getMatchSeason($post_id);
+
+        $sportID = JoomSportHelperObjects::getSportType($season_id);
+        $sportTemplClass = JoomSportHelperObjects::getSportTemplate($sportID);
+
+        $args = array("post"=>$post,"post_id"=>$post_id,"matchday_type"=>$metas['matchday_type']);
+        if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'saveScoreMatchBE')){
+            $sportTemplClass::saveScoreMatchBE($args);
         }
         
-        if($prev_home_score != $home_score || $prev_away_score != $away_score){
-            do_action("joomsport_score_changed", $post_id);
-        }
+
 
     }
     private static function saveMetaAbout($post_id){
@@ -1369,7 +1355,7 @@ class JoomSportMetaMatch {
         if(isset($post['ef']) && count($post['ef'])){
             foreach ($post['ef'] as $key => $value){
                 if(isset($post['ef_'.$key])){
-                    $meta_array[$key] = sanitize_text_field($post['ef_'.$key]);
+                    $meta_array[$key] = wp_kses_post($post['ef_'.$key]);
                 }else{
                     $meta_array[$key] = sanitize_text_field($value);
                 }

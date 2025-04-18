@@ -280,19 +280,29 @@ class JoomSportSportsNew_Plugin {
             'sportTemplateID' => 1,
             'ordering' => 0,
             'image' => '',
+            'options' => ''
         );
         
         $item = array();
         // here we are verifying does this request is post back and have correct nonce
         if (isset($_REQUEST['nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_REQUEST['nonce'])), basename(__FILE__))) {
             // combine our default item with request params
+
             $item = shortcode_atts($default, array_map( 'sanitize_text_field', wp_unslash( $_REQUEST )));
+            if(isset($_POST['options']) && is_array($_POST['options'])){
+                $item['options'] = array();
+                $career_block = isset($_POST['options']["jsblock_career_options"])?array_map( 'sanitize_text_field',  $_POST['options']["jsblock_career_options"] ) :'';
+                $item['options']["jsblock_career_options"] = ($career_block);
+                $item['options']['pllist_order'] = sanitize_text_field($_POST['options']['pllist_order']);
+                $item['options'] = json_encode($item['options']);
+            }
             $lists = self::getListValues($item);
             // validate data, and if all ok save item to database
             // if id is zero insert otherwise update
             $item_valid = self::joomsport_sports_validate($item);
 
             if ($item_valid === true) {
+
                 if ($item['sportID'] == 0) {
                     $result = $wpdb->insert($table_name, $item);
                     $item['sportID'] = $wpdb->insert_id;
@@ -323,7 +333,7 @@ class JoomSportSportsNew_Plugin {
             // if this is not post back we load item to edit or give new one to create
             $item = $default;
             if (isset($_REQUEST['id'])) {
-                $item = $wpdb->get_row($wpdb->prepare("SELECT * FROM %s WHERE sportID = %d", array($table_name,intval($_REQUEST['id']))), ARRAY_A);
+                $item = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE sportID = %d", array(intval($_REQUEST['id']))), ARRAY_A);
                 if (!$item) {
                     $item = $default;
                     $notice = __('Item not found', 'joomsport-sports-league-results-management');
@@ -450,6 +460,7 @@ class JoomSportSportsNew_Plugin {
     {
         $lists = $item[1];
         $item = $item[0];
+        global $wpdb;
     ?>
 
     <div class="jsrespdiv12">
@@ -508,6 +519,53 @@ class JoomSportSportsNew_Plugin {
                             </td>
                         </tr>
 		</table>
+            </div>
+        </div>
+        <div class="jsBepanel">
+            <div class="jsBEheader">
+                <?php echo esc_html__('Options', 'joomsport-sports-league-results-management'); ?>
+            </div>
+            <div class="jsBEsettings" id="jseventcontainer">
+                <table>
+                    <tr>
+                        <td width="200">
+                            <?php echo esc_html__('Career fields', 'joomsport-sports-league-results-management'); ?>
+                        </td>
+                        <td>
+                            <?php
+                            
+                             echo '<div class="jslinktopro">Available in <a href="http://joomsport.com/web-shop/joomsport-for-wordpress.html?utm_source=js-st-wp&utm_medium=backend-wp&utm_campaign=buy-js-pro">Pro Edition</a> only</div>'; 
+                            ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="250"><?php echo esc_html__('Order players by', 'joomsport-sports-league-results-management');?></td>
+                        <td>
+                            <?php
+                            $alltmp = array();
+                            $adf = $wpdb->get_results("SELECT name, CONCAT(id,'_1') as id"
+                                . " FROM ".$wpdb->joomsport_ef.""
+                                . " WHERE type='0' AND (field_type = 0 OR field_type = 3)"
+                                . " ORDER BY name");
+                            $alltmp['op'] = JoomSportHelperSelectBox::addOption(0, __('Name','joomsport-sports-league-results-management'));
+
+                            if(count($adf)){
+                                $alltmp[__('Extra fields','joomsport-sports-league-results-management')] = $adf;
+                            }
+
+                            $events_cd = $wpdb->get_results("SELECT CONCAT(ev.id,'_2') as id,ev.e_name as name
+                                    FROM ".$wpdb->joomsport_events." as ev
+                                            WHERE ev.player_event IN (1, 2)
+                                    ORDER BY ev.e_name");
+                            if(count($events_cd)){
+                                $alltmp[__('Events','joomsport-sports-league-results-management')] = $events_cd;
+                            }
+                            ?>
+                            <?php echo wp_kses(JoomSportHelperSelectBox::Optgroup('options[pllist_order]', $alltmp,isset($career_options['pllist_order'])?$career_options['pllist_order']:0), JoomsportSettings::getKsesSelect());?>
+
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

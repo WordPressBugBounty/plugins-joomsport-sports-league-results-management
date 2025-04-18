@@ -139,6 +139,20 @@ class classJsportLink
         $additAttr = apply_filters("joomsport_link_attr", "", "venue", $venue_id);
 
         $enbl_link = JoomsportSettings::get('unbl_venue_link',1);
+        /*if(!$enbl_link) {
+            $hTeams = JoomsportSettings::get('yteams', array());
+            if ($hTeams && is_array($hTeams)) {
+
+                foreach ($hTeams as $hT) {
+                    $hVID = get_post_meta($hT, '_joomsport_team_venue', true);
+                    if ($hVID == $venue_id) {
+                        $enbl_link = true;
+                    }
+                }
+
+
+            }
+        }*/
         if(!$enbl_link){
             return $text;
         }

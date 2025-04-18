@@ -89,7 +89,7 @@ if(isset($row->lists['columnsCell'])){
                         $coloryteam = $partObj->getYourTeam();
 
                         ?>
-                        <tr <?php echo $coloryteam?'style="background-color:'.esc_attr($coloryteam).'!important"':'';?>>
+                        <tr <?php echo ($highlightpartic && in_array($options['id'], $highlightpartic)?' class="jsParticHighlight"':'')?> <?php echo $coloryteam?'style="background-color:'.esc_attr($coloryteam).'!important"':'';?>>
                             <td class="jsalcenter" 
 
                             <?php 
@@ -101,8 +101,8 @@ if(isset($row->lists['columnsCell'])){
                             ?>><?php echo esc_html($rank);?></td>
 
                             <td class="jsNoWrap jsalignleft">
-                                <?php 
-                                
+                                <?php
+
                                 if(isset($row->lists['columns']['emblem_chk']) && in_array('emblem_chk', $columns_list)){
                                     echo wp_kses_post($partObj->getEmblem(true, 0, 'emblInline', 0));
                                 }
@@ -110,6 +110,7 @@ if(isset($row->lists['columnsCell'])){
                                 ?>
                             </td>
                             <?php
+
                             if(count($row->lists['columns']))
                             foreach($row->lists['columns'] as $key => $value){
                                 if(in_array($key, $columns_list)){

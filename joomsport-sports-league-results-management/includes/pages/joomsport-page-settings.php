@@ -118,6 +118,7 @@ class JoomsportPageSettings{
         $is_field_date[] = JoomSportHelperSelectBox::addOption("m-d-Y I:M p", "m-d-Y I:M p");
         $is_field_date[] = JoomSportHelperSelectBox::addOption("m B, Y H:M", "m B, Y H:M");
         $is_field_date[] = JoomSportHelperSelectBox::addOption("m B, Y I:H p", "m B, Y I:H p");
+        $is_field_date[] = JoomSportHelperSelectBox::addOption("m b, Y I:H p", "m b, Y I:H p");
         $is_field_date[] = JoomSportHelperSelectBox::addOption("d-m-Y", "d-m-Y");
         $is_field_date[] = JoomSportHelperSelectBox::addOption("A d B, Y H:M","A d B, Y H:M");
         $is_field_date[] = JoomSportHelperSelectBox::addOption("d/m/Y H:M", "d/m/Y H:M");

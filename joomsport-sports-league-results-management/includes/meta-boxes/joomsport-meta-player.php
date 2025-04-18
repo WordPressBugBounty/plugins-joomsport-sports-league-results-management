@@ -373,7 +373,7 @@ class JoomSportMetaPlayer {
         if(isset($post['ef']) && count($post['ef'])){
             foreach ($post['ef'] as $key => $value){
                 if(isset($post['ef_'.$key])){
-                    $meta_array[$key] = sanitize_text_field($post['ef_'.$key]);
+                    $meta_array[$key] = wp_kses_post($post['ef_'.$key]);
                 }else{
                     $meta_array[$key] = sanitize_text_field($value);
                 }

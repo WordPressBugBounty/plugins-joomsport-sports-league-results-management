@@ -66,11 +66,26 @@ require 'match_stat' . DIRECTORY_SEPARATOR . 'h2h_blocks.php';
                             //$graph_away_class = ' jsRed';
                                 }
                             }
+                            $eventStyle = $rows->lists['team_events'][$intP]->objEvent->object->events_style;
+                            $eventStyleClass = '';
+                            $eventStyleClassMore = '';
+                            switch ($eventStyle){
+                                case 1:
+                                    $eventStyleClass = 'teamEventGraphNegative';
+                                    $eventStyleClassMore = 'teamEventGraphNegativeMore';
+                                    break;
+                                case 2:
+                                    $eventStyleClass = 'teamEventGraphPositive';
+                                    $eventStyleClassMore = 'teamEventGraphPositiveMore';
+                                    break;
+
+                            }
+
                             ?>
                             <div class="jstable-row jsColTeamEvents">
                                 <div class="jstable-cell jsCol5">
                                     <div class="teamEventGraph clearfix">
-                                        <div class="teamEventGraphHome" style="width:<?php echo esc_attr($graph_home)?>%">
+                                        <div class="teamEventGraphHome <?php echo $eventStyleClass; echo (($rows->lists['team_events'][$intP]->home_value>$rows->lists['team_events'][$intP]->away_value)?" ".$eventStyleClassMore:""); ?>" style="width:<?php echo esc_attr($graph_home)?>%">
                                             <span><?php echo esc_html($rows->lists['team_events'][$intP]->home_value); ?></span>
                                         </div>
                                     </div>
@@ -85,7 +100,7 @@ require 'match_stat' . DIRECTORY_SEPARATOR . 'h2h_blocks.php';
                                 </div>
                                 <div class="jstable-cell jsCol5">
                                     <div class="teamEventGraph clearfix">
-                                        <div class="teamEventGraphAway" style="width:<?php echo esc_attr($graph_away)?>%">
+                                        <div class="teamEventGraphAway <?php echo $eventStyleClass; echo (($rows->lists['team_events'][$intP]->home_value<$rows->lists['team_events'][$intP]->away_value)?" ".$eventStyleClassMore:"");?>" style="width:<?php echo esc_attr($graph_away)?>%">
                                             <span><?php echo esc_html($rows->lists['team_events'][$intP]->away_value); ?></span>
                                         </div>
                                     </div>

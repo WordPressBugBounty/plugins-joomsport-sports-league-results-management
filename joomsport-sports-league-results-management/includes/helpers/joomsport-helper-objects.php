@@ -498,4 +498,13 @@ class JoomSportHelperObjects{
         );
     }
 
+    public static function getSportTemplate($sportID){
+        global $wpdb;
+        $arr = jsHelperAllSports::getInstance();
+
+        return isset($arr[$sportID])?$arr[$sportID]->sportTemplateClass:'JoomSportSportDefaultTmpl';
+
+    }
+
+
 }
