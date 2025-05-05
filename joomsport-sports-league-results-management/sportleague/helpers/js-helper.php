@@ -624,7 +624,10 @@ class jsHelper
                 if(intval($ticker["offset"]) && intval($ticker["offset"]) > 45 && intval($offset) > 90){
                     $ticker_html = "90'+";
                 }
-                if(intval($ticker["offset"]) && intval($ticker["offset"]) > 90 && intval($offset) > 120){
+                if(intval($ticker["offset"]) && intval($ticker["offset"]) > 90 && intval($offset) > 105){
+                    $ticker_html = "105'+";
+                }
+                if(intval($ticker["offset"]) && intval($ticker["offset"]) > 105 && intval($offset) > 120){
                     $ticker_html = "120'+";
                 }
 

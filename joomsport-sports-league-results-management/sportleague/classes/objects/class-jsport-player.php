@@ -435,6 +435,12 @@ class classJsportPlayer
     }
     public function getMatchesBlock(){
         global $wpdb, $jsDatabase;
+
+        $kick_events = JoomsportSettings::get('kick_events',array());
+        if($kick_events){
+            $kick_events = json_decode($kick_events,true);
+        }
+
         if(!JoomsportSettings::get('jsblock_matchstat')){
             $this->lists['career_matches'] = array();
             return;
@@ -502,6 +508,21 @@ class classJsportPlayer
                         }
                         if(!$min){
                             $min = $match_duration;
+
+                            if(is_array($kick_events) && count($kick_events)){
+                                $query = "SELECT minutes"
+                                    . " FROM ".DB_TBL_MATCH_EVENTS
+                                    . " WHERE match_id = ".(intval($matches[$intA]->post_id))
+                                    . " AND player_id = ".intval($this->id)
+                                    . " AND e_id IN (".implode(',', $kick_events).")"
+                                    . " ORDER BY minutes asc"
+                                    . " LIMIT 1";
+                                $kickOut = (int) $jsDatabase->selectValue($query);
+
+                                if($kickOut){
+                                    $min = $kickOut;
+                                }
+                            }
                         }
                         $played_minutes += $min;
                     }else{
@@ -513,8 +534,25 @@ class classJsportPlayer
                         if($min){
 
                             if($matchesSub[$intZ]->is_subs == -1){
+                                $kickOut = 0;
+                                if(is_array($kick_events) && count($kick_events)){
+                                    $query = "SELECT minutes"
+                                        . " FROM ".DB_TBL_MATCH_EVENTS
+                                        . " WHERE match_id = ".(intval($matches[$intA]->post_id))
+                                        . " AND player_id = ".intval($this->id)
+                                        . " AND e_id IN (".implode(',', $kick_events).")"
+                                        . " ORDER BY minutes asc"
+                                        . " LIMIT 1";
+                                    $kickOut = (int) $jsDatabase->selectValue($query);
 
-                                $played_minutes += $match_duration - $min;
+                                }
+                                if($kickOut){
+                                    $played_minutes += $kickOut - $min;
+
+                                }else{
+                                    $played_minutes += $match_duration - $min;
+                                }
+
                             }else if($matchesSub[$intZ]->is_subs == 1){
 
                                 $played_minutes += $min - $match_duration;

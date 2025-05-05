@@ -133,7 +133,7 @@ class classJsportPlayerlist
             
         }
         $this->lists['players'] = $this->lists['players_Stat'] = $players_object;
-        
+        $this->lists['played_matches_col'] = __('Match played','joomsport-sports-league-results-management');
         //events
         $this->lists['events_col'] = classJsportgetplayers::getPlayersEvents($this->season_id);
     }

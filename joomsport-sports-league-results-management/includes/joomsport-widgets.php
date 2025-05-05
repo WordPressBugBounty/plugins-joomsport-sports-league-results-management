@@ -41,7 +41,7 @@ class wpb_joomsport_standings extends WP_Widget {
         wp_enqueue_script('jsjoomsport-standings',plugins_url('../sportleague/assets/js/joomsport_standings.js', __FILE__));
 
         $legends = null;
-
+        $highlightpartic = array();
         require_once JOOMSPORT_PATH . DIRECTORY_SEPARATOR. 'sportleague' . DIRECTORY_SEPARATOR . 'sportleague.php';
         require_once JOOMSPORT_PATH_OBJECTS . 'class-jsport-season.php';
         $seasObj = new classJsportSeason($instance['season_id']);

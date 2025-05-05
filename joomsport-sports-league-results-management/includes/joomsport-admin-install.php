@@ -652,6 +652,12 @@ class JoomSportAdminInstall {
             $wpdb->query('ALTER TABLE '.$wpdb->joomsport_sports.' ADD `options` text DEFAULT NULL');
         }
 
+        try{
+            $wpdb->query('ALTER TABLE '.$wpdb->joomsport_season_table.' CHANGE `ordering` `ordering` SMALLINT NOT NULL');
+        }catch(Exception $e){
+
+        }
+
         $joomsport_refactoring_v = (int) get_option("joomsport_refactoring_v", 0);
         if(!$joomsport_refactoring_v){
             joomsportUpgradeRef::upgradeTermMetas();

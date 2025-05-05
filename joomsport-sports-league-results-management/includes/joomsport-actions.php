@@ -248,6 +248,10 @@ class JoomSportcalcTable
                     $array[$intA]['played_chk'] = $optionsCol['played_chk'];
                     $array[$intA]['goalscore_away_chk'] = $optionsCol['goalscore_away_chk'];
 
+                    $array[$intA]['wintot_chk'] = intval($optionsCol['win_chk'])+intval($optionsCol['otwin_chk']);
+                    $array[$intA]['losttot_chk'] = intval($optionsCol['lost_chk']) + intval($optionsCol['otlost_chk']);
+
+                    $array[$intA]['totalpercent_chk'] = $optionsCol['percent_chk'];
 
                     if ($group_id) {
                         $this->inGroupsVar($array[$intA], $group_id);
@@ -479,8 +483,11 @@ class JoomSportcalcTable
                     if ($played) {
                         $percent_chk = sprintf("%0.3f",($wins + ($draw / 2)) / $played);
                         $percent_chk = apply_filters("joomsport_custom_percentage", $percent_chk);
+
+                        $totalpercent_chk = sprintf("%0.3f",($wins + ($winextra)) / $played);
+                        $totalpercent_chk = apply_filters("joomsport_custom_percentage", $totalpercent_chk);
                     } else {
-                        $percent_chk = 0;
+                        $percent_chk = $totalpercent_chk = 0;
                     }
 
 
@@ -511,7 +518,10 @@ class JoomSportcalcTable
                     $array[$intA]['played_chk'] = $played;
                     $array[$intA]['goalscore_away_chk'] = $goalscore_away_chk;
 
+                    $array[$intA]['wintot_chk'] = intval($wins)+intval($winextra);
+                    $array[$intA]['losttot_chk'] = intval($lose) + intval($loosextra);
 
+                    $array[$intA]['totalpercent_chk'] = $totalpercent_chk;
 
 
                     if ($group_id) {
@@ -1054,7 +1064,7 @@ class JoomSportcalcTable
 
                         case '10': $argsort[][0] = $sort_arr['goalscore_away_chk'];        break;
                         case '11': $argsort[][0] = $sort_arr['winaway_chk'];        break;
-
+                        case '12': $argsort[][0] = $sort_arr['totalpercent_chk'];        break;
                         case '100': $argsort[][0] = $sort_arr['avulka_v'];        break;
                         case '101': $argsort[][0] = $sort_arr['avulka_scored_away'];        break;
                         case '102': $argsort[][0] = $sort_arr['avulka_qc'];        break;
@@ -1954,6 +1964,41 @@ $time_start = microtime(true);
                 . ' SET pl.career_minutes = fk.mins';
             //.' AND s.player_id = %d';
             $wpdb->query($wpdb->prepare($query, array($this->season_id)));
+
+            $kick_events = JoomsportSettings::get('kick_events',array());
+            if($kick_events){
+                $kick_events = json_decode($kick_events,true);
+                $kick_events = array_map('intval',$kick_events);
+            }
+
+            if(is_array($kick_events) && count($kick_events)) {
+                $kicks = $wpdb->get_results(
+                    $wpdb->prepare(
+                        'SELECT me.minutes as kickMin, s.*, p.duration'
+                        . ' FROM ' . $wpdb->joomsport_match_events . ' as me'
+                        . ' JOIN ' . $wpdb->joomsport_matches . ' as p ON p.postID=me.match_id  AND p.status="1"'
+                        . ' JOIN ' . $wpdb->joomsport_squad . ' as s ON s.player_id=me.player_id AND me.match_id=s.match_id'
+                        . ' WHERE me.e_id IN (' . implode(",",$kick_events) . ')'
+                        . " AND me.season_id = %d",
+
+                        array($this->season_id)
+                    )
+                );
+                for($intK=0;$intK<count($kicks);$intK++){
+                    $dur = $kicks[$intK]->duration?$kicks[$intK]->duration:$duration;
+                    $query = 'UPDATE ' . $wpdb->joomsport_playerlist . ' SET career_minutes=career_minutes-%d'
+                        . ' WHERE season_id = %d'
+                        . ' AND player_id = %d'
+                        . ' AND team_id = %d';
+                    /*echo   'UPDATE ' . $wpdb->joomsport_playerlist . ' SET pl.career_minutes=pl.career_minutes-'.($dur-$kicks[$intK]->kickMin)
+                        . ' WHERE season_id = '.$this->season_id
+                        . ' AND player_id = '.$kicks[$intK]->player_id
+                        . ' AND team_id = '.$kicks[$intK]->team_id;die();*/
+
+                    $wpdb->query($wpdb->prepare($query, array($dur-$kicks[$intK]->kickMin,$this->season_id, $kicks[$intK]->player_id,$kicks[$intK]->team_id)));
+                }
+            }
+
         }
 
         $query = 'DELETE FROM '.$wpdb->joomsport_playerlist

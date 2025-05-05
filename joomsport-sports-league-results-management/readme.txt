@@ -4,7 +4,7 @@ Tags: sports, football, hockey, sports team, league
 Requires at least: 4.0
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 5.7
+Stable tag: 5.7.2
 License: GPLv3 
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -123,6 +123,16 @@ We are changing the sport industry by creating comprehensive software infrastruc
 18. Knockout matchday edit (pro version)
 
 == Changelog ==
+
+= 5.7.1-5.7.2=
+* Counts red card as time stoppage factor when counting player time on field
+* Add time played column to season player list 
+
+Improved ranking method for North American-based sports:
+* New Total Win column 
+* New Total Lost column 
+* New Total Win Percent column 
+* Total Win Percent column can be used as a ranking factor
 
 = 5.7=
 [version overview](https://beardev.com/release-notes-joomsport-5-7-for-wordpress "JoomSport sports software release notes") 

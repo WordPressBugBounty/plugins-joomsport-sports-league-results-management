@@ -77,6 +77,13 @@ class JoomsportPageSettings{
                     $layouts['opposite_events'] = wp_json_encode($layouts_opposite_events);
                 }
             }
+            if(isset($_POST['layouts']['kick_events'])) {
+                $layouts_kick_events = array_map('sanitize_text_field', wp_unslash($_POST['layouts']['kick_events']));
+
+                if (isset($layouts_kick_events) && $layouts_kick_events) {
+                    $layouts['kick_events'] = wp_json_encode($layouts_kick_events);
+                }
+            }
             if(isset($_POST['layouts']['avgevents_events'])) {
                 $layouts_avgevents_events = array_map('sanitize_text_field', wp_unslash($_POST['layouts']['avgevents_events']));
 
@@ -1253,6 +1260,34 @@ class JoomsportPageSettings{
                                             
 
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td width="250">
+                                        <?php echo esc_html__('Events to kick player out of the match', 'joomsport-sports-league-results-management');?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $kick_events = JoomsportSettings::get('kick_events',array());
+
+                                        if($kick_events){
+                                            $kick_events = json_decode($kick_events,true);
+                                        }
+                                        if(count($eventsOnly)){
+                                            echo '<select name="layouts[kick_events][]"  class="jswf-chosen-select" data-placeholder="'.esc_attr(__('Add item','joomsport-sports-league-results-management')).'" multiple>';
+                                            foreach ($eventsOnly as $tm) {
+                                                $selected = '';
+                                                if(in_array($tm->id, $kick_events)){
+                                                    $selected = ' selected';
+                                                }
+                                                echo '<option value="'.esc_attr($tm->id).'" '.esc_attr($selected).'>'.esc_html($tm->name).'</option>';
+                                            }
+                                            echo '</select>';
+                                        }
+
+                                        ?>
+
+                                    </td>
+
                                 </tr>
                                 <tr>
                                     <td width="250">

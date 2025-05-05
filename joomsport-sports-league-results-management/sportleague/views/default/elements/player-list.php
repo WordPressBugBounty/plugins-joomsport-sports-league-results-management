@@ -93,6 +93,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <?php
 
+                    $dest = (classJsportRequest::get('sortf') == 'played') ? (classJsportRequest::get('sortd') == 'DESC' ? 'ASC' : 'DESC') : 'DESC';
+                    $class = '';
+                    if (classJsportRequest::get('sortf') == 'career_minutes') {
+                        $class = (classJsportRequest::get('sortd') == 'DESC') ? 'headerSortDown' : 'headerSortUp';
+                    }
+                    ?>
+                    <th class="jsTextAlignCenter <?php echo esc_attr($class)?>">
+                        <?php
+                        if (isset($lists['pagination']) && $lists['pagination']) {
+                            ?>
+                            <a href="<?php echo esc_url(classJsportLink::playerlist($rows->season_id, '&sortf=career_minutes&sortd='.$dest))?>"><span><?php echo esc_html(__('Played minutes','joomsport-sports-league-results-management'));
+                                    ?></span><i class="fa"></i></a>
+
+                            <?php
+
+                        } else {
+                            ?>
+                            <a href="javascript:void(0);">
+
+                            <span><?php //echo $rows->lists['played_matches_col'];
+                                echo '<img src="'.esc_url(JOOMSPORT_LIVE_URL_IMAGES_DEF.'matches_played.png').'" width="24" class="sub-player-ico" title="'.esc_attr(__('Played minutes','joomsport-sports-league-results-management')).'" alt="'.esc_attr(__('Played minutes','joomsport-sports-league-results-management')).'" />';
+                                ?></span><i class="fa"></i>
+                            </a>
+
+                            <?php
+
+                        }
+                        ?>
+
+                    </th>
+
+                    <?php
+
                 }
 
                 if (isset($rows->lists['career_head']) && count($rows->lists['career_head'])) {
@@ -204,8 +237,13 @@ if ( ! defined( 'ABSPATH' ) ) {
                     ?>
                     <td class="jsTextAlignCenter">
                         <?php
-                        echo wp_kses_post($playerST->played_matches);
+                        echo wp_kses_post($playerevents->played);
                     ?>
+                    </td>
+                    <td>
+                        <?php
+                        echo wp_kses_post($playerevents->career_minutes);
+                        ?>
                     </td>
                     <?php
 

@@ -66,6 +66,7 @@ class classJsportTournMatches
 
         }
 
+
         return $table;
     }
 
@@ -214,6 +215,7 @@ class classJsportTournMatches
                 $lists[$key] = $value;
             }
         }
+
 
         return $lists;
     }
