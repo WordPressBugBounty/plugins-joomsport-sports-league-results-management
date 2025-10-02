@@ -69,9 +69,18 @@
                                             <?php echo esc_html($match_date);?>
                                             <?php if($m_venue && $args['venue']) {
                                                 $venue_name = $match->getLocation(false);
+                                                if(JoomsportSettings::get('unbl_venue_link',1)){
+                                                    ?>
+                                                    <a href="<?php echo classJsportLink::venue($venue_name, $m_venue, true);?>" title="<?php echo esc_attr($match->getLocation(false));?>"><img src="<?php echo JOOMSPORT_LIVE_ASSETS;?>images/location.png" alt="<?php echo esc_html__('location','joomsport-sports-league-results-management')?>" /><?php echo esc_html($venue_name);?></a>
+
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <img src="<?php echo JOOMSPORT_LIVE_ASSETS;?>images/location.png" alt="<?php echo esc_html__('location','joomsport-sports-league-results-management')?>" /> <?php echo $venue_name;?>
+                                                    <?php
+                                                }
                                                 ?>
-                                                <a href="<?php echo classJsportLink::venue($venue_name, $m_venue, true);?>" title="<?php echo esc_attr($match->getLocation(false));?>"><img src="<?php echo JOOMSPORT_LIVE_ASSETS;?>images/location.png" alt="<?php echo esc_html__('location','joomsport-sports-league-results-management')?>" /></a>
-                                                <?php if (JoomsportSettings::get('show_venue_name')) echo esc_html($venue_name); ?>
+
                                                 <?php
                                             }
                                             ?>
@@ -227,9 +236,17 @@
                                                                 <?php if ($m_venue && $args['venue'] && !$groupbydate) {
                                                                     $venue_name = $match->getLocation(false);
                                                                     ?>
-                                                                    <a href="<?php echo classJsportLink::venue($venue_name, $m_venue, true); ?>" title="<?php echo esc_attr($match->getLocation(false)); ?>"><img src="<?php echo JOOMSPORT_LIVE_ASSETS; ?>/images/location.png" alt="<?php echo esc_html__('location','joomsport-sports-league-results-management')?>" /></a>
-                                                                    <?php if (JoomsportSettings::get('show_venue_name')) echo esc_html($venue_name); ?>
-                                                                <?php } ?>
+                                                                    <?php
+                                                                    if(JoomsportSettings::get('unbl_venue_link',1)){
+                                                                        ?>
+                                                                        <a href="<?php echo classJsportLink::venue($venue_name, $m_venue, true); ?>" title="<?php echo esc_attr($match->getLocation(false)); ?>"><img src="<?php echo JOOMSPORT_LIVE_ASSETS; ?>images/location.png" alt="<?php echo esc_html__('location','joomsport-sports-league-results-management')?>" /><?php echo esc_html($venue_name);?></a>
+                                                                        <?php
+                                                                    }else{
+                                                                        ?>
+                                                                        <img src="<?php echo JOOMSPORT_LIVE_ASSETS;?>images/location.png" alt="<?php echo esc_html__('location','joomsport-sports-league-results-management')?>" /> <?php echo $venue_name;?>
+                                                                        <?php
+                                                                    }
+                                                                    ?><?php } ?>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -282,10 +299,19 @@
                                                         <td class="jsmatchvenue">
                                                             <div>
                                                                 <div>
-                                                                    <a href="<?php echo classJsportLink::venue($venue_name, $m_venue, true);?>" title="<?php echo esc_attr($match->getLocation(false));?>">
-                                                                        <span><?php echo wp_kses_post($match->getLocation(false));?></span>
-                                                                        <img src="<?php echo JOOMSPORT_LIVE_ASSETS;?>images/location.png" alt="<?php echo esc_html__('location','joomsport-sports-league-results-management')?>" />
-                                                                    </a>
+                                                                    <?php
+                                                                    if(JoomsportSettings::get('unbl_venue_link',1)){
+                                                                        ?>
+                                                                        <a href="<?php echo classJsportLink::venue($venue_name, $m_venue, true);?>" title="<?php echo esc_attr($match->getLocation(false));?>"><img src="<?php echo JOOMSPORT_LIVE_ASSETS;?>images/location.png" alt="<?php echo esc_html__('location','joomsport-sports-league-results-management')?>" /><?php echo esc_html($venue_name);?></a>
+
+                                                                        <?php
+                                                                    }else{
+                                                                        ?>
+                                                                        <img src="<?php echo JOOMSPORT_LIVE_ASSETS;?>images/location.png" alt="<?php echo esc_html__('location','joomsport-sports-league-results-management')?>" /> <?php echo $venue_name;?>
+                                                                        <?php
+                                                                    }
+                                                                    ?>
+
                                                                 </div>
                                                             </div>
                                                         </td>

@@ -50,7 +50,8 @@ class jsHelperBtw
                 'post_type'        => 'joomsport_match',
                 'post_status'      => 'publish',
                 'order'     => 'DESC',
-
+                'update_post_meta_cache' => false,
+                'ignore_sticky_posts' => true,
                 'meta_query' => array(
                     array('relation' => 'AND',
                         array('key'     => '_joomsport_match_date'),

@@ -21,13 +21,13 @@ class JoomSportSportTennisTmpl extends joomsportSportCommon
                     ?>
                     <div class="jstable-cell">
                         <div>
-                            <input type="number" name="tHomescore[]" class="form-control" style="max-width:50px;" value="<?php echo isset($score[$intA]["tHomescore"])?$score[$intA]["tHomescore"]:"";?>" />
+                            <input type="number" name="tHomescore[]" class="form-control" style="max-width:50px;" value="<?php echo isset($score[$intA]["tHomescore"])?esc_attr($score[$intA]["tHomescore"]):"";?>" />
                             <input type="number" name="tHomescoreExp[]" class="jsScrHmVExp" value="<?php echo isset($score[$intA]["tHomescoreExp"])?$score[$intA]["tHomescoreExp"]:"";?>" />
 
                         </div>
                         <div>
                             <input type="number" name="tAwayscore[]" class="form-control" style="max-width:50px;" value="<?php echo isset($score[$intA]["tAwayscore"])?$score[$intA]["tAwayscore"]:"";?>" />
-                            <input type="number" name="tAwayscoreExp[]" class="jsScrHmVExp" value="<?php echo isset($score[$intA]["tAwayscoreExp"])?$score[$intA]["tAwayscoreExp"]:"";?>" />
+                            <input type="number" name="tAwayscoreExp[]" class="jsScrHmVExp" value="<?php echo isset($score[$intA]["tAwayscoreExp"])?esc_attr($score[$intA]["tAwayscoreExp"]):"";?>" />
 
                         </div>
                     </div>

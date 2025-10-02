@@ -210,7 +210,7 @@ class classJsportPlayer
             $tabs[$intA]['ico'] = 'js-photo';
         }
         if ( has_filter( 'joomsport_custom_tab_fe' ) ){
-            $tabs = apply_filters("joomsport_custom_tab_fe", $this->id, $tabs);
+            $tabs = apply_filters("joomsport_custom_tab_fe", $tabs, $this->id);
         }
         
 
@@ -313,7 +313,7 @@ class classJsportPlayer
     }
     public function getYourTeam()
     {
-        return '';
+        return (in_array($this->id, JoomsportSettings::get('yplayers',array())) && JoomsportSettings::get('highlight_team')) ? JoomsportSettings::get('yteam_color') : '';
     }
     public function getBoxScoreList(){
         $this->lists['boxscore'] = $this->model->getBoxScore();

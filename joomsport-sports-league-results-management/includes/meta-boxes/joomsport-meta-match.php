@@ -35,7 +35,7 @@ class JoomSportMetaMatch {
         </div>
         <?php }else{
             remove_meta_box('joomsport_match_boxscore_form_meta_box','joomsport_match','joomsportintab_match1');
-            remove_meta_box('joomsport_match_matchevents_form_meta_box','joomsport_match','joomsportintab_match1');
+            //remove_meta_box('joomsport_match_matchevents_form_meta_box','joomsport_match','joomsportintab_match1');
             
             //die();
         } ?>
@@ -586,7 +586,7 @@ class JoomSportMetaMatch {
 
         $t_single = JoomSportHelperObjects::getTournamentType($metadata);
         $sportID = JoomSportHelperObjects::getSportType($metadata);
-        if(!$t_single){
+        if(1){
             $home_team = get_post_meta( $post->ID, '_joomsport_home_team', true );
             $away_team = get_post_meta( $post->ID, '_joomsport_away_team', true );
             $hTeam = get_the_title($home_team);

@@ -54,6 +54,7 @@ require 'match_stat' . DIRECTORY_SEPARATOR . 'h2h_blocks.php';
                 <div class="jsOverflowHidden">
                     <div class="jstable">
                         <?php
+
                         for ($intP = 0; $intP < count($rows->lists['team_events']); ++$intP) {
                             $graph_sum = intval($rows->lists['team_events'][$intP]->home_value) + intval($rows->lists['team_events'][$intP]->away_value);
 
@@ -85,7 +86,7 @@ require 'match_stat' . DIRECTORY_SEPARATOR . 'h2h_blocks.php';
                             <div class="jstable-row jsColTeamEvents">
                                 <div class="jstable-cell jsCol5">
                                     <div class="teamEventGraph clearfix">
-                                        <div class="teamEventGraphHome <?php echo $eventStyleClass; echo (($rows->lists['team_events'][$intP]->home_value>$rows->lists['team_events'][$intP]->away_value)?" ".$eventStyleClassMore:""); ?>" style="width:<?php echo esc_attr($graph_home)?>%">
+                                        <div class="teamEventGraphHome <?php echo $eventStyleClass; echo (($rows->lists['team_events'][$intP]->home_value>$rows->lists['team_events'][$intP]->away_value)?" ".$eventStyleClassMore:""); ?>" style="width:<?php echo isset($graph_home)?esc_attr($graph_home):'';?>%">
                                             <span><?php echo esc_html($rows->lists['team_events'][$intP]->home_value); ?></span>
                                         </div>
                                     </div>
@@ -100,7 +101,7 @@ require 'match_stat' . DIRECTORY_SEPARATOR . 'h2h_blocks.php';
                                 </div>
                                 <div class="jstable-cell jsCol5">
                                     <div class="teamEventGraph clearfix">
-                                        <div class="teamEventGraphAway <?php echo $eventStyleClass; echo (($rows->lists['team_events'][$intP]->home_value<$rows->lists['team_events'][$intP]->away_value)?" ".$eventStyleClassMore:"");?>" style="width:<?php echo esc_attr($graph_away)?>%">
+                                        <div class="teamEventGraphAway <?php echo $eventStyleClass; echo (($rows->lists['team_events'][$intP]->home_value<$rows->lists['team_events'][$intP]->away_value)?" ".$eventStyleClassMore:"");?>" style="width:<?php echo isset($graph_away)?esc_attr($graph_away):'';?>%">
                                             <span><?php echo esc_html($rows->lists['team_events'][$intP]->away_value); ?></span>
                                         </div>
                                     </div>

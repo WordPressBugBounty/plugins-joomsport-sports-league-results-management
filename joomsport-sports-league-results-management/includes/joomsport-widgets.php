@@ -129,7 +129,7 @@ class wpb_joomsport_standings extends WP_Widget {
 
         ?>
         <p>
-        <label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php echo esc_html(esc_html__( 'Title' ).':'); ?></label>
+        <label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php echo esc_html(esc_html__( 'Title','joomsport-sports-league-results-management' ).':'); ?></label>
         <input class="widefat" id="<?php echo esc_attr($this->get_field_id( 'title' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'title' )); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
         </p>
         <div class="JSshrtPop">
@@ -473,7 +473,7 @@ class wpb_joomsport_matches extends WP_Widget {
         // Widget admin form
         ?>
         <p>
-            <label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php echo esc_html(esc_html__( 'Title' ).':'); ?></label>
+            <label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php echo esc_html(esc_html__( 'Title','joomsport-sports-league-results-management' ).':'); ?></label>
             <input class="widefat" id="<?php echo esc_attr($this->get_field_id( 'title' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'title' )); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
         </p>
 
@@ -761,7 +761,7 @@ class wpb_joomsport_players extends WP_Widget {
         // Widget admin form
         ?>
         <p>
-            <label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php echo esc_html__( 'Title' ).":"; ?></label>
+            <label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php echo esc_html__( 'Title','joomsport-sports-league-results-management' ).":"; ?></label>
             <input class="widefat" id="<?php echo esc_attr($this->get_field_id( 'title' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'title' )); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
         </p>
 
@@ -988,7 +988,7 @@ class wpb_joomsport_teamstat extends WP_Widget {
         // Widget admin form
         ?>
         <p>
-            <label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php echo esc_html__( 'Title' ).":"; ?></label>
+            <label for="<?php echo esc_attr($this->get_field_id( 'title' )); ?>"><?php echo esc_html__( 'Title','joomsport-sports-league-results-management' ).":"; ?></label>
             <input class="widefat" id="<?php echo esc_attr($this->get_field_id( 'title' )); ?>" name="<?php echo esc_attr($this->get_field_name( 'title' )); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
         </p>
 

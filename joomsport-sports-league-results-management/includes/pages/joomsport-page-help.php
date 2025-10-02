@@ -96,7 +96,7 @@ class JoomsportPageHelp{
                             <table class="jsHelpinfoTbl">
                                 <tr>
                                     <td>
-                                        <?php echo esc_html__('Edition');?>:
+                                        <?php echo esc_html__('Edition','joomsport-sports-league-results-management');?>:
                                     </td>
                                     <td>
                                        <?php

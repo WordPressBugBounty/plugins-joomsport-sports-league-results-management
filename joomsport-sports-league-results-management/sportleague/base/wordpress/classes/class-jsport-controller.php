@@ -71,7 +71,16 @@ class classJsportController
                 $this->task = 'tournament';
             }
         }
-        require_once JOOMSPORT_PATH_OBJECTS.'class-jsport-'.$this->task.'.php';
+        $this->task = apply_filters("joomsport_task_action", $this->task);
+        $this->task = sanitize_text_field($this->task);
+
+        $filename = JOOMSPORT_PATH_OBJECTS.'class-jsport-'.sanitize_file_name($this->task).'.php';
+        if(is_file($filename)){
+            require_once $filename;
+        }else{
+            do_action("joomsport_load_external_classes");
+        }
+
         $class = 'classJsport'.ucwords($this->task);
         $this->model = new $class();
     }
@@ -148,7 +157,9 @@ class classJsportController
             if (is_file(JOOMSPORT_PATH_VIEWS.$view.'.php')) {
                 require JOOMSPORT_PATH_VIEWS.$view.'.php';
             }else{
-                echo '<div class="error" ><p> File '.wp_kses_post(JOOMSPORT_PATH_VIEWS.$view.'.php').' doesn\'t exist</p></div>';
+                if(!apply_filters("joomsport_load_external_view", $view, $rows)) {
+                    echo '<div class="error" ><p> File ' . wp_kses_post(JOOMSPORT_PATH_VIEWS . $view . '.php') . ' doesn\'t exist</p></div>';
+                }
             }
             
             //echo '</div>';

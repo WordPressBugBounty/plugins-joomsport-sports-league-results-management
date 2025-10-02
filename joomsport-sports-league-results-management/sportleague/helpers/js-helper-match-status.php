@@ -413,6 +413,14 @@ class jsHelperHighlightPlayers
                 $yteams = array_map("absint",$yteams);
                 $players = $wpdb->get_col("SELECT player_id FROM {$wpdb->joomsport_playerlist} WHERE team_id IN (".implode(",",array_map("absint",$yteams)).") GROUP BY player_id");
             }
+            $yplayers = JoomsportSettings::get('yplayers',array());
+            if(is_array($yplayers) && count($yplayers)){
+                if(count($players)) {
+                    $players = array_merge($players, $yplayers);
+                }else{
+                    $players = $yplayers;
+                }
+            }
             static::$instance = $players;
 
         }

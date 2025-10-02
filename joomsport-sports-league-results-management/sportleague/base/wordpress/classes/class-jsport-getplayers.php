@@ -82,42 +82,42 @@ class classJsportgetplayers
             
             $single = $seasonObj->getSingle();
             if ($single == 1) {
-                $query = 'SELECT pl.*, pl.player_id as id'
+                $query = 'SELECT l.*, l.player_id as id'
                     .$sql_select
-                    .' FROM '.DB_TBL_PLAYER_LIST.' as pl'
-                        .' JOIN '.$wpdb->prefix.'posts as p ON p.ID = pl.player_id AND p.post_status = "publish"'
-                    .' WHERE 1 = 1 AND pl.player_id IS NOT NULL'
-                    .(isset($player_id) && $player_id ? ' AND pl.player_id = '.$player_id : '');
+                    .' FROM '.DB_TBL_PLAYER_LIST.' as l'
+                        .' JOIN '.$wpdb->prefix.'posts as p ON p.ID = l.player_id AND p.post_status = "publish"'
+                    .' WHERE 1 = 1 AND l.player_id IS NOT NULL'
+                    .(isset($player_id) && $player_id ? ' AND l.player_id = '.$player_id : '');
                 if(isset($season_id) && count($season_array)){
-                    $query .= ' AND pl.season_id IN ('.implode(',', $season_array).') ';
+                    $query .= ' AND l.season_id IN ('.implode(',', $season_array).') ';
                 }else if(isset($season_id) && $season_id){
-                    $query .= ' AND pl.season_id = '.$season_id;
+                    $query .= ' AND l.season_id = '.$season_id;
                 
                 }
                 if($groupSql){
                     $query .= $groupSql;
                 }
                 
-                $query .= ' GROUP BY pl.player_id'
-                    .' ORDER BY pl.'.$ordering
+                $query .= ' GROUP BY l.player_id'
+                    .' ORDER BY l.'.$ordering
                     .(isset($limit) && $limit ? " LIMIT {$limit}" : '')
                     .(isset($limit) && $limit && isset($offset) ? " OFFSET {$offset}" : '');
 
-                $query_count = 'SELECT COUNT(pl.id)'
-                    .' FROM '.DB_TBL_PLAYER_LIST.' as pl'
-                        .' JOIN '.$wpdb->prefix.'posts as p ON p.ID = pl.player_id AND p.post_status = "publish"'
-                    .' WHERE 1 = 1 AND pl.player_id IS NOT NULL'
-                    .(isset($player_id) && $player_id ? ' AND pl.player_id = '.$player_id : '');
+                $query_count = 'SELECT COUNT(l.id)'
+                    .' FROM '.DB_TBL_PLAYER_LIST.' as l'
+                        .' JOIN '.$wpdb->prefix.'posts as p ON p.ID = l.player_id AND p.post_status = "publish"'
+                    .' WHERE 1 = 1 AND l.player_id IS NOT NULL'
+                    .(isset($player_id) && $player_id ? ' AND l.player_id = '.$player_id : '');
                 if(isset($season_id) && count($season_array)){
-                    $query_count .= ' AND pl.season_id IN ('.implode(',', $season_array).') ';
+                    $query_count .= ' AND l.season_id IN ('.implode(',', $season_array).') ';
                 }else if(isset($season_id) && $season_id){
-                    $query_count .= ' AND pl.season_id = '.$season_id;
+                    $query_count .= ' AND l.season_id = '.$season_id;
                 
                 }
                 if($groupSql){
                     $query_count .= $groupSql;
                 }
-                    $query_count .=' GROUP BY pl.player_id';
+                    $query_count .=' GROUP BY l.player_id';
             } else {
                 if($stdoptions != 'std'){
                     $sql_select = '';

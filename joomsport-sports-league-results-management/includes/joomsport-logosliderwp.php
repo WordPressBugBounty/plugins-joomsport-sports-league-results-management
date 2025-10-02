@@ -22,7 +22,7 @@ class JoomsportLogosliderwp {
         $teams = JoomSportHelperObjects::getParticipiants($this->seasonID);
         if(count($teams)){
             foreach ($teams as $team){
-                $this->addLogo($team);
+                $this->addLogo($team->ID);
             }
         }
 

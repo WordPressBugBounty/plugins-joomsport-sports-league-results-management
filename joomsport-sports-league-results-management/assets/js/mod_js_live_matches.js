@@ -28,7 +28,7 @@ function updLiveMatchScore() {
         if(res){
             for(var key in res){
                 jQuery("#modJsUpdScore"+key).html(res[key]);
-                console.log(res[key]);
+                //console.log(res[key]);
             }
         }
     });
@@ -86,7 +86,7 @@ jQuery(document).ready(function() {
     jQuery("#modJSLiveMatchesPrev").on("click", function () {
         curDate = jQuery("#mod_filter_date").val();
         dateObj = new Date(curDate.substr(0,4), curDate.substr(5,2)-1, curDate.substr(8,2));
-        console.log(curDate.substr(0,4), curDate.substr(5,2), curDate.substr(8,2));
+        //console.log(curDate.substr(0,4), curDate.substr(5,2), curDate.substr(8,2));
         dateObj.setDate(dateObj.getDate()-1);
         month = dateObj.getMonth()+1;
         if(month < 10){
@@ -105,7 +105,7 @@ jQuery(document).ready(function() {
     jQuery("#modJSLiveMatchesNext").on("click", function () {
         curDate = jQuery("#mod_filter_date").val();
         dateObj = new Date(curDate.substr(0,4), curDate.substr(5,2)-1, curDate.substr(8,2));
-        console.log(curDate.substr(0,4), curDate.substr(5,2), curDate.substr(8,2));
+        //console.log(curDate.substr(0,4), curDate.substr(5,2), curDate.substr(8,2));
         dateObj.setDate(dateObj.getDate()+1);
         month = dateObj.getMonth()+1;
         if(month < 10){
@@ -116,7 +116,7 @@ jQuery(document).ready(function() {
             day = "0" + day;
         }
 
-        console.log(dateObj.getFullYear()  + "-" + month + "-" + day);
+        //console.log(dateObj.getFullYear()  + "-" + month + "-" + day);
         var datestring = dateObj.getFullYear()  + "-" + month + "-" + day;
         jQuery("#mod_filter_date").val(datestring);
         jQuery("#mod_filter_date").trigger("change");
@@ -151,7 +151,7 @@ jQuery(document).ready(function() {
         if (index == -1) { //if found
             favMatches.push(itemID);
         }
-        console.log(favMatches);
+        //console.log(favMatches);
         localStorage.setItem("favMatches", JSON.stringify(favMatches));
         jQuery("#modJsFavMatchCounter").html(parseInt(favMatches.length));
 
@@ -167,7 +167,7 @@ jQuery(document).ready(function() {
         if (index > -1) { //if found
             favMatches.splice(index, 1);
         }
-        console.log(favMatches);
+        //console.log(favMatches);
         localStorage.setItem("favMatches", JSON.stringify(favMatches));
         jQuery("#modJsFavMatchCounter").html(parseInt(favMatches.length));
 

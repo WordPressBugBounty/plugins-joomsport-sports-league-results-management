@@ -70,7 +70,7 @@ class classJsportDate
             $timestamp = strtotime((string) $date);
         }
 
-        if ($time == '00:00' || $time == '') {
+        if ($time == '') {
             $format = str_replace('H:i', '', $format);
             $format = str_replace('g:i A', '', $format);
 

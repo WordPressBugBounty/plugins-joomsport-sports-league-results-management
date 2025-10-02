@@ -145,7 +145,7 @@ class JoomSportMetaSeason {
                         while ( $query->have_posts() ) {
                             $query->the_post();
                             ?>
-                <option value="<?php echo esc_attr($query->post->ID);?>" <?php echo $post->post_parent?" selected":"";?>><?php echo esc_html(get_the_title());?></option>
+                <option value="<?php echo esc_attr($query->post->ID);?>" <?php echo $post->post_parent==$query->post->ID?" selected":"";?>><?php echo esc_html(get_the_title());?></option>
                     
                             <?php
                         }

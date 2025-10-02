@@ -169,8 +169,8 @@ class JSMday_FILTER
     public static function init()
     {
 
-        add_action('load-edit-tags.php',array(get_class(), 'load'));
-        add_action('wp_ajax_' . self::ACTION,array(get_class(), 'ajax'));
+        add_action('load-edit-tags.php',array('JSMday_FILTER', 'load'));
+        add_action('wp_ajax_' . self::ACTION,array('JSMday_FILTER', 'ajax'));
 
 
     }
@@ -185,9 +185,9 @@ class JSMday_FILTER
             return;
         }
 
-        add_filter('screen_settings',array(get_class(), 'add_field'),10,2);
+        add_filter('screen_settings',array('JSMday_FILTER', 'add_field'),10,2);
 
-        add_action('admin_head',array(get_class(), 'head'));
+        add_action('admin_head',array('JSMday_FILTER', 'head'));
 
 
     }

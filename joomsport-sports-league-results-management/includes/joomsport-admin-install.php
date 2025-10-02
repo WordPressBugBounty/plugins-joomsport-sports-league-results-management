@@ -691,6 +691,7 @@ class JoomSportAdminInstall {
         }
 
 
+
     }
     
     public static function joomsport_languages() {
@@ -758,7 +759,7 @@ class JoomSportAdminInstall {
     </style>';
   }elseif('joomsport_season' == get_post_type()){
     if(!wp_count_terms('joomsport_tournament')){
-      $txt = addslashes(sprintf(__('League required to create Season. Let\'s %s add league %s first.','joomsport-sports-league-results-management'),'<a href="'.(get_admin_url(get_current_blog_id(), 'edit-tags.php?taxonomy=joomsport_tournament')).'">','</a>'));
+      $txt = addslashes(sprintf(__('League required to create Season. Let\'s %1$s add league %2$s first.','joomsport-sports-league-results-management'),'<a href="'.(get_admin_url(get_current_blog_id(), 'edit-tags.php?taxonomy=joomsport_tournament')).'">','</a>'));
       echo '<script>jQuery( document ).ready(function() {jQuery(".wrap").html("<div class=\'jswarningbox\'><p>'.esc_js($txt).'</p></div>");});</script>';
     }
 

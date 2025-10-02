@@ -82,7 +82,7 @@ class JoomSportStages_List_Table extends WP_List_Table {
     function get_columns() {
         $columns = array(
           'cb'      => '<input type="checkbox" />',
-          'name'    => __( 'Name', 'sp' )
+          'name'    => __( 'Name', 'joomsport-sports-league-results-management' )
         );
 
         return $columns;

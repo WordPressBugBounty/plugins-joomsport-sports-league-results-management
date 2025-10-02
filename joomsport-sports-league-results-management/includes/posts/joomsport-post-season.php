@@ -988,10 +988,12 @@ class JoomSportPostSeason {
     public static function joomsport_create_tlslider(){
 
         check_ajax_referer("joomsportajaxnonce", "security");
-        if(!current_user_can('manage_options')) {
+
+        if(current_user_can('manage_options')) {
             $wpjs_teamlogo = filter_input(INPUT_POST, 'wpjs_teamlogo', FILTER_SANITIZE_SPECIAL_CHARS);
 
             if ($wpjs_teamlogo == 'logosliderwp') {
+
                 require_once JOOMSPORT_PATH . 'includes' . DIRECTORY_SEPARATOR . 'joomsport-logosliderwp.php';
                 $seasonID = isset($_REQUEST["seasonID"])?intval($_REQUEST["seasonID"]):0;
                 if ($seasonID) {

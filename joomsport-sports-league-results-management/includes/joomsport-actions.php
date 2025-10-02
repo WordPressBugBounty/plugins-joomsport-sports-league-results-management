@@ -1986,16 +1986,14 @@ $time_start = microtime(true);
                 );
                 for($intK=0;$intK<count($kicks);$intK++){
                     $dur = $kicks[$intK]->duration?$kicks[$intK]->duration:$duration;
-                    $query = 'UPDATE ' . $wpdb->joomsport_playerlist . ' SET career_minutes=career_minutes-%d'
-                        . ' WHERE season_id = %d'
-                        . ' AND player_id = %d'
-                        . ' AND team_id = %d';
-                    /*echo   'UPDATE ' . $wpdb->joomsport_playerlist . ' SET pl.career_minutes=pl.career_minutes-'.($dur-$kicks[$intK]->kickMin)
-                        . ' WHERE season_id = '.$this->season_id
-                        . ' AND player_id = '.$kicks[$intK]->player_id
-                        . ' AND team_id = '.$kicks[$intK]->team_id;die();*/
+                    if($dur && $kicks[$intK]->kickMin) {
+                        $query = 'UPDATE ' . $wpdb->joomsport_playerlist . ' SET career_minutes=career_minutes-%d'
+                            . ' WHERE season_id = %d'
+                            . ' AND player_id = %d'
+                            . ' AND team_id = %d';
 
-                    $wpdb->query($wpdb->prepare($query, array($dur-$kicks[$intK]->kickMin,$this->season_id, $kicks[$intK]->player_id,$kicks[$intK]->team_id)));
+                        $wpdb->query($wpdb->prepare($query, array($dur - $kicks[$intK]->kickMin, intval($this->season_id), intval($kicks[$intK]->player_id), intval($kicks[$intK]->team_id))));
+                    }
                 }
             }
 

@@ -60,6 +60,7 @@ class JoomSportHelperObjects{
                 }
             }
         }
+        ksort($results);
 
         return $results;
     }
@@ -217,7 +218,7 @@ class JoomSportHelperObjects{
                     'post_type'        => 'joomsport_season',
                     'selected'         => $post->post_parent,
                     'name'             => 'parent_id',
-                    'show_option_none' => __('(no parent)'),
+                    'show_option_none' => __('(no parent)','joomsport-sports-league-results-management'),
                     'sort_column'      => 'menu_order, post_title',
                     'echo'             => 0,
 
@@ -284,7 +285,7 @@ class JoomSportHelperObjects{
         <br />
         <div>
             <label><?php echo esc_html__('Participants','joomsport-sports-league-results-management');?></label>
-            <select name="group_part[]" id="js_group_part" class="jswf-chosen-select" data-placeholder="<?php echo esc_attr(__('Add item','joomsport'))?>" multiple>
+            <select name="group_part[]" id="js_group_part" class="jswf-chosen-select" data-placeholder="<?php echo esc_attr(__('Add item','joomsport-sports-league-results-management'))?>" multiple>
             <?php
             if($posts_array){
                 foreach ($posts_array as $tm) {

@@ -28,6 +28,13 @@ class JoomsportPageSettings{
                 $yteams['yteams'] = $yteams;
                 $general = array_merge($general,$yteams);
             }
+            if(isset($_POST['yplayers']) && count($_POST['yplayers'])){
+
+                $yplayers = array_map( 'sanitize_text_field', wp_unslash( $_POST['yplayers'] ) );
+                $yplayers['yplayers'] = $yplayers;
+                $general = array_merge($general,$yplayers);
+            }
+
             $mstatuses = array();
             if (isset($_POST['mstatusesId']) && count($_POST['mstatusesId'])) {
                 for ($intA = 0; $intA < count($_POST['mstatusesId']); ++$intA) {
@@ -156,7 +163,17 @@ class JoomsportPageSettings{
                 'update_post_meta_cache' => false,
         );
         $teamlist = get_posts( $args );
-        
+
+        $args = array(
+            'offset'           => 0,
+            'orderby'          => 'title',
+            'order'            => 'ASC',
+            'post_type'        => 'joomsport_player',
+            'post_status'      => 'publish',
+            'posts_per_page'   => -1,
+            'update_post_meta_cache' => false,
+        );
+        $playerlist = get_posts( $args );
 
         $lists['adf_player'] = $wpdb->get_results("SELECT * FROM ".$wpdb->joomsport_ef
             . " WHERE type='0' AND season_related='0' AND published='1'"
@@ -665,6 +682,31 @@ class JoomsportPageSettings{
 
                                 </td>
                                             
+                            </tr>
+                            <tr>
+                                <td class="jsEnblHGL">
+                                    <?php echo esc_html__('Select players', 'joomsport-sports-league-results-management');?>
+                                </td>
+
+
+                                <td class="jsEnblHGL">
+
+                                    <?php
+                                    if(count($playerlist)){
+                                        echo '<select name="yplayers[]" class="jswf-chosen-select" data-placeholder="'.esc_attr(__('Add item','joomsport-sports-league-results-management')).'" multiple>';
+                                        foreach ($playerlist as $tm) {
+                                            $selected = '';
+                                            if(in_array($tm->ID, JoomsportSettings::get('yplayers',array()))){
+                                                $selected = ' selected';
+                                            }
+                                            echo '<option value="'.esc_attr($tm->ID).'" '.esc_attr($selected).'>'.esc_html(get_the_title($tm->ID)).'</option>';
+                                        }
+                                        echo '</select>';
+                                    }
+                                    ?>
+
+                                </td>
+
                             </tr>
                         </table>
 

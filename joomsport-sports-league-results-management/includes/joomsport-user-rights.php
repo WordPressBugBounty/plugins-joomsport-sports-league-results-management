@@ -43,6 +43,7 @@ class JoomSportUserRights {
             $admins->add_cap( 'publish_jscp_teams' );
             $admins->add_cap( 'read_jscp_team' );
             $admins->add_cap( 'delete_jscp_team' );
+            $admins->add_cap( 'delete_jscp_teams' );
 
 
             $admins->add_cap( 'edit_jscp_match' ); 

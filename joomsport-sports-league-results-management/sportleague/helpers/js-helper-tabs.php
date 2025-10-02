@@ -18,7 +18,7 @@ class jsHelperTabs
      */
     public static function draw($tabs, $rows)
     {
-        if (count($tabs)) {
+        if (is_array($tabs) && count($tabs)) {
             $jscurtab = classJsportRequest::get('jscurtab');
             if ($jscurtab && substr($jscurtab, 0, 1) != '#') {
                 $jscurtab = '#'.$jscurtab;

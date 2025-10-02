@@ -130,7 +130,7 @@ class classJsportSeason
         }
         
         if ( has_filter( 'joomsport_custom_tab_fe' ) ){
-            $tabs = apply_filters("joomsport_custom_tab_fe", $this->id, $tabs);
+            $tabs = apply_filters("joomsport_custom_tab_fe", $tabs, $this->id);
         }
 
 

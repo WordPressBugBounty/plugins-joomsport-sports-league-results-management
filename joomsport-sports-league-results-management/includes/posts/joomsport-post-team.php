@@ -59,7 +59,8 @@ class JoomSportPostTeam {
                                     'publish_posts' => 'publish_jscp_teams',
                                     'read_post' => 'read_jscp_team',
                                     'delete_post' => 'delete_jscp_team',
-                                    'delete_posts' => 'delete_jscp_teams'
+                                    'delete_posts' => 'delete_jscp_teams',
+                                    'delete_others_posts' => 'delete_others_jscp_teams'
                                 ),
                                 'map_meta_cap' => true,
                                 'rewrite' => array(

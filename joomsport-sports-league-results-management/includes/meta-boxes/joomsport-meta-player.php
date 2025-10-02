@@ -437,6 +437,8 @@ class JoomSportMetaPlayer {
         if($season_id){
             $bonuses = isset($_POST['js_bonuses'])?  floatval($_POST['js_bonuses']):'0';
             update_post_meta($post_id, '_joomsport_team_bonuses_'.$season_id, $bonuses);
+            do_action('joomsport_update_standings',$season_id, array($post_id));
+
         }
     }
     private static function saveMetaEFAssigned($post_id){

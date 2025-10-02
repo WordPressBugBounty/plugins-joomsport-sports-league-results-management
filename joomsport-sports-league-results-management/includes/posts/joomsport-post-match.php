@@ -115,6 +115,7 @@ class JoomSportPostMatch {
         add_meta_box('joomsport_match_about_form_meta_box', __('Match description', 'joomsport-sports-league-results-management'), array('JoomSportMetaMatch','js_meta_descr'), 'joomsport_match', 'joomsportintab_match1', 'default');
 
         add_action( 'save_post',      array( 'JoomSportMetaMatch', 'joomsport_match_save_metabox' ), 10, 2 );
+
     }
     
     public static function getSubEvents(){
