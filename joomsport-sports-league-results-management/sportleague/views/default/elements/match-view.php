@@ -147,7 +147,8 @@ require 'match_stat' . DIRECTORY_SEPARATOR . 'h2h_blocks.php';
     do_action( 'js_match_prediction', $rows->object->ID);
     ?>
     <div class="col-xs-12 rmpadd" style="padding-right:0px;">
-        <?php echo wp_kses_post($rows->getDescription());
+        <?php
+        echo wp_kses_post($rows->getDescription());
         ?>
     </div>
 </div>

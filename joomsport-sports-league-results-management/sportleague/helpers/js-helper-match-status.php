@@ -241,7 +241,7 @@ class jsHelperEventsArr
     {
         if (!isset(static::$instance)) {
             global $jsDatabase;
-            $query = 'SELECT * FROM '.$jsDatabase->db->joomsport_events."";
+            $query = 'SELECT * FROM '.$jsDatabase->db->joomsport_events;
             $evs = $jsDatabase->select($query);
             $arr = array();
             for($intA=0;$intA<count($evs);$intA++){

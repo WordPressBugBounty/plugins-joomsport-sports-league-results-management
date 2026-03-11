@@ -77,7 +77,7 @@ class classJsportPlayerlist
         //
         if (classJsportRequest::get('sortf')) {
             $typeAD = in_array(classJsportRequest::get('sortd'), array("ASC","DESC"))?classJsportRequest::get('sortd'):"ASC";
-            $options['ordering'] = str_replace(" ","",classJsportRequest::get('sortf')).' '.$typeAD;
+            $options['ordering'] = str_replace(" ","",sanitize_text_field("`".classJsportRequest::get('sortf')."`")).' '.$typeAD;
         }
 
         $players = classJsportgetplayers::getPlayersFromTeam($options);

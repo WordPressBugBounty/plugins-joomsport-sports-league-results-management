@@ -57,7 +57,8 @@ class JoomSportPostPlayer {
                                     'publish_posts' => 'publish_jscp_player',
                                     'read_post' => 'read_jscp_player',
                                     'delete_post' => 'delete_jscp_player',
-                                    'delete_posts' => 'delete_jscp_player'
+                                    'delete_posts' => 'delete_jscp_players',
+                                    'delete_others_posts' => 'delete_others_jscp_players'
                                 ),
                                 'map_meta_cap' => true,
                                 'rewrite' => array(

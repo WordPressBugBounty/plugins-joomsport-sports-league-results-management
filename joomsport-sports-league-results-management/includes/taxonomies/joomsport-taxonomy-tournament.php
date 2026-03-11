@@ -43,7 +43,7 @@ class JoomSportTaxonomyTournament {
                 'hierarchical' => false,
                 'exclude_from_search' => true,
                 "singular_label" => "joomsport_tournament",
-                'rewrite' => array('slug' => $slug?$slug:'joomsport_matchday', 'with_front'    => false)
+                'rewrite' => array('slug' => $slug?$slug:'joomsport_tournament', 'with_front'    => false)
 
         );
         $object_types = apply_filters( 'joomsport_tournament_object_types', array( 'joomsport_season' ) );

@@ -457,6 +457,7 @@ class JoomSportHelperObjects{
         $seasons = get_posts(
             array('post_type' => 'joomsport_season',
                 'posts_per_page'   => -1,
+                'orderby' => 'menu_order ID',
                 'tax_query' => array(
                     array(
                         'taxonomy' => 'joomsport_tournament',

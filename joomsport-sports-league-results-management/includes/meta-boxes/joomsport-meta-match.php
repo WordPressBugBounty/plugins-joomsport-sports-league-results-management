@@ -22,6 +22,8 @@ class JoomSportMetaMatch {
         ?>
         <div class="jsBEsettings" style="padding:0px;">
             <!-- <tab box> -->
+            <?php do_action("joomsport_match_before_tabs", $thepostid);?>
+
             <ul class="tab-box">
                 <?php
                 echo wp_kses_post($etabs->newTab(__('Main','joomsport-sports-league-results-management'), 'main_conf', '', 'vis'));
@@ -30,7 +32,8 @@ class JoomSportMetaMatch {
                 do_action("joomsport_custom_tab_be_head", $thepostid, $etabs);
                 
                 ?>
-            </ul>	
+            </ul>
+
             <div style="clear:both"></div>
         </div>
         <?php }else{
@@ -66,7 +69,7 @@ class JoomSportMetaMatch {
         }
         ?>
             <?php
-            do_action("joomsport_custom_tab_be_body", $thepostid, $etabs);
+        do_action("joomsport_custom_tab_be_body", $thepostid, $etabs);
             ?>
         </div>
         
@@ -374,6 +377,14 @@ class JoomSportMetaMatch {
                             $sq1_type = $wpdb->get_var($wpdb->prepare("SELECT squad_type FROM {$wpdb->joomsport_squad} WHERE match_id=%d AND player_id=%d AND team_id=%d", $post->ID, $home_players[$intA], $home_team));
         
                             echo '<tr>';
+                            echo '<td width="1%" class="jsPlayerJersytd" data-pl-name="'.esc_html(get_the_title($home_players[$intA])).'" data-season-id="'.intval($season_id).'" data-team-id="'.intval($home_team).'" data-player-id="'.intval($home_players[$intA]).'">';
+                            echo '<div>';
+                            $jersey = get_post_meta($home_players[$intA],'_joomsport_player_jersey_'.$season_id,true);
+                            if(isset($jersey[$home_team])){
+                                echo $jersey[$home_team];
+                            }
+                            echo '</div>';
+                            echo '</td>';
                             echo '<td>'.esc_html(get_the_title($home_players[$intA])).'</td>';
                             echo '<td width="280">'.wp_kses(JoomSportHelperSelectBox::Radio('squadradio1_'.esc_attr($home_players[$intA]), $is_field,$sq1_type,' class="jsgetcheckedSubs"',array('lclasses'=>array(1,1,0))),JoomsportSettings::getKsesRadio());
                             echo '<input type="hidden" name="t1_squard[]" value="'.esc_attr($home_players[$intA]).'" />';
@@ -403,6 +414,17 @@ class JoomSportMetaMatch {
                             $sq2_type = $wpdb->get_var($wpdb->prepare("SELECT squad_type FROM {$wpdb->joomsport_squad} WHERE match_id=%d AND player_id=%d AND team_id=%d", $post->ID, $away_players[$intA], $away_team));
         
                             echo '<tr>';
+                            echo '<td width="1%" class="jsPlayerJersytd" data-pl-name="'.esc_html(get_the_title($away_players[$intA])).'" data-season-id="'.intval($season_id).'" data-team-id="'.intval($away_team).'" data-player-id="'.intval($away_players[$intA]).'">';
+
+                            $jersey = get_post_meta($away_players[$intA],'_joomsport_player_jersey_'.$season_id,true);
+                            echo '<div>';
+                            if(isset($jersey[$away_team])){
+                                echo $jersey[$away_team];
+                            }else{
+                                echo '';
+                            }
+                            echo '</div>';
+                            echo '</td>';
                             echo '<td>'.esc_html(get_the_title($away_players[$intA])).'</td>';
                             echo '<td width="280">'.wp_kses(JoomSportHelperSelectBox::Radio('squadradio2_'.esc_attr($away_players[$intA]), $is_field,$sq2_type,' class="jsgetcheckedSubs"',array('lclasses'=>array(1,1,0))),JoomsportSettings::getKsesRadio());
                             echo '<input type="hidden" name="t2_squard[]" value="'.esc_attr($away_players[$intA]).'" />';
@@ -613,14 +635,14 @@ class JoomSportMetaMatch {
                     ?>
                     <tr>
                         <td style="text-align: center;">
-                            <input type="number" name="mevents1[]" class="jsNumberNotNegative form-control" style="width:50px;" value="<?php echo esc_attr(isset($metadata[$me->id]["mevents1"])?$metadata[$me->id]["mevents1"]:'')?>" size="5" min="0" />
+                            <input type="number" name="mevents1[]" class="jsNumberNotNegative form-control" style="width:50px;" value="<?php echo esc_attr(isset($metadata[$me->id]["mevents1"])?$metadata[$me->id]["mevents1"]:'')?>" size="5" min="0" step="0.01" />
                         </td>
                         <td style="padding:0px 20px; text-align: center;">
                             <?php echo esc_html($me->name);?>
                             <input type="hidden" name="mevent_id[]" value="<?php echo esc_attr($me->id)?>" />
                         </td>
                         <td style="text-align: center;">
-                            <input type="number" name="mevents2[]" class="jsNumberNotNegative form-control" style="width:50px;" value="<?php echo esc_attr(isset($metadata[$me->id]["mevents2"])?$metadata[$me->id]["mevents2"]:'');?>" size="5" min="0" />
+                            <input type="number" name="mevents2[]" class="jsNumberNotNegative form-control" style="width:50px;" value="<?php echo esc_attr(isset($metadata[$me->id]["mevents2"])?$metadata[$me->id]["mevents2"]:'');?>" size="5" min="0" step="0.01" />
                         </td>
                     </tr>
                     <?php
@@ -1121,6 +1143,7 @@ class JoomSportMetaMatch {
                 </div>
                 <?php
             }
+            do_action("joomsport_add_match_ef", $post->ID);
             echo '</div>';
         }else{
             $link = get_admin_url(get_current_blog_id(), 'admin.php?page=joomsport-page-extrafields');
@@ -1186,7 +1209,7 @@ class JoomSportMetaMatch {
             
             do_action('joomsport_update_playerlist',$season_id, array($home_team,$away_team));
             do_action("joomsport_custom_tab_be_save", $post_id);
-
+            do_action("joomsport_add_match_ef_save", $post_id);
 
         }
     }

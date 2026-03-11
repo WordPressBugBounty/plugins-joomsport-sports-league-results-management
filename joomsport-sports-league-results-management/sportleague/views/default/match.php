@@ -75,6 +75,7 @@ $m_venue = get_post_meta($rows->id,'_joomsport_match_venue',true);
     <div class="jsMatchContentSection clearfix">
         <?php
         $tabs = $rows->getTabs();
+
         jsHelperTabs::draw($tabs, $rows);
         ?>
     </div>

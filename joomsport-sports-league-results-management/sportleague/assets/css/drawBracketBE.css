@@ -41,7 +41,7 @@ div[class^='drawBracketContainer'] .jsborderIFin{
 div[class^='drawBracketContainer'] .table td.even .knockround{
   margin-left: 9px;
 }
-div[class^='drawBracketContainer'] .table td.even:first-child .knockround{
+div[class^='drawBracketContainer'] .table td.even[data-level="0"] .knockround{
   margin-left: 0;
 }
 div[class^='drawBracketContainer'] .table td.even .player{
@@ -163,7 +163,7 @@ div[class^='drawBracketContainer'] .table td.even .knockplName{
   height: 30px;
   line-height: 30px;
   white-space: nowrap;
-  z-index: 1;
+/* z-index: 1; */
 }
 #joomsport-container .drawBracketContainerFE div[class^="jsborderI"]{
   margin-top:37px;
@@ -198,13 +198,20 @@ div[class^='drawBracketContainer'] .table td.even .knockplName{
   position: relative;
   max-width: 32px;
 }
+#joomsport-container .drawBracketContainerFE .table td.even img {
+  margin-right: 0;
+  border: none;
+}
 #joomsport-container .drawBracketContainerFE .table td.even .js_div_particName{
-  display: inline;
-  padding:0px 10px;
+  display: inline-block;
+  max-width: 180px;
+  padding: 0 25px 0 10px;
   color: #aaa;
-  vertical-align: top;
+  vertical-align: middle;
   font-size: 13px;
   text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #joomsport-container .drawBracketContainerFE .table td.even .js_div_particName > a{
   color: #757575;
@@ -309,4 +316,57 @@ div[class^='drawBracketContainer'] .table.jsWideKnockout td.even .knockplName {
 }
 #joomsport-container .drawBracketContainerFE .table.jsWideKnockout td.even .knockscore > a{
   font-size: 13px;
+}
+
+
+.knockRankCol {
+  line-height: 30px;
+}
+.knockscore {
+  position:relative;
+}
+.kntwinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 20px;
+  line-height: 1;
+  transform: translate(-20px, 50%);
+  color: #43a047;
+}
+.knockscore .sttStageResult {
+  display: inline-block;
+  width: 25px;
+  text-align: center;
+}
+#joomsport-container .sttStageResult sup {
+  top: -0.9em;
+}
+#joomsport-container .jsTextAlignRight {
+  text-align: right;
+}
+#joomsport-container .scrlKnBtn {
+  position: absolute;
+  top: 0;
+  right: -5px;
+  border-width: 3px;
+  padding: 10px 15px;
+  font-weight: 700;
+  background-color: #ea1386;
+  border-color: #ea1386;
+  color: #ffffff;
+  outline: none!important;
+  z-index: 1;
+}
+#joomsport-container td:last-child .scrlKnBtn {
+  right: 0;
+}
+#joomsport-container .scrlKnBtn:hover {
+  background-color: #ea1386!important;
+  color: #fccd43;
+}
+#joomsport-container .scrlKnBtn:focus {
+  outline: none;
+  background-color: #ffffff!important;
+  color: #000000;
 }

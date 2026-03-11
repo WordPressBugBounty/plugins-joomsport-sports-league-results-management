@@ -7,6 +7,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
+
 $stdoptions = '';
  $stdoptions = "std"; 
 if($stdoptions == 'std'){

@@ -381,7 +381,8 @@ class classJsportPlayer
             }
             
         }
-
+        $seasonsArr = array();
+        if($this->season_id){$seasonsArr[] = $this->season_id;}
         $output = $outputhead = array();
         if(count($resultoptions)){
             if(!$this->season_id){
@@ -405,6 +406,7 @@ class classJsportPlayer
                         if(!$oseas->object){
                             continue;
                         }
+                        $seasonsArr[] = $pl->season_id;
                         $output[$intZ][] = $oseas->modelObj->getName();
                     }
                     if($pl->team_id){
@@ -428,8 +430,8 @@ class classJsportPlayer
                 }
             }
         }
-        $this->lists['career_head'] = $outputhead;
-        $this->lists['career'] = $output;
+        $this->lists['career_head'] = apply_filters("filter_joomsport_career_head",$outputhead, $seasonsArr);
+        $this->lists['career'] = apply_filters("filter_joomsport_career_rows",$output, $this->id, $seasonsArr);;
 
         
     }

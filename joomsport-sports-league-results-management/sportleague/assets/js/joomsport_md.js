@@ -36,6 +36,7 @@ jQuery(document).ready(function() {
         jQuery.post(ajaxurl, data, function(response) {
             //console.log(container);
             container.html(response);
+            pdiv.find(".shrtMday").select2();
             pdiv.removeClass("jsSjLoading");
         });
     }

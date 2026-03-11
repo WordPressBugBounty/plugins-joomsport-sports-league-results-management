@@ -328,7 +328,9 @@ class classJsportTournMatches
             $partic = $partObj->getParticipants();
             for ($intA = 0; $intA < count($partic); ++$intA) {
                 $item = $partObj->getParticipiantObj($partic[$intA]);
-                $this->lists['filters']['partic_list'][$partic[$intA]] = $item->getName(false);
+                if($item) {
+                    $this->lists['filters']['partic_list'][$partic[$intA]] = $item->getName(false);
+                }
             }
         }
         $link = $this->lists["actionlink"] = classJsportLink::calendar('', $this->id, true);

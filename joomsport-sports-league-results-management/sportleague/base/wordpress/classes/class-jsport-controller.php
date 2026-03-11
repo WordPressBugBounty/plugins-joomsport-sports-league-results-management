@@ -72,6 +72,7 @@ class classJsportController
             }
         }
         $this->task = apply_filters("joomsport_task_action", $this->task);
+
         $this->task = sanitize_text_field($this->task);
 
         $filename = JOOMSPORT_PATH_OBJECTS.'class-jsport-'.sanitize_file_name($this->task).'.php';

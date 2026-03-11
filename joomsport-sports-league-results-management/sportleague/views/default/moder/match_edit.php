@@ -6,7 +6,7 @@
         JoomSportMetaMatch::js_meta_score($teamPost);
         JoomSportMetaMatch::js_meta_general($teamPost);
         JoomSportMetaMatch::js_meta_ef($teamPost);
-        //JoomSportMetaTeam::js_meta_about($thisPost);
+        JoomSportMetaTeam::js_meta_about($thisPost);
         JoomSportMetaMatch::js_meta_playerevents($teamPost);
         JoomSportMetaMatch::js_meta_mevents($teamPost);
         JoomSportMetaMatch::js_meta_lineup($teamPost);

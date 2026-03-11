@@ -211,7 +211,7 @@ class classJsportMatch
 
                     if(!isset($obj->object)){
                         unset($players[$intU]);
-                    }else{
+                    }elseif($players[$intU]){
                         
                         $objEvent = new classJsportEvent($row->id);
                         $players[$intU]->objEvent = $objEvent;

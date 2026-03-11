@@ -12,7 +12,7 @@ class jsHelperBtw
 {
     public static function matches($team1, $team2, $homeOnly = 0){
         global $wpdb;
-        if($homeOnly){
+        /*if($homeOnly){
             $selteam = array('relation' => 'AND',
                 array(
                     'key' => '_joomsport_home_team',
@@ -67,8 +67,39 @@ class jsHelperBtw
             )
         );
         remove_filter('posts_orderby',array('classJsportgetmatches', 'joomsport_ordermatchbydatetimeDesc'));
+*/
+        if($homeOnly) {
+            $matches = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT m.*, m.postID as ID"
+                    . " FROM {$wpdb->joomsport_matches} as m"
+                    . " JOIN {$wpdb->posts} as p ON p.ID = m.postID"
+                    . " WHERE p.post_status='publish'"
+                    . " AND m.teamHomeID = %d"
+                    . " AND m.teamAwayID = %d"
+                    . " AND m.status = 1"
+                    . " ORDER BY m.date desc,m.time desc,m.postID desc",
+                    array($team1, $team2)
+                )
+            );
+        }else{
+            $matches = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT m.*, m.postID as ID"
+                    . " FROM {$wpdb->joomsport_matches} as m"
+                    . " JOIN {$wpdb->posts} as p ON p.ID = m.postID"
+                    . " WHERE p.post_status='publish'"
+                    . " AND m.teamHomeID IN (%d,%d)"
+                    . " AND m.teamAwayID IN (%d,%d)"
+                    . " AND m.status = 1"
+                    . " ORDER BY m.date desc,m.time desc,m.postID desc",
+                    array($team1, $team2, $team1, $team2)
+                )
+            );
+        }
 
-        return $matches->posts;
+
+        return $matches;
     }
     public static function getLastMatches($partic_id, $season_id = 0, $place = 0, $limit = 5){
         $limit = 5;
@@ -124,7 +155,7 @@ class jsHelperBtw
     }
 
     public static function getPlayedMatches($team_id, $season_id, $place = 0){
-        $mArray = array(
+        /*$mArray = array(
             'posts_per_page' => -1,
             'offset'           => 0,
             'post_type'        => 'joomsport_match',
@@ -167,7 +198,56 @@ class jsHelperBtw
 
         $matches = new WP_Query($mArray);
 
-        return $matches->posts;
+        return $matches->posts;*/
+        global $wpdb;
+        if($place == '1'){
+            $matches = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT m.*, m.postID as ID"
+                    . " FROM {$wpdb->joomsport_matches} as m"
+                    . " JOIN {$wpdb->posts} as p ON p.ID = m.postID"
+                    . " WHERE p.post_status='publish'"
+                    . " AND m.seasonID = %d"
+                    . " AND m.teamHomeID = %d"
+
+                    . " AND m.status = 1"
+                    . " ORDER BY m.date desc,m.time desc,m.postID desc",
+                    array($season_id, $team_id, $team_id)
+                )
+            );
+        }elseif($place == '2'){
+            $matches = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT m.*, m.postID as ID"
+                    . " FROM {$wpdb->joomsport_matches} as m"
+                    . " JOIN {$wpdb->posts} as p ON p.ID = m.postID"
+                    . " WHERE p.post_status='publish'"
+                    . " AND m.seasonID = %d"
+
+                    . " AND m.teamAwayID = %d"
+                    . " AND m.status = 1"
+                    . " ORDER BY m.date desc,m.time desc,m.postID desc",
+                    array($season_id, $team_id, $team_id)
+                )
+            );
+        }else{
+            $matches = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT m.*, m.postID as ID"
+                    . " FROM {$wpdb->joomsport_matches} as m"
+                    . " JOIN {$wpdb->posts} as p ON p.ID = m.postID"
+                    . " WHERE p.post_status='publish'"
+                    . " AND m.seasonID = %d"
+                    . " AND (m.teamHomeID = %d"
+                    . " OR m.teamAwayID = %d)"
+                    . " AND m.status = 1"
+                    . " ORDER BY m.date desc,m.time desc,m.postID desc",
+                    array($season_id, $team_id, $team_id)
+                )
+            );
+        }
+
+        return $matches;
     }
 
     public static function getTeamStat($team_id, $season_id, $matches){

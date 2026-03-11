@@ -10,6 +10,6 @@ class classExtrafieldSelect
     {
         
         $evAr = jsHelperEventsSelvar::getInstance();
-        return $evAr[(int) $ef];
+        return $evAr[(int) $ef]??'';
     }
 }

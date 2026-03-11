@@ -7,7 +7,7 @@
 
 
 
-add_filter('the_title', 'jоomsport_filter_seasontitle', 999, 2);
+add_filter('the_title', 'jоomsport_filter_seasontitle', 0, 2);
 function jоomsport_filter_seasontitle($title, $id = null) {
     global $post_type, $post, $pagenow;
 
@@ -48,6 +48,7 @@ function jоomsport_filter_seasontitle($title, $id = null) {
 
         return $post_name;
     }
+
     return $title;
 }
 
@@ -135,7 +136,7 @@ function joomsport_filter_pt($html, $post_id, $post_thumbnail_id, $size, $attr) 
     global $post_type;
     if ( !in_the_loop() ){return $html;};
     $width = JoomsportSettings::get('set_emblemhgonmatch', 60);
-    if($post_type == 'joomsport_team'){
+    if($post_type == 'joomsport_team'  && get_post_type($post_id) == $post_type){
         $src = wp_get_attachment_image_src(get_post_thumbnail_id(), array($width,'0'));
         $html = '<img src="' . esc_attr($src['0']) . '" width="'.$width.'" />';
 
@@ -150,7 +151,7 @@ add_filter( 'has_post_thumbnail', 'joomsport_filter_has_team_thumb', 10, 3 );
 function joomsport_filter_has_team_thumb( $has_thumbnail, $post, $thumbnail_id ){
     global $post_type;
     if ( !in_the_loop() ){return $has_thumbnail;};
-    if($post_type == 'joomsport_team'){
+    if($post_type == 'joomsport_team'  && get_post_type($post) == $post_type){
         if(JoomsportSettings::get('enabl_team_featimg', 1) == 0){
             return false;
         }
@@ -158,3 +159,22 @@ function joomsport_filter_has_team_thumb( $has_thumbnail, $post, $thumbnail_id )
 
     return $has_thumbnail;
 }
+
+
+function joomsport_filter_update_slug( $data, $postarr ) {
+    if ( $data['post_type'] === 'joomsport_season' && ! in_array( $data['post_status'], array( 'draft', 'pending', 'auto-draft' ) ) ) {
+        $terms = wp_get_object_terms( $postarr["post_ID"], 'joomsport_tournament' );
+        $post_name = '';
+        if( $terms ){
+
+            $post_name .= $terms[0]->name;
+        }
+        $post_name .= " ".$data['post_title'];
+
+        $data['post_name'] = sanitize_title( $post_name );
+    }
+
+    return $data;
+}
+
+add_filter( 'wp_insert_post_data', 'joomsport_filter_update_slug', 99, 2 );

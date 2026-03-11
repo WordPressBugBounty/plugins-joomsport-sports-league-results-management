@@ -87,6 +87,7 @@ class JoomSportSportDefaultTmpl extends joomsportSportCommon
         }
     }
     public static function getScoreFE($match){
+        global $wpdb;
         $jmscore = get_post_meta($match->id, '_joomsport_match_jmscore',true);
         $width = JoomsportSettings::get('set_emblemhgonmatch', 60);
         $partic_home = $match->getParticipantHome();
@@ -143,6 +144,7 @@ class JoomSportSportDefaultTmpl extends joomsportSportCommon
                 <?php echo jsHelper::getScoreBigM($match); ?>
             </div>
         </div>
+
         <?php
     }
     public static function getScoreFESmall($args){

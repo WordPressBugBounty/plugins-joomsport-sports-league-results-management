@@ -33,6 +33,7 @@ class JoomSportUserRights {
             $admins->add_cap( 'publish_jscp_player' ); 
             $admins->add_cap( 'read_jscp_player' ); 
             $admins->add_cap( 'delete_jscp_player' );
+            $admins->add_cap( 'delete_jscp_players' );
 
             $admins->add_cap( 'edit_jscp_team' );
             $admins->add_cap( 'edit_jscp_teams' );
@@ -54,7 +55,7 @@ class JoomSportUserRights {
             $admins->add_cap( 'delete_others_jscp_matchs' );
             $admins->add_cap( 'publish_jscp_match' ); 
             $admins->add_cap( 'read_jscp_match' ); 
-            $admins->add_cap( 'delete_jscp_match' ); 
+            $admins->add_cap( 'delete_jscp_match' );
         }
         
 

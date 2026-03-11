@@ -9,80 +9,111 @@ function modJsLiveMatchesTimerStop() {
 }
 
 function updLiveMatchScore() {
-    var Items = new Array();
+    const items = new Array();
+
     jQuery(".fa-heart-o").each(function(){
-        var itemID = jQuery(this).attr("data-id");
-        Items.push(itemID);
+        const itemID = jQuery(this).attr("data-id");
+
+        items.push(itemID);
     });
+
     jQuery(".fa-heart").each(function(){
-        var itemID = jQuery(this).attr("data-id");
-        Items.push(itemID);
+        const itemID = jQuery(this).attr("data-id");
+
+        items.push(itemID);
     });
-    var data = {
+
+    const data = {
         'action': 'joomsport_liveshrtc_reload',
-        'matches': Items
+        'matches': items
     };
 
     jQuery.get(ajaxurl, data, function(response) {
+<<<<<<< HEAD
         var res = JSON.parse(response);
         if(res){
             for(var key in res){
                 jQuery("#modJsUpdScore"+key).html(res[key]);
                 //console.log(res[key]);
+=======
+        const res = JSON.parse(response);
+
+        if(res){
+            for(var key in res){
+                jQuery(`.modJsUpdScore${key}`).html(res[key]);
+
+                console.log(res[key]);
+>>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
             }
         }
     });
-
 }
 
 function reCheckFavourites(){
-    var favMatches = JSON.parse(localStorage.getItem("favMatches"));
+    let favMatches = JSON.parse(localStorage.getItem("favMatches"));
 
     if(!Array.isArray(favMatches)){
         favMatches = new Array();
     }
 
     jQuery(".fa-heart-o").each(function(){
-        var itemID = jQuery(this).attr("data-id");
-        var index = favMatches.indexOf(itemID);
+        const itemID = jQuery(this).attr("data-id");
+        const index = favMatches.indexOf(itemID);
+
         if (index > -1) {
             jQuery(this).removeClass("fa-heart-o").addClass("fa-heart");
         }
     });
-    jQuery("#modJsFavMatchCounter").html(parseInt(favMatches.length));
+
+    jQuery(".modJsFavMatchCounter").html(parseInt(favMatches.length));
 }
-function chngFilterLiveMatches(val){
-    jQuery("#modJSLiveMatchesPrev").prop('disabled', true);
-    jQuery("#modJSLiveMatchesNext").prop('disabled', true);
-    jQuery("#modJSLiveMatchesContainer").fadeOut(300);
-    var played = jQuery("#modJSLiveMatchesFiltersSelect").val();
+
+function chngFilterLiveMatches(select){
+    const val = jQuery(select).val();
+    const $widgetContainer = jQuery(select).closest('.modJSLiveMatches');
+
+    $widgetContainer.find("#modJSLiveMatchesPrev").prop('disabled', true);
+    $widgetContainer.find("#modJSLiveMatchesNext").prop('disabled', true);
+    $widgetContainer.find("#modJSLiveMatchesContainer").fadeOut(300);
+
+    const played = $widgetContainer.find("#modJSLiveMatchesFiltersSelect").val();
+
     modJsLiveMatchesTimerStop();
-    var data = {
+
+    const data = {
         'action': 'joomsport_liveshrtc_reload_matches',
         'jdate': val,
         'played': played,
+<<<<<<< HEAD
         'emblems': jQuery("#show_emblems").val(),
-        'sport': jQuery("#show_sport").val()
+        'sport': jQuery("#show_sport").val(),
+=======
+        'emblems': $widgetContainer.find("#show_emblems").val(),
+        'sport': $widgetContainer.find("#show_sport").val(),
+>>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
+        'linked': jQuery("#is_linked").val(),
     };
 
     jQuery.post(ajaxurl, data, function(response) {
+        $widgetContainer.find("#modJSLiveMatchesContainer").html(response);
+        $widgetContainer.find("#modJSLiveMatchesContainer").fadeIn(300);
+        $widgetContainer.find("#modJSLiveMatchesPrev").prop('disabled', false);
+        $widgetContainer.find("#modJSLiveMatchesNext").prop('disabled', false);
 
-            jQuery("#modJSLiveMatchesContainer").html(response);
-            jQuery("#modJSLiveMatchesContainer").fadeIn(300);
-            jQuery("#modJSLiveMatchesPrev").prop('disabled', false);
-            jQuery("#modJSLiveMatchesNext").prop('disabled', false);
-            reCheckFavourites();
-            modJsLiveMatchesTimerStart();
-
+        reCheckFavourites();
+        modJsLiveMatchesTimerStart();
     });
-    jQuery("#modJSLiveMatchesTabAll").removeClass("activeTab");
-    jQuery("#modJSLiveMatchesTabFav").removeClass("activeTab");
 
-    jQuery("#modJSLiveMatchesTabAll").addClass("activeTab");
-
+    $widgetContainer.find('.modJSLiveMatchesTabUL > li').removeClass("activeTab");
+    $widgetContainer.find("#modJSLiveMatchesTabAll").addClass("activeTab");
 }
-jQuery(document).ready(function() {
 
+jQuery(document).ready(function() {
+    function filterDate($filterDate, dateType) {
+        const curDate = $filterDate.val();
+        const dateObj = new Date(curDate.substr(0,4), curDate.substr(5,2)-1, curDate.substr(8,2));
+
+<<<<<<< HEAD
     jQuery("#modJSLiveMatchesPrev").on("click", function () {
         curDate = jQuery("#mod_filter_date").val();
         dateObj = new Date(curDate.substr(0,4), curDate.substr(5,2)-1, curDate.substr(8,2));
@@ -108,14 +139,22 @@ jQuery(document).ready(function() {
         //console.log(curDate.substr(0,4), curDate.substr(5,2), curDate.substr(8,2));
         dateObj.setDate(dateObj.getDate()+1);
         month = dateObj.getMonth()+1;
+=======
+        dateObj.setDate(dateType === 'prev' ? dateObj.getDate() - 1 : dateObj.getDate() + 1);
+
+        let month = dateObj.getMonth() + 1;
+        let day = dateObj.getDate();
+
+>>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
         if(month < 10){
-            month = "0" + month;
-        }
-        day = dateObj.getDate();
-        if(day < 10){
-            day = "0" + day;
+            month = `0${month}`;
         }
 
+        if(day < 10){
+            day = `0${day}`;
+        }
+
+<<<<<<< HEAD
         //console.log(dateObj.getFullYear()  + "-" + month + "-" + day);
         var datestring = dateObj.getFullYear()  + "-" + month + "-" + day;
         jQuery("#mod_filter_date").val(datestring);
@@ -125,85 +164,127 @@ jQuery(document).ready(function() {
     jQuery("#modJSLiveMatchesFiltersSelect").on("change", function () {
         jQuery("#mod_filter_date").trigger("change");
     });
+=======
+        const fullDateString = dateObj.getFullYear()  + "-" + month + "-" + day;
+>>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
 
-    jQuery("body").on("click", ".fa-heart-o", function () {
-        jQuery(this).removeClass("fa-heart-o").addClass("fa-heart");
-        var itemID = jQuery(this).attr("data-id");
-        if(itemID){
-            modFavAddItem(itemID);
-        }
-    });
-    jQuery("body").on("click", ".fa-heart", function () {
-        jQuery(this).removeClass("fa-heart").addClass("fa-heart-o");
-        var itemID = jQuery(this).attr("data-id");
-        if(itemID){
-            modFavRemoveItem(itemID);
-        }
-    });
-
-    function modFavAddItem(itemID){
-        let favMatches = JSON.parse(localStorage.getItem("favMatches"));
-
-        if(!Array.isArray(favMatches)){
-            favMatches = new Array();
-        }
-        var index = favMatches.indexOf(itemID);
-        if (index == -1) { //if found
-            favMatches.push(itemID);
-        }
-        //console.log(favMatches);
-        localStorage.setItem("favMatches", JSON.stringify(favMatches));
-        jQuery("#modJsFavMatchCounter").html(parseInt(favMatches.length));
-
+        $filterDate.val(fullDateString);
+        $filterDate.trigger("change");
     }
-    function modFavRemoveItem(itemID){
+
+    function modFavChangeItemState(itemID, state) {
         let favMatches = JSON.parse(localStorage.getItem("favMatches"));
 
         if(!Array.isArray(favMatches)){
             favMatches = new Array();
         }
-        var index = favMatches.indexOf(itemID); // get index if value found otherwise -1
 
+        const index = favMatches.indexOf(itemID);
+
+        if(state === 'add' && index == -1) {
+            favMatches.push(itemID);
+        } else if(state === 'remove' && index > -1) {
+            favMatches.splice(index, 1);
+        }
+<<<<<<< HEAD
+        //console.log(favMatches);
+=======
+
+        console.log(favMatches);
+
+>>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
+        localStorage.setItem("favMatches", JSON.stringify(favMatches));
+
+        jQuery(".modJsFavMatchCounter").html(parseInt(favMatches.length));
+    }
+
+    jQuery('.modJSLiveMatches').each(function() {
+        const $prevBtn = jQuery(this).find("#modJSLiveMatchesPrev");
+        const $nextBtn = jQuery(this).find("#modJSLiveMatchesNext");
+        const $filterDate = jQuery(this).find(".mod_filter_date");
+        const $filterStatus = jQuery(this).find("#modJSLiveMatchesFiltersSelect");
+        const $tabs = jQuery(this).find('.modJSLiveMatchesTabUL > li');
+        const $tabAll = jQuery(this).find("#modJSLiveMatchesTabAll");
+        const $tabFav = jQuery(this).find("#modJSLiveMatchesTabFav");
+        const $matchContainer = jQuery(this).find("#modJSLiveMatchesContainer");
+
+        $prevBtn.on("click", function () {
+            filterDate($filterDate, 'prev');
+        });
+
+<<<<<<< HEAD
         if (index > -1) { //if found
             favMatches.splice(index, 1);
         }
         //console.log(favMatches);
         localStorage.setItem("favMatches", JSON.stringify(favMatches));
         jQuery("#modJsFavMatchCounter").html(parseInt(favMatches.length));
+=======
+        $nextBtn.on("click", function () {
+            filterDate($filterDate, 'next');
+        });
+>>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
 
-    }
+        $filterStatus.on("change", function () {
+            console.log($filterDate);
 
-    jQuery("#modJSLiveMatchesTabAll").on("click", function(){
-        jQuery("#mod_filter_date").trigger("change");
-    });
-    jQuery("#modJSLiveMatchesTabFav").on("click", function(){
-        let favMatches = JSON.parse(localStorage.getItem("favMatches"));
+            $filterDate.trigger("change");
+        });
 
-        if(!Array.isArray(favMatches)){
-            favMatches = new Array();
-        }
-        modJsLiveMatchesTimerStop();
-        var data = {
-            'action': 'joomsport_liveshrtc_favreload',
-            'matches': favMatches
-        };
+        $tabAll.on("click", function(){
+            $filterDate.trigger("change");
+        });
 
-        jQuery.post(ajaxurl, data, function(response) {
+        $tabFav.on("click", function(){
+            let favMatches = JSON.parse(localStorage.getItem("favMatches"));
 
-                jQuery("#modJSLiveMatchesContainer").html(response);
-                jQuery("#modJSLiveMatchesContainer").fadeIn(300);
-                jQuery("#modJSLiveMatchesPrev").prop('disabled', false);
-                jQuery("#modJSLiveMatchesNext").prop('disabled', false);
+            if(!Array.isArray(favMatches)){
+                favMatches = new Array();
+            }
+
+            modJsLiveMatchesTimerStop();
+
+            const data = {
+                'action': 'joomsport_liveshrtc_favreload',
+                'matches': favMatches
+            };
+
+            jQuery.post(ajaxurl, data, function(response) {
+                $matchContainer.html(response);
+                $matchContainer.fadeIn(300);
+                $prevBtn.prop('disabled', false);
+                $nextBtn.prop('disabled', false);
+
                 reCheckFavourites();
                 modJsLiveMatchesTimerStart();
+            });
+        });
 
+        $tabs.on("click", function(){
+            $tabs.removeClass("activeTab");
+            jQuery(this).addClass('activeTab');
         });
     });
-    jQuery(".modJSLiveMatchesTabUL > li").on("click", function(){
-        jQuery(".modJSLiveMatchesTabUL > li").removeClass("activeTab");
-        jQuery(this).addClass('activeTab');
+
+    jQuery("body").on("click", ".fa-heart-o", function () {
+        const itemID = jQuery(this).attr("data-id");
+
+        if(itemID){
+            jQuery(`[data-id="${itemID}"].fa-heart-o`).removeClass("fa-heart-o").addClass("fa-heart");
+
+            modFavChangeItemState(itemID, 'add');
+        }
     });
 
+    jQuery("body").on("click", ".fa-heart", function () {
+        const itemID = jQuery(this).attr("data-id");
+
+        if(itemID){
+            jQuery(`[data-id="${itemID}"].fa-heart`).removeClass("fa-heart").addClass("fa-heart-o");
+
+            modFavChangeItemState(itemID, 'remove');
+        }
+    });
 
     reCheckFavourites();
     modJsLiveMatchesTimerStart();

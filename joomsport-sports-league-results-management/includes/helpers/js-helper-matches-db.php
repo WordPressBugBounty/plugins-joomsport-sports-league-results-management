@@ -129,22 +129,23 @@ class jsHelperMatchesDB
             }
 
             $group_id = isset($metas["_joomsport_groupID"][0])?intval($metas["_joomsport_groupID"][0]):0;
+            if($metas["_joomsport_home_team"][0] !== -1 && $metas["_joomsport_away_team"][0] !== -1) {
+                $res = $wpdb->query(
+                    $wpdb->prepare(
+                        "INSERT INTO {$wpdb->joomsport_matches}(postID,mdID,seasonID,teamHomeID,teamAwayID,groupID,status,date,time,scoreHome,scoreAway,duration)"
+                        . " VALUES(%d, %d, %d, %d, %d, %d, %d, %s, %s, %f, %f, %d)"
+                        . " ON DUPLICATE KEY UPDATE mdID = %d,seasonID = %d,"
+                        . "teamHomeID = %d,teamAwayID = %d,groupID = %d,"
+                        . "status = %d,date = %s,time = %s,scoreHome = %f,scoreAway = %f,duration = %d",
+                        array($matchID, $mdID, intval($metas["_joomsport_seasonid"][0]), intval($metas["_joomsport_home_team"][0]), intval($metas["_joomsport_away_team"][0]), $group_id, intval($metas["_joomsport_match_played"][0]), $metas["_joomsport_match_date"][0], $metas["_joomsport_match_time"][0], $metas["_joomsport_home_score"][0], $metas["_joomsport_away_score"][0], $duration
+                        , $mdID, $metas["_joomsport_seasonid"][0], $metas["_joomsport_home_team"][0], intval($metas["_joomsport_away_team"][0]), $group_id, $metas["_joomsport_match_played"][0], $metas["_joomsport_match_date"][0], $metas["_joomsport_match_time"][0], $metas["_joomsport_home_score"][0], $metas["_joomsport_away_score"][0], $duration)
+                    )
+                );
+                if ($wpdb->last_error !== '') :
+                    $wpdb->print_error();
 
-            $res = $wpdb->query(
-                $wpdb->prepare(
-                    "INSERT INTO {$wpdb->joomsport_matches}(postID,mdID,seasonID,teamHomeID,teamAwayID,groupID,status,date,time,scoreHome,scoreAway,duration)"
-                        ." VALUES(%d, %d, %d, %d, %d, %d, %d, %s, %s, %f, %f, %d)"
-                    ." ON DUPLICATE KEY UPDATE mdID = %d,seasonID = %d,"
-                    ."teamHomeID = %d,teamAwayID = %d,groupID = %d,"
-                    ."status = %d,date = %s,time = %s,scoreHome = %f,scoreAway = %f,duration = %d",
-                    array($matchID, $mdID, intval($metas["_joomsport_seasonid"][0]), intval($metas["_joomsport_home_team"][0]), intval($metas["_joomsport_away_team"][0]), $group_id, intval($metas["_joomsport_match_played"][0]), $metas["_joomsport_match_date"][0], $metas["_joomsport_match_time"][0], $metas["_joomsport_home_score"][0], $metas["_joomsport_away_score"][0], $duration
-                    , $mdID, $metas["_joomsport_seasonid"][0], $metas["_joomsport_home_team"][0], intval($metas["_joomsport_away_team"][0]), $group_id, $metas["_joomsport_match_played"][0], $metas["_joomsport_match_date"][0], $metas["_joomsport_match_time"][0], $metas["_joomsport_home_score"][0], $metas["_joomsport_away_score"][0], $duration)
-                )
-            );
-            if($wpdb->last_error !== '') :
-                $wpdb->print_error();
-
-            endif;
+                endif;
+            }
 
 
             ///update teamstats
