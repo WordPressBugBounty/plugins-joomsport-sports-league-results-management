@@ -1114,6 +1114,8 @@ function js_add_subs(tblid,pl2,pl1,minutes){
     var cell4 = document.createElement("td");
     var cell5 = document.createElement("td");
 
+    cell1.style.textAlign = "center";
+    cell4.style.textAlign = "center";
 
     cell1.innerHTML = '<a href="javascript: void(0);" onClick="javascript:delJoomSportSelRow(this);getSubsLists(\'squadradio1\');getSubsLists(\'squadradio2\'); return false;" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></a>';
 
@@ -1730,7 +1732,7 @@ function getSubsLists(labelId){
             //console.log(jQuery(this).parent().parent().parent().find('input[name^="t1_squard"]'));
             var plId = jQuery(this).parent().parent().find('input[name^="'+hidden+'"]').val();
             if(plId != 0){
-                var plName = jQuery(this).parent().parent().parent().find('td:first').text();
+                var plName = jQuery(this).parent().parent().parent().find('.jsPlayerFname').text();
                 jQuery("#"+subsout).append("<option value='"+plId+"'>"+plName+"</option>");
             }
             //console.log("<option value='"+plId+"'>"+plName+"</option>");
@@ -1762,7 +1764,7 @@ function getSubsLists(labelId){
             //console.log(jQuery(this).parent().parent().parent().find('input[name^="t1_squard"]'));
             var plId = jQuery(this).parent().parent().find('input[name^="'+hidden+'"]').val();
             if(plId != 0){
-                var plName = jQuery(this).parent().parent().parent().find('td:first').text();
+                var plName = jQuery(this).parent().parent().parent().find('.jsPlayerFname').text();
                 jQuery("#"+subsin).append("<option value='"+plId+"'>"+plName+"</option>");
             }
             //console.log("<option value='"+plId+"'>"+plName+"</option>");

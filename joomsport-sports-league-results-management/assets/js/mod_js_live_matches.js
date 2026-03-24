@@ -29,13 +29,6 @@ function updLiveMatchScore() {
     };
 
     jQuery.get(ajaxurl, data, function(response) {
-<<<<<<< HEAD
-        var res = JSON.parse(response);
-        if(res){
-            for(var key in res){
-                jQuery("#modJsUpdScore"+key).html(res[key]);
-                //console.log(res[key]);
-=======
         const res = JSON.parse(response);
 
         if(res){
@@ -43,7 +36,6 @@ function updLiveMatchScore() {
                 jQuery(`.modJsUpdScore${key}`).html(res[key]);
 
                 console.log(res[key]);
->>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
             }
         }
     });
@@ -65,7 +57,9 @@ function reCheckFavourites(){
         }
     });
 
-    jQuery(".modJsFavMatchCounter").html(parseInt(favMatches.length));
+    jQuery("#modJsFavMatchCounter").html(parseInt(favMatches.length));
+
+
 }
 
 function chngFilterLiveMatches(select){
@@ -84,13 +78,8 @@ function chngFilterLiveMatches(select){
         'action': 'joomsport_liveshrtc_reload_matches',
         'jdate': val,
         'played': played,
-<<<<<<< HEAD
-        'emblems': jQuery("#show_emblems").val(),
-        'sport': jQuery("#show_sport").val(),
-=======
         'emblems': $widgetContainer.find("#show_emblems").val(),
         'sport': $widgetContainer.find("#show_sport").val(),
->>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
         'linked': jQuery("#is_linked").val(),
     };
 
@@ -113,39 +102,11 @@ jQuery(document).ready(function() {
         const curDate = $filterDate.val();
         const dateObj = new Date(curDate.substr(0,4), curDate.substr(5,2)-1, curDate.substr(8,2));
 
-<<<<<<< HEAD
-    jQuery("#modJSLiveMatchesPrev").on("click", function () {
-        curDate = jQuery("#mod_filter_date").val();
-        dateObj = new Date(curDate.substr(0,4), curDate.substr(5,2)-1, curDate.substr(8,2));
-        //console.log(curDate.substr(0,4), curDate.substr(5,2), curDate.substr(8,2));
-        dateObj.setDate(dateObj.getDate()-1);
-        month = dateObj.getMonth()+1;
-        if(month < 10){
-            month = "0" + month;
-        }
-        day = dateObj.getDate();
-        if(day < 10){
-            day = "0" + day;
-        }
-
-        console.log(dateObj.getFullYear()  + "-" + month + "-" + day);
-        var datestring = dateObj.getFullYear()  + "-" + month + "-" + day;
-        jQuery("#mod_filter_date").val(datestring);
-        jQuery("#mod_filter_date").trigger("change");
-    });
-    jQuery("#modJSLiveMatchesNext").on("click", function () {
-        curDate = jQuery("#mod_filter_date").val();
-        dateObj = new Date(curDate.substr(0,4), curDate.substr(5,2)-1, curDate.substr(8,2));
-        //console.log(curDate.substr(0,4), curDate.substr(5,2), curDate.substr(8,2));
-        dateObj.setDate(dateObj.getDate()+1);
-        month = dateObj.getMonth()+1;
-=======
         dateObj.setDate(dateType === 'prev' ? dateObj.getDate() - 1 : dateObj.getDate() + 1);
 
         let month = dateObj.getMonth() + 1;
         let day = dateObj.getDate();
 
->>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
         if(month < 10){
             month = `0${month}`;
         }
@@ -154,19 +115,7 @@ jQuery(document).ready(function() {
             day = `0${day}`;
         }
 
-<<<<<<< HEAD
-        //console.log(dateObj.getFullYear()  + "-" + month + "-" + day);
-        var datestring = dateObj.getFullYear()  + "-" + month + "-" + day;
-        jQuery("#mod_filter_date").val(datestring);
-        jQuery("#mod_filter_date").trigger("change");
-    });
-
-    jQuery("#modJSLiveMatchesFiltersSelect").on("change", function () {
-        jQuery("#mod_filter_date").trigger("change");
-    });
-=======
         const fullDateString = dateObj.getFullYear()  + "-" + month + "-" + day;
->>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
 
         $filterDate.val(fullDateString);
         $filterDate.trigger("change");
@@ -186,13 +135,9 @@ jQuery(document).ready(function() {
         } else if(state === 'remove' && index > -1) {
             favMatches.splice(index, 1);
         }
-<<<<<<< HEAD
-        //console.log(favMatches);
-=======
 
         console.log(favMatches);
 
->>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
         localStorage.setItem("favMatches", JSON.stringify(favMatches));
 
         jQuery(".modJsFavMatchCounter").html(parseInt(favMatches.length));
@@ -212,18 +157,9 @@ jQuery(document).ready(function() {
             filterDate($filterDate, 'prev');
         });
 
-<<<<<<< HEAD
-        if (index > -1) { //if found
-            favMatches.splice(index, 1);
-        }
-        //console.log(favMatches);
-        localStorage.setItem("favMatches", JSON.stringify(favMatches));
-        jQuery("#modJsFavMatchCounter").html(parseInt(favMatches.length));
-=======
         $nextBtn.on("click", function () {
             filterDate($filterDate, 'next');
         });
->>>>>>> e5959cf01954888403473013feb2d27a1dc861a1
 
         $filterStatus.on("change", function () {
             console.log($filterDate);

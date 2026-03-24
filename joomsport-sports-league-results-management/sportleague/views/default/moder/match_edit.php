@@ -1,6 +1,7 @@
 <?php
 ?>
 <div>
+    <?php do_action("joomsport_match_before_tabs", $matchID);?>
     <form action="" name="formMatchEditFE" id="formMatchEditFE">
         <?php
         JoomSportMetaMatch::js_meta_score($teamPost);

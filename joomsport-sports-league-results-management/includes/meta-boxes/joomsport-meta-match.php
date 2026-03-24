@@ -385,7 +385,7 @@ class JoomSportMetaMatch {
                             }
                             echo '</div>';
                             echo '</td>';
-                            echo '<td>'.esc_html(get_the_title($home_players[$intA])).'</td>';
+                            echo '<td class="jsPlayerFname">'.esc_html(get_the_title($home_players[$intA])).'</td>';
                             echo '<td width="280">'.wp_kses(JoomSportHelperSelectBox::Radio('squadradio1_'.esc_attr($home_players[$intA]), $is_field,$sq1_type,' class="jsgetcheckedSubs"',array('lclasses'=>array(1,1,0))),JoomsportSettings::getKsesRadio());
                             echo '<input type="hidden" name="t1_squard[]" value="'.esc_attr($home_players[$intA]).'" />';
                             echo '</td>';
@@ -425,7 +425,7 @@ class JoomSportMetaMatch {
                             }
                             echo '</div>';
                             echo '</td>';
-                            echo '<td>'.esc_html(get_the_title($away_players[$intA])).'</td>';
+                            echo '<td class="jsPlayerFname">'.esc_html(get_the_title($away_players[$intA])).'</td>';
                             echo '<td width="280">'.wp_kses(JoomSportHelperSelectBox::Radio('squadradio2_'.esc_attr($away_players[$intA]), $is_field,$sq2_type,' class="jsgetcheckedSubs"',array('lclasses'=>array(1,1,0))),JoomsportSettings::getKsesRadio());
                             echo '<input type="hidden" name="t2_squard[]" value="'.esc_attr($away_players[$intA]).'" />';
                             echo '</td>';

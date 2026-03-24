@@ -4,7 +4,7 @@ Tags: sports, football, hockey, sports team, league
 Requires at least: 4.0
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 5.7.5
+Stable tag: 5.7.6
 License: GPLv3 
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -123,6 +123,9 @@ We are changing the sport industry by creating comprehensive software infrastruc
 18. Knockout matchday edit (pro version)
 
 == Changelog ==
+
+= 5.7.6=
+* Substitutes functionality fix
 
 = 5.7.5=
 * Critical security vulnerability fix

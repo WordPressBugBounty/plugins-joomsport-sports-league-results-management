@@ -20,8 +20,11 @@ echo '<div id="joomsport-container" class="modJSLiveMatches">';
             echo '<div class="col-xs-12 col-sm-6">';
                 echo '<div class="modJSLiveInputGroup input-group">';
                     echo '<div class="input-group-btn"><button id="modJSLiveMatchesPrev" class="modJSCalendarBtn btn btn-default"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button></div>';
+
                     echo '<input type="text" class="jsdatefield hasDatepickerr" value="'.esc_attr(gmdate("Y-m-d")).'" id="mod_filter_date" name="mod_filter_date" onChange="chngFilterLiveMatches(this.value);" />';
+
                     echo '<input type="text" class="mod_filter_date jsdatefield hasDatepickerr" value="'.esc_attr(gmdate("Y-m-d")).'" name="mod_filter_date" onChange="chngFilterLiveMatches(this);" />';
+
                     echo '<div class="input-group-btn"><button id="modJSLiveMatchesNext" class="modJSCalendarBtn btn btn-default"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button></div>';
                 echo '</div>';
             echo '</div>';
