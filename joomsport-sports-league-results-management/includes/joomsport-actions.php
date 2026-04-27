@@ -224,7 +224,7 @@ class JoomSportcalcTable
                     
                     $array[$intA] = array();
                     $array[$intA]['id'] = $participant->ID;
-                    $array[$intA]['sortname'] = $participant->post_title;
+                    $array[$intA]['sortname'] = $participant->post_title??'';
 
                     $array[$intA]['winhome_chk'] = $optionsCol['winhome_chk'];
                     $array[$intA]['winaway_chk'] = $optionsCol['winaway_chk'];
@@ -308,8 +308,8 @@ class JoomSportcalcTable
                                     $aet2 = (isset($jmscore['aet2']))?$jmscore['aet2']:0;
 
                                     $bonus = isset($jmscore['bonus1'])?intval($jmscore['bonus1']):0;
-                                    if(isset($jmscore['new_points']) && $jmscore['new_points']){
-                                        $new_points = isset($jmscore['points1'])?$jmscore['points1']:null;
+                                    if(isset($jmscore['new_points']) && floatval($jmscore['new_points'])){
+                                        $new_points = isset($jmscore['points1'])?floatval($jmscore['points1']):null;
                                     }
                                 }
 
@@ -402,8 +402,8 @@ class JoomSportcalcTable
                                     $aet1 = (isset($jmscore['aet1']))?$jmscore['aet1']:0;
                                     $aet2 = (isset($jmscore['aet2']))?$jmscore['aet2']:0;
                                     $bonus = isset($jmscore['bonus2'])?intval($jmscore['bonus2']):0;
-                                    if(isset($jmscore['new_points']) && $jmscore['new_points']){
-                                        $new_points = isset($jmscore['points2'])?$jmscore['points2']:null;
+                                    if(isset($jmscore['new_points']) && floatval($jmscore['new_points'])){
+                                        $new_points = isset($jmscore['points2'])?floatval($jmscore['points2']):null;
                                     }
                                 }
 

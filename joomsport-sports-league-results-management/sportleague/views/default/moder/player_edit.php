@@ -4,6 +4,7 @@
     <form action="" name="formPlayerEditFE" id="formPlayerEditFE" autocomplete="off" method="post" enctype="multipart/form-data">
 
         <?php
+        wp_nonce_field( 'joomsport_player_savemetaboxes', 'joomsport_player_nonce' );
         JoomSportMetaPlayer::js_meta_personal($playerPost);
         //JoomSportMetaTeam::js_meta_about($thisPost);
         JoomSportMetaPlayer::js_meta_ef($playerPost);

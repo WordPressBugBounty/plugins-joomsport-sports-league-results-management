@@ -609,7 +609,7 @@ class JoomSportExtraFieldsNew_Plugin {
                                 <?php echo esc_html__('Visible for', 'joomsport-sports-league-results-management')?>
                         </td>
                         <td>
-                                <?php echo wp_kses($lists['faccess'], JoomsportSettings::getKsesRadio());?>
+                            <?php echo $lists['faccess'];?>
                         </td>
                     </tr>
                 </table>

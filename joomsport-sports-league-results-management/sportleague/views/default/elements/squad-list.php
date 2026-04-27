@@ -66,7 +66,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							}
 							?>
 							<div class="jstable-cell jsSquadPlayerImg">
-								<?php echo jsHelperImages::getEmblem($rows->lists['squard1'][$intP]->obj->getDefaultPhoto(), 0, ''); ?>
+                                <?php echo $rows->lists['squard1'][$intP]->obj->getEmblem();?>
 							</div>
 							<div class="jstable-cell jsSquadPlayerName">
 								<div>
@@ -117,7 +117,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							}
 							?>
 							<div class="jstable-cell jsSquadPlayerImg">
-								<?php echo jsHelperImages::getEmblem($rows->lists['squard2'][$intP]->obj->getDefaultPhoto(), 0, ''); ?>
+                                <?php echo $rows->lists['squard2'][$intP]->obj->getEmblem();?>
 							</div>
 							<div class="jstable-cell jsSquadPlayerName">
 								<div>
@@ -179,7 +179,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								}
 								?>
 								<div class="jstable-cell jsSquadPlayerImg">
-									<?php echo jsHelperImages::getEmblem($rows->lists['squard1_res'][$intP]->obj->getDefaultPhoto(), 0, ''); ?>
+                                    <?php echo $rows->lists['squard1_res'][$intP]->obj->getEmblem();?>
 								</div>
 								<div class="jstable-cell jsSquadPlayerName">
 									<div>
@@ -238,7 +238,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								}
 								?>
 								<div class="jstable-cell jsSquadPlayerImg">
-									<?php echo jsHelperImages::getEmblem($rows->lists['squard2_res'][$intP]->obj->getDefaultPhoto(), 0, ''); ?>
+                                    <?php echo $rows->lists['squard2_res'][$intP]->obj->getEmblem();?>
 								</div>
 								<div class="jstable-cell jsSquadPlayerName">
 									<div>

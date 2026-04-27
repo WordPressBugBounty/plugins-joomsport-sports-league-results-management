@@ -404,7 +404,7 @@ class JoomsportShortcodes {
 
         $term_meta = JoomsportTermsMeta::getTermMeta($args['matchday_id']);
         require_once JOOMSPORT_PATH . DIRECTORY_SEPARATOR. 'sportleague' . DIRECTORY_SEPARATOR . 'sportleague.php';
-
+        if(!$term_meta) {return;}
         require_once JOOMSPORT_PATH_CLASSES . 'class-jsport-matches.php';
         require_once JOOMSPORT_PATH_OBJECTS . 'class-jsport-match.php';
         require_once JOOMSPORT_PATH_OBJECTS.'class-jsport-season.php';

@@ -37,11 +37,27 @@ class classJsportPlayerlist
         global $jsDatabase;
         $options['season_id'] = $this->season_id;
 
+        $sortFieldEsc = 'post_title';
+        $sortCols = array("played", "career_minutes","post_title");
+
         $link = classJsportLink::playerlist($this->season_id);
         if (classJsportRequest::get('sortf')) {
             $link .= '&sortf='.classJsportRequest::get('sortf');
             $link .= '&sortd='.classJsportRequest::get('sortd');
+
+            $pattern = '/^eventid_\d+$/';
+
+            if (in_array(classJsportRequest::get('sortf'), $sortCols)) {
+                $sortFieldEsc = classJsportRequest::get('sortf');
+            }
+            if (preg_match('/^eventid_\d+$/', classJsportRequest::get('sortf'))) {
+                $sortFieldEsc = classJsportRequest::get('sortf');
+            }
+            if (preg_match('/^ef_\d+$/', classJsportRequest::get('sortf'))) {
+                $sortFieldEsc = classJsportRequest::get('sortf');
+            }
         }
+
         $pagination = new classJsportPagination($link);
         $options['limit'] = $pagination->getLimit();
         $options['offset'] = $pagination->getOffset();
@@ -77,7 +93,7 @@ class classJsportPlayerlist
         //
         if (classJsportRequest::get('sortf')) {
             $typeAD = in_array(classJsportRequest::get('sortd'), array("ASC","DESC"))?classJsportRequest::get('sortd'):"ASC";
-            $options['ordering'] = str_replace(" ","",sanitize_text_field("`".classJsportRequest::get('sortf')."`")).' '.$typeAD;
+            $options['ordering'] = str_replace(" ","",sanitize_text_field("`".$sortFieldEsc."`")).' '.$typeAD;
         }
 
         $players = classJsportgetplayers::getPlayersFromTeam($options);

@@ -84,6 +84,7 @@ class JoomSportMetaTournament {
         'name' => __('Name'),
         'header_icon' => '',
         't_single' => __('League type', 'joomsport-sports-league-results-management'),
+        'sport' => __('Sport','joomsport-sports-league-results-management'),
         'posts' => __('Posts')
         );
 
@@ -92,15 +93,20 @@ class JoomSportMetaTournament {
 
  
     public static function manage_joomsport_tournament_columns($out, $column_name, $tax_id) {
-
+        global $wpdb;
         $t_single = JoomsportTermsMeta::getTermMeta($tax_id, 't_single');
+        $sportID = get_term_meta($tax_id,'sports_id', true);
 
         switch ($column_name) {
             case 't_single': 
 
                 $out .= $t_single ? __('Single','joomsport-sports-league-results-management') : __('Team','joomsport-sports-league-results-management');
                 break;
+            case 'sport':
+                $out .= $wpdb->get_var('SELECT sportName as name FROM '.$wpdb->joomsport_sports.' WHERE sportID = '.intval($sportID)) ;
 
+
+                break;
             default:
                 break;
         }

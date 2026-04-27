@@ -14,7 +14,14 @@ $copyrightDescr = get_post_meta($rows->object->ID,'_joomsport_venue_copyright',t
         <div class="jsObjectPhoto rmpadd">
             <div class="photoPlayer">
 
-                    <?php echo wp_kses_post(jsHelperImages::getEmblemBig($rows->getDefaultPhoto()));?>
+                    <?php
+                    if($rows instanceof  classJsportPlayer){
+                        echo wp_kses_post($rows->getEmblem(false, 10));
+                    }else{
+                        echo wp_kses_post(jsHelperImages::getEmblemBig($rows->getDefaultPhoto()));
+                    }
+
+                    ?>
 
                     <?php
                     if($copyrightDescr){

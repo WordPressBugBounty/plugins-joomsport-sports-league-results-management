@@ -175,18 +175,41 @@ jQuery(document).ready(function() {
     }
 
     jQuery(document).on("submit", "#formMatchEditFE", function(e){
+        var submittedButton = jQuery(e.originalEvent.submitter);
+        var sbName = submittedButton.attr('name');
+        console.log(submittedButton);
         e.preventDefault(); // avoid to execute the actual submit of the form.
 
-        var form = jQuery(this);
-        var data = {
-            'action': 'joomsport_moder_match_save',
-            data: form.serialize(),
-        };
+        if(sbName == 'sbClose'){
+            jQuery(".jsmoderInner").addClass("jsSjLoading");
 
-        jQuery.post(ajaxurl, data, function(response) {
-            jQuery(".jsmoderInner").removeClass("jsSjLoading");
-            jQuery(".jsmoderInner").html(response);
-        });
+            var data = {
+                'action': 'joomsport_moder_match_list',
+            };
+
+            jQuery.post(ajaxurl, data, function(response) {
+                jQuery(".jsmoderInner").removeClass("jsSjLoading");
+                jQuery(".jsmoderInner").html(response);
+            });
+        }else{
+            jQuery(".jsmoderInner").addClass("jsSjLoading");
+            var form = jQuery(this);
+            var data = {
+                'action': 'joomsport_moder_match_save',
+                data: form.serialize(),
+            };
+
+            jQuery.post(ajaxurl, data, function(response) {
+                jQuery(".jsmoderInner").removeClass("jsSjLoading");
+                if(sbName != 'sbSavNoClose'){
+                    jQuery(".jsmoderInner").html(response);
+                }
+
+            });
+        }
+
+
+
     });
 
     jQuery(document).on("change",'select[name="stb_season_id"]',function() {

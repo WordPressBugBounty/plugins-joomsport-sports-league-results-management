@@ -134,6 +134,8 @@ class classJsportPlayer
             $html = jsHelperImages::getEmblem($this->lists['def_img'], 0, $class, $width, addslashes($this->getName(false)));
         }
 
+        $html = apply_filters("joomsport_player_image",$html, $this->id, $this->season_id, $type);
+
         if (JoomsportSettings::get('enbl_playerlogolinks',1) == '0' && JoomsportSettings::get('enbl_playerlinks_hglteams') == '1'){
             $playersHG = jsHelperHighlightPlayers::getInstance();
 

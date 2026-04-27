@@ -15,7 +15,10 @@
         ?>
 
         <div class="jsmodsave pull-right clearfix">
-            <input type="submit" class="btn btn-success" value="<?php echo esc_attr(__('Save','joomsport-sports-league-results-management'));?>" />
+            <input type="submit" name="sbSavNoClose" class="btn btn-success" value="<?php echo esc_attr(__('Save','joomsport-sports-league-results-management'));?>" />
+            <input type="submit" name="sbSavClose" class="btn btn-success" value="<?php echo esc_attr(__('Save & Close','joomsport-sports-league-results-management'));?>" />
+            <input type="submit" name="sbClose" class="btn" value="<?php echo esc_attr(__('Close','joomsport-sports-league-results-management'));?>" />
+
             <input type="hidden" name="matchID" value="<?php echo esc_attr($matchID);?>" />
         </div>
     </form>
