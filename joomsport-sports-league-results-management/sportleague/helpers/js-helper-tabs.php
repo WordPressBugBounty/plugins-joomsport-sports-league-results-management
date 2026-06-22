@@ -46,7 +46,7 @@ class jsHelperTabs
                     
                     ?>
                 <li class="nav-item">
-                    <a data-toggle="tab" href="#<?php echo esc_attr($tabs[$intA]['id']);?>" class="navlink<?php echo (($intA == 0 && !$jscurtab) || ($jscurtab == '#'.$tabs[$intA]['id'])) ? ' active' : ''; ?>">
+                    <a data-toggle="tab" href="#<?php echo esc_attr($tabs[$intA]['id']);?>" class="navlink<?php echo (($intA == 0 && !$jscurtab) || ($jscurtab == '#'.$tabs[$intA]['id'])) ? ' active' : ''; ?>" data-target="#<?php echo $tabs[$intA]['id'];?>">
                         <i class="<?php echo esc_attr($tab_ico);?>" <?php if($tab_icoImg){echo ' style="background:url('.wp_get_attachment_image_url($tab_icoImg,array(24,24),false).'")';}?>></i> <span><?php echo wp_kses_post($tabs[$intA]['title']);
                     ?></span></a></li>
               <?php 

@@ -248,7 +248,16 @@ class jsHelper
         }
         $m_played = get_post_meta( $match->id, '_joomsport_match_played', true );
 
-        if (in_array($m_played,array(-1,1))) {
+        if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'filterHomeScore')){
+            $args = array("match"=>$match,"home_score"=>$home_score);
+            $home_score = $sportTemplClass::filterHomeScore($args);
+        }
+        if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'filterAwayScore')){
+            $args = array("match"=>$match,"away_score"=>$away_score);
+            $away_score = $sportTemplClass::filterAwayScore($args);
+        }
+
+        if (in_array($m_played,array(-1,1,-10,-11))) {
             $text = '';
             if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'getScoreFESmall')){
                 $args = array("match"=>$match,"home_score"=>$home_score,"away_score"=>$away_score);
@@ -304,9 +313,19 @@ class jsHelper
             $home_score = get_post_meta( $match->id, '_joomsport_home_score', true );
             $away_score = get_post_meta( $match->id, '_joomsport_away_score', true );
         }
+        $sportID = JoomSportHelperObjects::getSportType($match->season_id);
+        $sportTemplClass = JoomSportHelperObjects::getSportTemplate($sportID);
+        if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'filterHomeScore')){
+            $args = array("match"=>$match,"home_score"=>$home_score);
+            $home_score = $sportTemplClass::filterHomeScore($args);
+        }
+        if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'filterAwayScore')){
+            $args = array("match"=>$match,"away_score"=>$away_score);
+            $away_score = $sportTemplClass::filterAwayScore($args);
+        }
         $m_played = get_post_meta( $match->id, '_joomsport_match_played', true );
         $jmscore = get_post_meta($match->id, '_joomsport_match_jmscore',true);
-        if (in_array($m_played,array(-1,1))) {
+        if (in_array($m_played,array(-1,1,-10,-11))) {
             $bonus1 = '';
             $bonus2 = '';
             $sep = JSCONF_SCORE_SEPARATOR;

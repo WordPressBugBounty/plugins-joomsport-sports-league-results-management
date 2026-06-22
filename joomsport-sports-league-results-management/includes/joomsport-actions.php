@@ -1992,7 +1992,7 @@ $time_start = microtime(true);
                             . ' AND player_id = %d'
                             . ' AND team_id = %d';
 
-                        $wpdb->query($wpdb->prepare($query, array($dur - $kicks[$intK]->kickMin, intval($this->season_id), intval($kicks[$intK]->player_id), intval($kicks[$intK]->team_id))));
+                        $wpdb->query($wpdb->prepare($query, array($dur - intval($kicks[$intK]->kickMin), intval($this->season_id), intval($kicks[$intK]->player_id), intval($kicks[$intK]->team_id))));
                     }
                 }
             }

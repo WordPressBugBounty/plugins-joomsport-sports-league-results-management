@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $term_list = get_the_terms($rows->object->ID, 'joomsport_tournament');
 $descr = '';
-if(count($term_list)){
+if($term_list && count($term_list)){
     $descr = $term_list[0]->description;
 }
 ?>

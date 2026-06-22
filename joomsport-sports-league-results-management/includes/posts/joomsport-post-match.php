@@ -119,6 +119,7 @@ class JoomSportPostMatch {
     }
     
     public static function getSubEvents(){
+        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         check_ajax_referer("joomsportajaxnonce", "security");
         global $wpdb;
 

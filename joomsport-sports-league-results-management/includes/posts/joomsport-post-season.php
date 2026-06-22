@@ -217,6 +217,7 @@ class JoomSportPostSeason {
         <?php
     }
     public static function joomsport_season_parentseas(){
+        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         check_ajax_referer("joomsportajaxnonce", "security");
 
         $terms_id = isset($_POST['tournament_id'])?intval($_POST['tournament_id']):0;
@@ -228,6 +229,7 @@ class JoomSportPostSeason {
         wp_die();
     }
     public static function joomsport_season_groupedit(){
+        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         check_ajax_referer("joomsportajaxnonce", "security");
         global $wpdb;
         $group_id = isset($_POST['group_id'])?intval($_POST['group_id']):0;
@@ -243,6 +245,7 @@ class JoomSportPostSeason {
         wp_die();
     }
     public static function joomsport_season_genermodal(){
+        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         check_ajax_referer("joomsportajaxnonce", "security");
 
         $group_id = isset($_POST['group_id'])?intval($_POST['group_id']):0;
@@ -251,6 +254,7 @@ class JoomSportPostSeason {
         wp_die();
     }
     public static function joomsport_season_grouplist(){
+        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         check_ajax_referer("joomsportajaxnonce", "security");
         global  $wpdb;
 
@@ -288,6 +292,7 @@ class JoomSportPostSeason {
         wp_die();
     }
     public static function joomsport_season_groupdel(){
+        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         check_ajax_referer("joomsportajaxnonce", "security");
         global  $wpdb;
 
@@ -942,6 +947,7 @@ class JoomSportPostSeason {
     }
 
     public static function joomsport_md_load(){
+        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         check_ajax_referer("joomsportajaxnonce", "security");
 
         $mdId = isset($_POST['mdId'])?intval($_POST['mdId']):0;

@@ -43,7 +43,10 @@ class JoomsportTemplates {
         
     public static function joomsport_content($content){
         if($content) return $content;
-        if ( !in_the_loop() ) return $content;
+        //if ( !in_the_loop() ) return $content;
+        if (!is_singular() || !in_the_loop()) {
+            return $content;
+        }
         global $controllerSportLeague;
         remove_filter('has_post_thumbnail', "joomsport_filter_has_team_thumb");
         remove_filter('post_thumbnail_html', 'joomsport_filter_pt');
@@ -62,9 +65,24 @@ class JoomsportTemplates {
                 echo get_the_password_form();
                 return;
             }
+
+            $ob_level = ob_get_level();
+
             ob_start();
             $controllerSportLeague->execute();
-            return ob_get_clean();
+            $joomsport_content = ob_get_clean();
+
+            if (!empty($joomsport_content)) {
+
+                while (ob_get_level() > $ob_level) {
+                    ob_end_clean();
+                }
+
+                return $joomsport_content;
+            }
+
+
+
             
         }
         return $content;

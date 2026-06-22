@@ -302,6 +302,7 @@ class JoomsportShortcodes {
         $options['limit'] = $args['quantity'];
         $options['group_id'] = $args['group_id'];
         $options['ordering'] = $eventid.' DESC';
+        $options['groupby'] = 1;
         $eventObj = new classJsportEvent($args['event']);
         $players = classJsportgetplayers::getPlayersFromTeam($options);
         if(count($players['list'])){

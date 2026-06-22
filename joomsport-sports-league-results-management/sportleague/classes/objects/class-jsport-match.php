@@ -361,7 +361,7 @@ class classJsportMatch
         }
 
         $term_list = get_the_terms($this->id, 'joomsport_matchday');
-        if(count($term_list)){
+        if($term_list && count($term_list)){
             return $term_list[0]->term_id;
         }
     }

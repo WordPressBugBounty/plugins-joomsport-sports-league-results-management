@@ -145,6 +145,7 @@ class JoomSportPostTeam {
         <?php
     }
     public static function joomsport_team_seasonrelated(){
+        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         check_ajax_referer("joomsportajaxnonce", "security");
         
         $season_id = isset($_POST['season_id'])?intval($_POST['season_id']):0;

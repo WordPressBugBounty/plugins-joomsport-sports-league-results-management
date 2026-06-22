@@ -1044,6 +1044,16 @@ class JoomSportMetaMatch {
             $is_field = array_merge($is_field,$mstatuses);
         }
 
+        $season_id = get_post_meta($post->ID,'_joomsport_seasonid',true);
+
+        $sportID = JoomSportHelperObjects::getSportType($season_id);
+        $sportTemplClass = JoomSportHelperObjects::getSportTemplate($sportID);
+        if(class_exists($sportTemplClass) && method_exists($sportTemplClass,'filterMatchStatuses')){
+
+            $is_field = $sportTemplClass::filterMatchStatuses($is_field);
+        }
+
+
         $m_played = get_post_meta($post->ID,'_joomsport_match_played',true);
         $m_date = get_post_meta($post->ID,'_joomsport_match_date',true);
         $m_time = get_post_meta($post->ID,'_joomsport_match_time',true);

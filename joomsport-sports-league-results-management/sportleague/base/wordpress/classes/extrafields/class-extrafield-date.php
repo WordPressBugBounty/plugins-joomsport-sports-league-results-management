@@ -16,6 +16,8 @@ class classExtrafieldDate
         }
                 
         if($ef){
+            $efP = explode(" ", $ef);
+            $ef = $efP[0]??$ef;
             switch ($dateage) {
                 case '1':
                     return self::calcAge($ef);

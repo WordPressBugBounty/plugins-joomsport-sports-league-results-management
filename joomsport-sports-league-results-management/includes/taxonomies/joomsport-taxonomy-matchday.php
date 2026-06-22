@@ -68,6 +68,7 @@ class JoomSportTaxonomyMatchday {
     }
 
     public static function joomsport_mday_savematch(){
+        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         if(isset($_POST['formdata'])){parse_str(sanitize_text_field(wp_unslash($_POST['formdata'])), $output);}
         if(isset($output["tag_ID"])){
 
@@ -78,6 +79,7 @@ class JoomSportTaxonomyMatchday {
         wp_die();
     }
     public static function joomsport_mday_saveknock(){
+        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         if(isset($_POST['formdata'])){parse_str(sanitize_text_field(wp_unslash($_POST['formdata'])), $output);}
         if(isset($output["tag_ID"]) && current_user_can('manage_options')){
 
