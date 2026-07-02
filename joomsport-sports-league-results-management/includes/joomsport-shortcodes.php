@@ -281,6 +281,7 @@ class JoomsportShortcodes {
             'display_name' => 0,
             'display_player_name' => 0,
             ), $attr );
+        $args['event'] = intval($args['event']);
         ob_start();
         wp_enqueue_style('jscssbtstrp',plugin_dir_url( __FILE__ ).'../sportleague/assets/css/btstrp.css');
         wp_enqueue_style('jscssjoomsport',plugin_dir_url( __FILE__ ).'../sportleague/assets/css/joomsport.css');
@@ -297,12 +298,13 @@ class JoomsportShortcodes {
         require_once JOOMSPORT_PATH_OBJECTS.'class-jsport-event.php';
         $options = array();
         $eventid = 'eventid_'.$args['event'];
-        $options['season_id'] = $args['seasonid'] = $args['id'];
-        $options['team_id'] = $args['partic_id'];
-        $options['limit'] = $args['quantity'];
-        $options['group_id'] = $args['group_id'];
+        $options['season_id'] = $args['seasonid'] = intval($args['id']);
+        $options['team_id'] = intval($args['partic_id']);
+        $options['limit'] = intval($args['quantity']);
+        $options['group_id'] = intval($args['group_id']);
         $options['ordering'] = $eventid.' DESC';
         $options['groupby'] = 1;
+
         $eventObj = new classJsportEvent($args['event']);
         $players = classJsportgetplayers::getPlayersFromTeam($options);
         if(count($players['list'])){
@@ -416,17 +418,17 @@ class JoomsportShortcodes {
                 'partic_id' => 0,
                 'quantity' => 0,
                 'matchtype' => 0,
-                'emblems' => $args['photo'],
-                'venue' => $args['venue'],
+                'emblems' => intval($args['photo']),
+                'venue' => intval($args['venue']),
                 'season' => 0,
                 'slider' => 0,
-                'layout' => $args['layout'],
+                'layout' => intval($args['layout']),
                 'groupbymd' => 0,
                 'morder' => 0,
                 'md_navigation' => 1,
-                'matchday_id' => $args['matchday_id'],
-                'teamname' => $args['teamname'] );
-            $options["matchday_id"] = $args['matchday_id'];
+                'matchday_id' => intval($args['matchday_id']),
+                'teamname' => intval($args['teamname'] ));
+            $options["matchday_id"] = intval($args['matchday_id']);
             $options["season_id"] = $term_meta['season_id'];
 
 
@@ -487,6 +489,7 @@ class JoomsportShortcodes {
         if(!$args['season_id']){
             return false;
         }
+        $args['season_id'] = intval($args['season_id']);
         $ttype = JoomSportHelperObjects::getTournamentType($args['season_id']);
 
         if(!$args['team_id'] && !$ttype){
@@ -621,6 +624,8 @@ class JoomsportShortcodes {
             'counting' => 0,
             'order' => 0,
         ), $attr );
+        $args['event'] = $args['event']?intval($args['event']):null;
+        $args['id'] = $args['id']?intval($args['id']):null;
         ob_start();
         wp_enqueue_style('jscssbtstrp',plugin_dir_url( __FILE__ ).'../sportleague/assets/css/btstrp.css');
         wp_enqueue_style('jscssjoomsport',plugin_dir_url( __FILE__ ).'../sportleague/assets/css/joomsport.css');

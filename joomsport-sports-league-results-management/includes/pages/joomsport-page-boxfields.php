@@ -31,8 +31,9 @@ class JoomSportBoxFields_List_Table extends WP_List_Table {
                 . " ON b1.parent_id = b2.id OR (b1.parent_id = 0 AND b1.id = b2.id)";
             
         if ( ! empty( $_REQUEST['orderby'] ) ) {
-          //$sql .= ' ORDER BY ' . esc_sql( $_REQUEST['orderby'] );
-          $sqlway = ! empty( $_REQUEST['order'] ) ? ' ' . esc_sql( $_REQUEST['order'] ) : ' ASC';
+            $available = array('ASC','DESC');
+            $sqlway = in_array(strtoupper($_REQUEST['order']), $available)?esc_sql( $_REQUEST['order'] ):'ASC';
+
           $sql .= ' ORDER BY b2.name '.$sqlway.',b2.id,b1.parent_id, b1.name '.$sqlway.', b2.id, b1.id';
         }else{
             $sql .= ' ORDER BY b2.ordering,b2.id,b1.parent_id, b1.ordering, b2.id, b1.id';
