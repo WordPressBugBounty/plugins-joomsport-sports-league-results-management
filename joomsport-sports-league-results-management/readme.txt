@@ -2,9 +2,9 @@
 Contributors: beardev
 Tags: sports, football, hockey, sports team, league
 Requires at least: 4.0
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.0
-Stable tag: 5.7.10
+Stable tag: 5.7.11
 License: GPLv3 
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -123,6 +123,11 @@ We are changing the sport industry by creating comprehensive software infrastruc
 18. Knockout matchday edit (pro version)
 
 == Changelog ==
+
+= 5.7.11
+* Admin season list order by creation date
+* Ability to hide calendar button
+
 = 5.7.9 - 5.7.10
 * Security vulnerability fixes
 

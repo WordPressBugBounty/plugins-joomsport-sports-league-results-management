@@ -36,7 +36,7 @@ if (isset($row->lists['columnsCell'])) {
                                     <i class="fa"></i>
                                 </a>
                             </th>
-                            
+                            <th class="jsalcenter jsNoWrap jsIcons"></th>
                             <th class="jsNoWrap jsalignleft">
                                 <a href="javascript:void(0);">
                                     <?php echo $rows->getSingle()?esc_html__('Participants','joomsport-sports-league-results-management'):esc_html__('Teams','joomsport-sports-league-results-management');
@@ -120,7 +120,9 @@ if (isset($row->lists['columnsCell'])) {
                             }
                             ?>>
                                 <?php echo esc_html($rank);?>
+
                             </td>
+                            <td class="jsalcenter jsIcons"><?php echo wp_kses_post($val->icons);?></td>
                             
                             <td class="jsNoWrap jsalignleft">
                                 <?php 

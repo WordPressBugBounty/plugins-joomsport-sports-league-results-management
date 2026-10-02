@@ -119,7 +119,8 @@ class classJsportgetplayers
                 }
                     $query_count .=' GROUP BY l.player_id';
             } else {
-                if($stdoptions != 'std'){
+
+                if($stdoptions != 'std' && isset($groupby) && !$groupby){
                     $sql_select = '';
                 }
                $query = "SELECT l.* ".$sql_select." FROM ".DB_TBL_PLAYER_LIST." as l"
@@ -146,7 +147,7 @@ class classJsportgetplayers
                 $query .= (isset($player_id) && $player_id ? ' AND l.player_id = '.$player_id : '');
                 $query .= (isset($departed) && $departed!="" ? ' AND l.departed = '.intval($departed) : '');
 
-                if($stdoptions == 'std' || (isset($groupby) && $groupby)){
+                if((isset($groupby) && $groupby)){
                     $query .= ' GROUP BY l.player_id';
                 }
 
@@ -173,7 +174,7 @@ class classJsportgetplayers
                 }
 
                 $query_count .= (isset($player_id) && $player_id ? ' AND l.player_id = '.$player_id : '');
-                if($stdoptions == 'std' || (isset($groupby) && $groupby)){
+                if((isset($groupby) && $groupby)){
                     $query_count .= ' GROUP BY l.player_id';
                 }
             }

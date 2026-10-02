@@ -21,6 +21,7 @@ require_once JOOMSPORT_PATH_INCLUDES . 'pages' . DIRECTORY_SEPARATOR . 'joomspor
 require_once JOOMSPORT_PATH_INCLUDES . 'pages' . DIRECTORY_SEPARATOR . 'joomsport-page-import.php';
 
 require_once JOOMSPORT_PATH_INCLUDES . 'pages' . DIRECTORY_SEPARATOR . 'joomsport-page-sports.php';
+require_once JOOMSPORT_PATH_INCLUDES . 'pages' . DIRECTORY_SEPARATOR . 'joomsport-page-icons.php';
 
 
 class JoomSportAdminInstall {
@@ -71,7 +72,17 @@ class JoomSportAdminInstall {
 
     add_submenu_page( 'options.php', __( 'Extra field New', 'joomsport-sports-league-results-management' ), __( 'Extra field New', 'joomsport-sports-league-results-management' ), 'manage_options', 'joomsport-extrafields-form', array('JoomSportExtraFieldsNew_Plugin', 'view'));
 
-    $obj = JoomSportBoxField_Plugin::get_instance();
+      $obj = JoomSportIcons_Plugin::get_instance();
+      $hook = add_submenu_page( 'joomsport', __( 'Standing icons', 'joomsport-sports-league-results-management' ), __( 'Standing icons', 'joomsport-sports-league-results-management' ), 'manage_options', 'joomsport-page-icons', function(){ $obj = JoomSportIcons_Plugin::get_instance();$obj->plugin_settings_page();});
+
+      add_action( "load-$hook", function(){ $obj = JoomSportIcons_Plugin::get_instance();$obj->screen_option();}  );
+
+      add_submenu_page( 'options.php', __( 'Standing icons New', 'joomsport-sports-league-results-management' ), __( 'Standing icons New', 'joomsport-sports-league-results-management' ), 'manage_options', 'joomsport-icons-form', array('JoomSportIconsNew_Plugin', 'view'));
+
+
+
+
+      $obj = JoomSportBoxField_Plugin::get_instance();
     $hook = add_submenu_page( 'joomsport', __( 'Box score stats', 'joomsport-sports-league-results-management' ), __( 'Box score stats', 'joomsport-sports-league-results-management' ), 'manage_options', 'joomsport-page-boxfields', function(){ $obj = JoomSportBoxField_Plugin::get_instance();$obj->plugin_settings_page();});
 
     add_action( "load-$hook", function(){ $obj = JoomSportBoxField_Plugin::get_instance();$obj->screen_option();}  );
@@ -213,6 +224,9 @@ class JoomSportAdminInstall {
 
       $wpdb->joomsport_sports_template = $wpdb->prefix . 'joomsport_sports_template';
       $wpdb->joomsport_sports = $wpdb->prefix . 'joomsport_sports';
+      $wpdb->joomsport_icons = $wpdb->prefix . 'joomsport_icons';
+        $wpdb->joomsport_icons_related = $wpdb->prefix . 'joomsport_icons_related';
+
 
         JoomsportSettings::loadSportTemplates();
     }
@@ -658,6 +672,26 @@ class JoomSportAdminInstall {
 
         }
 
+        $icons_sql = "CREATE TABLE {$wpdb->joomsport_icons} (
+                  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+                  `iconName` varchar(150) NOT NULL,
+                  `iconImage` varchar(255) NOT NULL,
+                  `ordering` smallint UNSIGNED NOT NULL DEFAULT '0',
+                  `iconTip` varchar(255) NOT NULL,
+                  PRIMARY KEY ( `id` )
+                  ) $charset_collate;";
+        maybe_create_table( $wpdb->joomsport_icons, $icons_sql );
+
+        $icons_r_sql = "CREATE TABLE {$wpdb->joomsport_icons_related} (
+                  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+                  `iconID` int UNSIGNED NOT NULL,
+                  `participantID` int UNSIGNED NOT NULL,
+                  `ordering` smallint UNSIGNED NOT NULL DEFAULT '0',
+                  `seasonID` int UNSIGNED NOT NULL,
+                  PRIMARY KEY ( `id` )
+                  ) $charset_collate;";
+        maybe_create_table( $wpdb->joomsport_icons_related, $icons_r_sql );
+
         $joomsport_refactoring_v = (int) get_option("joomsport_refactoring_v", 0);
         if(!$joomsport_refactoring_v){
             joomsportUpgradeRef::upgradeTermMetas();
@@ -727,6 +761,7 @@ class JoomSportAdminInstall {
       __('Person categories','joomsport-sports-league-results-management'),
       __('Game stages','joomsport-sports-league-results-management'),
       __('Extra fields','joomsport-sports-league-results-management'),
+        __('Standing icons','joomsport-sports-league-results-management'),
       __('Settings','joomsport-sports-league-results-management'),
       __('Help','joomsport-sports-league-results-management'),
       );
@@ -853,6 +888,11 @@ if(!function_exists('joomsport_set_current_menu')){
           $parent_file = 'joomsport';
           $submenu_file = 'joomsport-page-sports';
           $plugin_page = 'joomsport-page-sports';
+      }
+      if($current_screen->id == 'admin_page_joomsport-icons-form') {
+          $parent_file = 'joomsport';
+          $submenu_file = 'joomsport-page-icons';
+          $plugin_page = 'joomsport-page-icons';
       }
 
     return $parent_file;

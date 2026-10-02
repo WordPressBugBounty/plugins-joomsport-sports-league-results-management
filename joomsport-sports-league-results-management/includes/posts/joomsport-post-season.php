@@ -947,7 +947,7 @@ class JoomSportPostSeason {
     }
 
     public static function joomsport_md_load(){
-        if (!current_user_can('manage_options')) { wp_die('-1', 403); }
+        //if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         check_ajax_referer("joomsportajaxnonce", "security");
 
         $mdId = isset($_POST['mdId'])?intval($_POST['mdId']):0;
@@ -1107,3 +1107,30 @@ function joomsport_gen_unique_post_slug( $slug, $post_ID, $post_status, $post_ty
     }
     return $slug;
 }
+
+
+function joomsport_season_custom_order( $query ) {
+    if ( ! is_admin() || ! $query->is_main_query() ) {
+        return;
+    }
+
+    global $pagenow;
+    if ( 'edit.php' !== $pagenow ) {
+        return;
+    }
+
+    $post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
+
+    if ( 'joomsport_season' !== $post_type ) {
+        return;
+    }
+
+    if ( isset( $_GET['orderby'] ) ) {
+        return;
+    }
+
+    $query->set( 'orderby', 'date' );
+    $query->set( 'order', 'DESC' );
+
+}
+add_action( 'pre_get_posts', 'joomsport_season_custom_order' );

@@ -236,6 +236,14 @@ class JoomSportMetaTeam {
         <?php
     }
 
+    public static function js_meta_icons_assigned($post){
+        ?>
+        <div id="js_team_iconsassignedDIV">
+            <?php echo esc_html__('No season selected','joomsport-sports-league-results-management');?>
+        </div>
+        <?php
+    }
+
     public static function js_meta_moderator($post){
         $moderators = get_post_meta($post->ID,'_joomsport_team_moderator');
         $moders = JoomSportUserRights::get_users_by_role('joomsport_moderator', 'user_nicename', 'ASC');
@@ -296,6 +304,8 @@ class JoomSportMetaTeam {
             self::saveMetaPlayers($post_id, $_POST);
             self::saveMetaBonuses($post_id);
             self::saveMetaEFAssigned($post_id);
+            self::saveMetaIconsAssigned($post_id);
+
             self::saveMetaVenue($post_id);
             self::saveMetaSeasons($post_id);
             if(JoomSportUserRights::isAdmin() && JoomsportSettings::get('team_reg') == 1) {
@@ -452,6 +462,42 @@ class JoomSportMetaTeam {
         }
         
         
+    }
+    private static function saveMetaIconsAssigned($post_id){
+        global $wpdb;
+        // Add nonce for security and authentication.
+        $nonce_name   = isset( $_POST['joomsport_team_nonce'] ) ? sanitize_text_field(wp_unslash($_POST['joomsport_team_nonce'])) : '';
+        $nonce_action = 'joomsport_team_savemetaboxes';
+
+        // Check if nonce is set.
+        if ( ! isset( $nonce_name ) ) {
+            return;
+        }
+
+        // Check if nonce is valid.
+        if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) ) {
+            return;
+        }
+        $season_id = isset($_POST['stb_season_id'])?  intval($_POST['stb_season_id']):0;
+        $meta_array = array();
+        if($season_id){
+            $wpdb->query("DELETE FROM ".$wpdb->joomsport_icons_related." WHERE participantID = {$post_id} AND seasonID = {$season_id}");
+            $iconsV = isset($_POST['vIcons'])?array_map("intval",wp_unslash($_POST['vIcons'])):array();
+            if($iconsV && count($iconsV)){
+                $intO = 0;
+                foreach ($iconsV as $iV){
+                    if($iV){
+                        $wpdb->insert($wpdb->joomsport_icons_related, array("iconID"=>$iV, "participantID" => $post_id, "seasonID" => $season_id, "ordering" => $intO), array('%d','%d','%d','%d'));
+                        $intO++;
+                    }
+                }
+            }
+            //$meta_data = serialize($meta_array);
+            update_post_meta($post_id, '_joomsport_team_ef_'.$season_id, $meta_array);
+            do_action('joomsport_update_playerlist', $season_id, array($post_id));
+        }
+
+
     }
     private static function saveMetaVenue($post_id){
         // Add nonce for security and authentication.

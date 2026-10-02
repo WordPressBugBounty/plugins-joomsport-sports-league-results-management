@@ -100,6 +100,7 @@ class JoomSportPostTeam {
         add_meta_box('joomsport_team_bonuses_form_meta_box', __('Bonuses', 'joomsport-sports-league-results-management'), array('JoomSportMetaTeam','js_meta_bonuses'), 'joomsport_team', 'joomsportintab_team2', 'default');
 
         add_meta_box('joomsport_team_ef_assigned_form_meta_box', __('Extra fields assigned to the season', 'joomsport-sports-league-results-management'), array('JoomSportMetaTeam','js_meta_ef_assigned'), 'joomsport_team', 'joomsportintab_team2', 'default');
+        add_meta_box('joomsport_team_icons_assigned_meta_box', __('Team icons assigned to the season', 'joomsport-sports-league-results-management'), array('JoomSportMetaTeam','js_meta_icons_assigned'), 'joomsport_team', 'joomsportintab_team2', 'default');
 
         add_meta_box('joomsport_team_venue_form_meta_box', __('Home venue', 'joomsport-sports-league-results-management'), array('JoomSportMetaTeam','js_meta_venue'), 'joomsport_team', 'side', 'default');
         if(JoomSportUserRights::isAdmin() && JoomsportSettings::get('team_reg') == 1) {
@@ -135,6 +136,9 @@ class JoomSportPostTeam {
                     if(res.efassigned){
                         jQuery('#js_team_efassignedDIV').html(res.efassigned);
                     }
+                    if(res.iconsassigned){
+                        jQuery('#js_team_iconsassignedDIV').html(res.iconsassigned);
+                    }
                     //jQuery('#stb_players_id').trigger('liszt:updated');
                     
 		});
@@ -145,6 +149,7 @@ class JoomSportPostTeam {
         <?php
     }
     public static function joomsport_team_seasonrelated(){
+        global $wpdb;
         if (!current_user_can('manage_options')) { wp_die('-1', 403); }
         check_ajax_referer("joomsportajaxnonce", "security");
         
@@ -154,6 +159,7 @@ class JoomSportPostTeam {
             "players"=>__('No season selected','joomsport-sports-league-results-management'),
             "bonuses"=>__('No season selected','joomsport-sports-league-results-management'),
             "efassigned"=>__('No season selected','joomsport-sports-league-results-management'),
+            "iconsassigned"=>__('No season selected','joomsport-sports-league-results-management'),
             );
         if($season_id && $post_id){
             $playersin = get_post_meta($post_id,'_joomsport_team_players_'.$season_id,true);
@@ -223,6 +229,172 @@ class JoomSportPostTeam {
                 $result['efassigned'] = $html_ef;
             }else{
                 $result['efassigned'] = 'There are no extra fields assigned to this section.';
+            }
+
+            $icons = $wpdb->get_results("SELECT * FROM ".$wpdb->joomsport_icons." ORDER BY ordering,iconName");
+            if($icons){
+                $iconsAssigned = $wpdb->get_results("SELECT i.* FROM ".$wpdb->joomsport_icons_related." as ir JOIN ".$wpdb->joomsport_icons." as i ON i.id=ir.iconID  WHERE ir.participantID={$post_id} AND ir.seasonID={$season_id} ORDER BY ir.ordering,ir.id");
+                $html = '<div class="controls">';
+                $html .= '<select id="itemSelectIcons">';
+                foreach ($icons as $icon){
+                    $html .= '<option value="'.$icon->id.'">'.$icon->iconName.'</option>';
+                }
+                $html .= '</select>';
+                $html .= '<input type="button" id="addBtnIcons" value="Add" />';
+                $html .= '</div>';
+
+                $html .= '<script>let items = [];let nextId = 1;</script>';
+
+                $html .= '<ul id="listIcons">';
+                if($iconsAssigned){
+                    $intP = 1;
+                    foreach($iconsAssigned as $iA){
+                        $html .= '<script>items.push({ text: \''.$iA->iconName.'\', id: nextId++, value: '.$iA->id.' });</script>';
+                        //$html .= '<li draggable="true" data-id="'.$intP.'"><span class="handle">⋮⋮</span><span class="text">'.$iA->iconName.'</span><input type="hidden" name="vIcons[]" value="'.$iA->id.'"><button title="Delete">✕</button></li>';
+                        $intP++;
+                    }
+                }
+
+                $html .= '</ul> ';
+                $html .= '<script>
+
+
+  const selectEl = document.getElementById(\'itemSelectIcons\');
+  const addBtn   = document.getElementById(\'addBtnIcons\');
+  const clearBtn = document.getElementById(\'clearBtn\');
+  const listEl   = document.getElementById(\'listIcons\');
+
+
+
+  function addSelected() {
+    const value = selectEl.value;
+const opt = selectEl.selectedOptions[0];
+const label = opt.textContent.trim();
+
+    if (!value) return;
+
+
+    const exists = items.some(
+      it => it.value === value
+    );
+    if (exists) return;
+
+    items.push({ text: label, id: nextId++, value: value });
+    render();
+  }
+
+
+  function removeItem(id) {
+    items = items.filter(it => it.id !== id);
+    render();
+  }
+
+
+  function render() {
+    listEl.innerHTML = \'\';
+
+    if (items.length === 0) {
+      listEl.innerHTML = \'<li class="empty">Empty</li>\';
+    } else {
+      items.forEach(item => {
+        const li = document.createElement(\'li\');
+        li.draggable = true;
+        li.dataset.id = item.id;
+
+        const handle = document.createElement(\'span\');
+        handle.className = \'handle\';
+        handle.textContent = \'⋮⋮\';
+
+        const span = document.createElement(\'span\');
+        span.className = \'text\';
+        span.textContent = item.text;
+        
+        const hidden = document.createElement(\'input\');
+          hidden.type = \'hidden\';
+          hidden.name = \'vIcons[]\';
+          hidden.value = item.value;
+
+        const btn = document.createElement(\'button\');
+        btn.textContent = \'✕\';
+        btn.title = \'Delete\';
+        btn.addEventListener(\'click\', e => {
+          e.stopPropagation();
+          removeItem(item.id);
+        });
+
+        li.appendChild(handle);
+        li.appendChild(span);
+        li.appendChild(hidden);
+        li.appendChild(btn);
+        listEl.appendChild(li);
+      });
+    }
+
+
+  }
+
+
+  let draggedEl = null;
+
+  listEl.addEventListener(\'dragstart\', e => {
+    const li = e.target.closest(\'li\');
+    if (!li || li.classList.contains(\'empty\')) return;
+
+    draggedEl = li;
+    li.classList.add(\'dragging\');
+    e.dataTransfer.effectAllowed = \'move\';
+    e.dataTransfer.setData(\'text/plain\', li.dataset.id);
+  });
+
+  listEl.addEventListener(\'dragend\', () => {
+    if (draggedEl) draggedEl.classList.remove(\'dragging\');
+    document.querySelectorAll(\'li.drag-over\')
+      .forEach(el => el.classList.remove(\'drag-over\'));
+    draggedEl = null;
+  });
+
+  listEl.addEventListener(\'dragover\', e => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = \'move\';
+
+    const target = e.target.closest(\'li\');
+    if (!target || target === draggedEl || target.classList.contains(\'empty\')) return;
+
+    document.querySelectorAll(\'li.drag-over\')
+      .forEach(el => el.classList.remove(\'drag-over\'));
+    target.classList.add(\'drag-over\');
+
+    const rect = target.getBoundingClientRect();
+    const after = (e.clientY - rect.top) > rect.height / 2;
+    const parent = target.parentNode;
+
+    if (after) {
+      parent.insertBefore(draggedEl, target.nextSibling);
+    } else {
+      parent.insertBefore(draggedEl, target);
+    }
+  });
+
+  listEl.addEventListener(\'drop\', e => {
+    e.preventDefault();
+
+
+    const newOrder = [...listEl.querySelectorAll(\'li\')]
+      .filter(li => !li.classList.contains(\'empty\'))
+      .map(li => Number(li.dataset.id));
+
+    items.sort((a, b) => newOrder.indexOf(a.id) - newOrder.indexOf(b.id));
+  });
+
+
+  addBtn.addEventListener(\'click\', addSelected);
+
+
+  render();
+</script>';
+                $result['iconsassigned'] = $html;
+            }else{
+                $result['iconsassigned'] = 'There are no icons.';
             }
 
         }

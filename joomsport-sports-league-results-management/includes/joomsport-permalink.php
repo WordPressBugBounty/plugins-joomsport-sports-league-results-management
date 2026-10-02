@@ -178,3 +178,47 @@ function joomsport_filter_update_slug( $data, $postarr ) {
 }
 
 add_filter( 'wp_insert_post_data', 'joomsport_filter_update_slug', 99, 2 );
+
+add_filter( 'wpseo_opengraph_title', 'custom_subsc_og_title', 10, 1 );
+function custom_subsc_og_title( $title ) {
+    global $post_type, $post;
+    if(!$title){
+        return '';
+    }
+    if(!$post){
+        return $title;
+    }
+    if($post_type == 'joomsport_season'){
+        $terms = wp_get_object_terms( $post->ID, 'joomsport_tournament' );
+        $post_name = '';
+        if( $terms ){
+
+            $post_name .= $terms[0]->name;
+        }
+        $title =  $post_name ." ".$title;
+    }
+
+    return $title;
+}
+add_filter( 'googlesitekit_entity_title', 'custom_subsc_sitekit_entity_title', 10, 1 );
+
+function custom_subsc_sitekit_entity_title( $title ) {
+    global $post_type, $post;
+    if(!$title){
+        return '';
+    }
+    if(!$post){
+        return $title;
+    }
+    if($post_type == 'joomsport_season'){
+        $terms = wp_get_object_terms( $post->ID, 'joomsport_tournament' );
+        $post_name = '';
+        if( $terms ){
+
+            $post_name .= $terms[0]->name;
+        }
+        $title =  $post_name ." ".$title;
+    }
+
+    return $title;
+}

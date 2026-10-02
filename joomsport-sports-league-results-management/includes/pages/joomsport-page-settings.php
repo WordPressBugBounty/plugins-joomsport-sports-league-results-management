@@ -1145,6 +1145,7 @@ class JoomsportPageSettings{
 
                                     </td>
                                 </tr>
+
                                 <?php
                                 $stdoptions = '';
                                  $stdoptions = "std"; 
@@ -1209,6 +1210,17 @@ class JoomsportPageSettings{
                                     <td>
                                         <?php
                                         echo wp_kses(JoomSportHelperSelectBox::Radio('layouts[enbl_linktoplayerlist]', $is_field_yn,JoomsportSettings::get('enbl_linktoplayerlist',1),''), JoomsportSettings::getKsesRadio());
+                                        ?>
+
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <?php echo esc_html__('Enable calendar button', 'joomsport-sports-league-results-management');?>
+                                    <td>
+                                        <?php
+                                        echo wp_kses(JoomSportHelperSelectBox::Radio('layouts[enbl_linktocalendar]', $is_field_yn,JoomsportSettings::get('enbl_linktocalendar',1),''), JoomsportSettings::getKsesRadio());
                                         ?>
 
 

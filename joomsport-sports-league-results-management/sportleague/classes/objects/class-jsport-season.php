@@ -139,13 +139,16 @@ class classJsportSeason
 
     public function setHeaderOptions()
     {
-        $this->lists['options']['calendar'] = $this->id;
+
         //$seaslistObj = new classJsportSeasonlist();
         if ($this->canJoin($this->object)) {
             $this->lists['options']['joinseason'] = $this->id;
         }
         if (!$this->getSingle() && JoomsportSettings::get('enbl_linktoplayerlist',1) == '1') {
             $this->lists['options']['playerlist'] = $this->id;
+        }
+        if(JoomsportSettings::get('enbl_linktocalendar',1) == '1'){
+            $this->lists['options']['calendar'] = $this->id;
         }
         $this->lists['options']['print'] = '<a href="javascript:void(0);" onclick="componentPopup();"><span class="glyphicon glyphicon-print"></span></a>';
         //social

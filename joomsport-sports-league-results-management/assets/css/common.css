@@ -614,3 +614,95 @@ select[name="venue_id_foot"],select[name="venue_id[]"] {
 .delCmplEvent{
     color: red;
 }
+
+#js_team_iconsassignedDIV .controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+#js_team_iconsassignedDIV select, #addBtnIcons {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+#js_team_iconsassignedDIV select { flex: 1; min-width: 150px; background: white; }
+#js_team_iconsassignedDIV #addBtnIcons, #js_team_iconsassignedDIV button {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#js_team_iconsassignedDIV #addBtnIcons:hover:not(:disabled) { background: #357ab8; }
+#js_team_iconsassignedDIV #addBtnIcons:disabled {
+    background: #b0c4de;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+#js_team_iconsassignedDIV #addBtnIcons.danger { background: #e24a4a; }
+#js_team_iconsassignedDIV #addBtnIcons.danger:hover:not(:disabled) { background: #b83535; }
+
+#js_team_iconsassignedDIV ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#js_team_iconsassignedDIV li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 10px 14px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: grab;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    user-select: none;
+}
+#js_team_iconsassignedDIV li:active { cursor: grabbing; }
+
+#js_team_iconsassignedDIV .handle {
+    color: #aaa;
+    font-size: 18px;
+    line-height: 1;
+    cursor: grab;
+}
+
+#js_team_iconsassignedDIV li .text {
+    flex: 1;
+    word-break: break-word;
+}
+
+#js_team_iconsassignedDIV li button {
+    background: #e24a4a;
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+#js_team_iconsassignedDIV li.dragging {
+    opacity: 0.4;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transform: scale(1.02);
+}
+#js_team_iconsassignedDIV li.drag-over {
+    border-top: 2px solid #4a90e2;
+}
+
+#js_team_iconsassignedDIV .empty {
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+    cursor: default;
+    background: transparent;
+    box-shadow: none;
+}
+#js_team_iconsassignedDIV .hint {
+    color: #888;
+    font-size: 12px;
+    margin-top: 10px;
+    text-align: center;
+}

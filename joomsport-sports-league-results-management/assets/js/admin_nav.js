@@ -20,6 +20,7 @@ jQuery(document).ready(function() {
       jQuery('#adminmenu .wp-submenu li > a[href$="=joomsport-page-sports"]').parent().addClass("jsgroup-3");
       jQuery('#adminmenu .wp-submenu li > a[href$="=joomsport-page-gamestages"]').parent().addClass("jsgroup-3");
       jQuery('#adminmenu .wp-submenu li > a[href$="=joomsport-page-extrafields"]').parent().addClass("jsgroup-3");
+      jQuery('#adminmenu .wp-submenu li > a[href$="=joomsport-page-icons"]').parent().addClass("jsgroup-3");
       jQuery('#adminmenu .wp-submenu li > a[href$="=joomsport_settings"]').parent().addClass("jsgroup-3");
       jQuery('#adminmenu .wp-submenu li > a[href$="=joomsport_help"]').parent().addClass("jsgroup-3");
 

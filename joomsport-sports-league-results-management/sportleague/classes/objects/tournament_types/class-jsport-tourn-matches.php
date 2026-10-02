@@ -66,6 +66,8 @@ class classJsportTournMatches
 
         }
 
+        $this->addIcons($table);
+
 
         return $table;
     }
@@ -632,6 +634,28 @@ class classJsportTournMatches
 
             $tbl[$intT]->nextmatch_chk = $from_str;
         }
+    }
+
+    public  function addIcons(&$table){
+        global $wpdb;
+
+        for ($intA = 0; $intA < count($table); ++$intA) {
+            $iconsAssigned = $wpdb->get_results("SELECT i.* FROM ".$wpdb->joomsport_icons_related." as ir JOIN ".$wpdb->joomsport_icons." as i ON i.id=ir.iconID  WHERE ir.participantID={$table[$intA]->participant_id} AND ir.seasonID={$this->id} ORDER BY ir.ordering,ir.id");
+            $html = '';
+
+            if($iconsAssigned){
+                foreach($iconsAssigned as $icon){
+                    if($icon->iconImage){
+                        $image = wp_get_attachment_image_src($icon->iconImage);
+                        if(isset($image[0])){
+                            $html .= '<img src="'.$image[0].'" title="'.esc_attr($icon->iconTip).'" class="tblIcons">';
+                        }
+                    }
+                }
+            }
+            $table[$intA]->icons = $html;
+        }
+
     }
     
 }
