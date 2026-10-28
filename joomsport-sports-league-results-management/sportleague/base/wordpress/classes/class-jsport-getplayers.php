@@ -87,7 +87,7 @@ class classJsportgetplayers
                     .' FROM '.DB_TBL_PLAYER_LIST.' as l'
                         .' JOIN '.$wpdb->prefix.'posts as p ON p.ID = l.player_id AND p.post_status = "publish"'
                     .' WHERE 1 = 1 AND l.player_id IS NOT NULL'
-                    .(isset($player_id) && $player_id ? ' AND l.player_id = '.$player_id : '');
+                    .(isset($player_id) && $player_id ? ' AND l.player_id = '.intval($player_id) : '');
                 if(isset($season_id) && count($season_array)){
                     $query .= ' AND l.season_id IN ('.implode(',', $season_array).') ';
                 }else if(isset($season_id) && $season_id){
@@ -107,7 +107,7 @@ class classJsportgetplayers
                     .' FROM '.DB_TBL_PLAYER_LIST.' as l'
                         .' JOIN '.$wpdb->prefix.'posts as p ON p.ID = l.player_id AND p.post_status = "publish"'
                     .' WHERE 1 = 1 AND l.player_id IS NOT NULL'
-                    .(isset($player_id) && $player_id ? ' AND l.player_id = '.$player_id : '');
+                    .(isset($player_id) && $player_id ? ' AND l.player_id = '.intval($player_id) : '');
                 if(isset($season_id) && count($season_array)){
                     $query_count .= ' AND l.season_id IN ('.implode(',', $season_array).') ';
                 }else if(isset($season_id) && $season_id){
@@ -123,6 +123,9 @@ class classJsportgetplayers
                 if($stdoptions != 'std' && isset($groupby) && !$groupby){
                     $sql_select = '';
                 }
+                if(!isset($groupby)){
+                    $sql_select = '';
+                }
                $query = "SELECT l.* ".$sql_select." FROM ".DB_TBL_PLAYER_LIST." as l"
                        .' JOIN '.$wpdb->prefix.'posts as p ON';
                    if(isset($season_id) && count($season_array)){
@@ -133,7 +136,7 @@ class classJsportgetplayers
                    }
                 $query .= ' AND p.ID = l.player_id AND p.post_status = "publish"'
                         . " WHERE 1=1 "
-                        .(isset($team_id) && $team_id ? ' AND l.team_id = '.$team_id : '');
+                        .(isset($team_id) && $team_id ? ' AND l.team_id = '.intval($team_id) : '');
                 if(isset($season_id) && count($season_array)){
                     $query .= ' AND l.season_id IN ('.implode(',', $season_array).') ';
                 }else if(isset($season_id) && $season_id){
@@ -167,13 +170,13 @@ class classJsportgetplayers
                 }
                 $query_count .= ' AND p.ID = l.player_id AND p.post_status = "publish"'
                         . " WHERE 1=1 AND l.player_id IS NOT NULL"
-                        .(isset($team_id) && $team_id ? ' AND l.team_id = '.$team_id : '');
+                        .(isset($team_id) && $team_id ? ' AND l.team_id = '.intval($team_id) : '');
 
                 if($groupSql){
                     $query_count .= $groupSql;
                 }
 
-                $query_count .= (isset($player_id) && $player_id ? ' AND l.player_id = '.$player_id : '');
+                $query_count .= (isset($player_id) && $player_id ? ' AND l.player_id = '.intval($player_id) : '');
                 if((isset($groupby) && $groupby)){
                     $query_count .= ' GROUP BY l.player_id';
                 }
@@ -191,8 +194,8 @@ class classJsportgetplayers
                     . " FROM ".DB_TBL_PLAYER_LIST." as l"
                     .' JOIN '.$wpdb->prefix.'posts as p ON p.ID = l.player_id AND p.post_status = "publish"'
                         . " WHERE 1=1 "
-                        .(isset($team_id) ? ' AND l.team_id = '.$team_id : '')
-                        .(isset($player_id) && $player_id ? ' AND l.player_id = '.$player_id : '')
+                        .(isset($team_id) ? ' AND l.team_id = '.intval($team_id) : '')
+                        .(isset($player_id) && $player_id ? ' AND l.player_id = '.intval($player_id) : '')
                         .(count($seasonsArray)?' AND l.season_id IN ('.implode(',',$seasonsArray).')':' AND l.season_id=-1')
                     .((isset($groupby) && !$groupby)?' GROUP BY l.season_id,l.team_id':' GROUP BY l.player_id')   
                     .' ORDER BY '.$ordering.',l.player_id'
@@ -204,8 +207,8 @@ class classJsportgetplayers
                     . " FROM ".DB_TBL_PLAYER_LIST." as l"
                     .' JOIN '.$wpdb->prefix.'posts as p ON p.ID = l.player_id AND p.post_status = "publish"'
                         . " WHERE 1=1 AND l.player_id IS NOT NULL "
-                        .(isset($team_id) ? ' AND l.team_id = '.$team_id : '')
-                        .(isset($player_id) && $player_id ? ' AND l.player_id = '.$player_id : '')
+                        .(isset($team_id) ? ' AND l.team_id = '.intval($team_id) : '')
+                        .(isset($player_id) && $player_id ? ' AND l.player_id = '.intval($player_id) : '')
                 .(count($seasonsArray)?' AND l.season_id IN ('.implode(',',$seasonsArray).')':' AND l.season_id=-1')
                     .((isset($groupby) && !$groupby)?' GROUP BY l.season_id,l.team_id':' GROUP BY l.player_id')    
                     ;
@@ -281,8 +284,8 @@ class classJsportgetplayers
         $query = 'SELECT SUM(played)'
                 .' FROM '.DB_TBL_PLAYER_LIST
                 ." WHERE player_id = {$player_id}"
-                .($team_id ? ' AND team_id = '.$team_id : '')
-                .($season_id ? ' AND season_id = '.$season_id : '');
+                .($team_id ? ' AND team_id = '.intval($team_id) : '')
+                .($season_id ? ' AND season_id = '.intval($season_id) : '');
 
         return (int) $jsDatabase->selectValue($query);
     }

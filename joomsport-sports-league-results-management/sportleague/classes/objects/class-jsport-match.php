@@ -125,6 +125,7 @@ class classJsportMatch
 
     public function getTabs()
     {
+        global $wp_embed;
         $tabs = array();
         $intA = 0;
 
@@ -140,6 +141,7 @@ class classJsportMatch
         $tabs[$intA]['ico'] = 'js-match';
         //about
         $match_descr = get_post_meta($this->id,'_joomsport_match_about',true);
+        $match_descr =  $wp_embed->run_shortcode($match_descr);
         if ($match_descr) {
             ++$intA;
             $tabs[$intA]['id'] = 'stab_about';
@@ -195,7 +197,9 @@ class classJsportMatch
     }
     public function getDescription()
     {
+        global $wp_embed;
         $m_descr = get_post_meta($this->id,'_joomsport_match_descr',true);
+        $m_descr =  $wp_embed->run_shortcode($m_descr);
         return classJsportText::getFormatedText($m_descr);
     }
     public function getPlayerObj(&$players)

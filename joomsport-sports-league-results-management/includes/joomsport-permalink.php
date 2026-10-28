@@ -138,8 +138,9 @@ function joomsport_filter_pt($html, $post_id, $post_thumbnail_id, $size, $attr) 
     $width = JoomsportSettings::get('set_emblemhgonmatch', 60);
     if($post_type == 'joomsport_team'  && get_post_type($post_id) == $post_type){
         $src = wp_get_attachment_image_src(get_post_thumbnail_id(), array($width,'0'));
-        $html = '<img src="' . esc_attr($src['0']) . '" width="'.$width.'" />';
-
+        if(isset($src['0'])) {
+            $html = '<img src="' . esc_attr($src['0']) . '" width="' . $width . '" />';
+        }
         if(JoomsportSettings::get('enabl_team_featimg', 1) == 0){
             $html = '';
         }

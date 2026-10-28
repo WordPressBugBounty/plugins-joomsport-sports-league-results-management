@@ -358,7 +358,9 @@ class JoomSportMetaMatch {
         $is_field[] = JoomSportHelperSelectBox::addOption(1, __("Starting", "joomsport-sports-league-results-management"));
         $is_field[] = JoomSportHelperSelectBox::addOption(2, __("Substitute", "joomsport-sports-league-results-management"));
         $is_field[] = JoomSportHelperSelectBox::addOption(0, __("Not participated", "joomsport-sports-league-results-management"));
-        
+
+        $canEditLineUp = apply_filters( 'joomsport_can_edit_lineup', true, $post->ID );
+
         ?>
         <div class="jsOvContainer">
             <div class="jsw50">
@@ -367,10 +369,12 @@ class JoomSportMetaMatch {
                 </div>
                 <?php
                 if($home_players){
-                    ?>
-                <input type="button" class="button jscheckall btn btn-default" value="<?php echo esc_attr(__('Starting for all','joomsport-sports-league-results-management'));?>" />
-                <input type="button" class="button jscheckallnot btn btn-default" value="<?php echo esc_attr(__('Not participated for all','joomsport-sports-league-results-management'));?>" />
-                <table class="table" id="new_squard1">
+                    if($canEditLineUp){
+                        ?>
+                        <input type="button" class="button jscheckall btn btn-default" value="<?php echo esc_attr(__('Starting for all','joomsport-sports-league-results-management'));?>" />
+                        <input type="button" class="button jscheckallnot btn btn-default" value="<?php echo esc_attr(__('Not participated for all','joomsport-sports-league-results-management'));?>" />
+                    <?php } ?>
+                    <table class="table" id="new_squard1">
                     <?php
                     if($home_players){
                         for($intA=0;$intA<count($home_players);$intA++){
@@ -386,8 +390,18 @@ class JoomSportMetaMatch {
                             echo '</div>';
                             echo '</td>';
                             echo '<td class="jsPlayerFname">'.esc_html(get_the_title($home_players[$intA])).'</td>';
-                            echo '<td width="280">'.wp_kses(JoomSportHelperSelectBox::Radio('squadradio1_'.esc_attr($home_players[$intA]), $is_field,$sq1_type,' class="jsgetcheckedSubs"',array('lclasses'=>array(1,1,0))),JoomsportSettings::getKsesRadio());
-                            echo '<input type="hidden" name="t1_squard[]" value="'.esc_attr($home_players[$intA]).'" />';
+                            echo '<td width="280">';
+                            if($canEditLineUp){
+                                echo wp_kses(JoomSportHelperSelectBox::Radio('squadradio1_'.esc_attr($home_players[$intA]), $is_field,$sq1_type,' class="jsgetcheckedSubs"',array('lclasses'=>array(1,1,0))),JoomsportSettings::getKsesRadio());
+                                echo '<input type="hidden" name="t1_squard[]" value="'.esc_attr($home_players[$intA]).'" />';
+                            }else{
+                                switch ($sq1_type){
+                                    case 1: echo __("Starting", "joomsport-sports-league-results-management"); break;
+                                    case 2: echo __("Substitute", "joomsport-sports-league-results-management"); break;
+                                    default: echo __("Not participated", "joomsport-sports-league-results-management"); break;
+                                }
+                            }
+
                             echo '</td>';
                             echo '</tr>';
                         }
@@ -404,10 +418,14 @@ class JoomSportMetaMatch {
                 </div>
                 <?php
                 if($away_players){
-                    ?>
-                <input type="button" class="button jscheckall btn btn-default" value="<?php echo esc_attr(__('Starting for all','joomsport-sports-league-results-management'));?>" />
-                <input type="button" class="button jscheckallnot btn btn-default" value="<?php echo esc_attr(__('Not participated for all','joomsport-sports-league-results-management'));?>" />
-                <table class="table" id="new_squard2">
+                    if($canEditLineUp) {
+                        ?>
+                        <input type="button" class="button jscheckall btn btn-default"
+                               value="<?php echo esc_attr(__('Starting for all', 'joomsport-sports-league-results-management')); ?>"/>
+                        <input type="button" class="button jscheckallnot btn btn-default"
+                               value="<?php echo esc_attr(__('Not participated for all', 'joomsport-sports-league-results-management')); ?>"/>
+                    <?php } ?>
+                    <table class="table" id="new_squard2">
                     <?php
                     if($away_players){
                         for($intA=0;$intA<count($away_players);$intA++){
@@ -426,8 +444,18 @@ class JoomSportMetaMatch {
                             echo '</div>';
                             echo '</td>';
                             echo '<td class="jsPlayerFname">'.esc_html(get_the_title($away_players[$intA])).'</td>';
-                            echo '<td width="280">'.wp_kses(JoomSportHelperSelectBox::Radio('squadradio2_'.esc_attr($away_players[$intA]), $is_field,$sq2_type,' class="jsgetcheckedSubs"',array('lclasses'=>array(1,1,0))),JoomsportSettings::getKsesRadio());
-                            echo '<input type="hidden" name="t2_squard[]" value="'.esc_attr($away_players[$intA]).'" />';
+                            echo '<td width="280">';
+                            if($canEditLineUp){
+                                echo wp_kses(JoomSportHelperSelectBox::Radio('squadradio2_'.esc_attr($away_players[$intA]), $is_field,$sq2_type,' class="jsgetcheckedSubs"',array('lclasses'=>array(1,1,0))),JoomsportSettings::getKsesRadio());
+                                echo '<input type="hidden" name="t2_squard[]" value="'.esc_attr($away_players[$intA]).'" />';
+
+                            }else{
+                                switch ($sq2_type){
+                                    case 1: echo __("Starting", "joomsport-sports-league-results-management"); break;
+                                    case 2: echo __("Substitute", "joomsport-sports-league-results-management"); break;
+                                    default: echo __("Not participated", "joomsport-sports-league-results-management"); break;
+                                }
+                            }
                             echo '</td>';
                             echo '</tr>';
                             
@@ -1399,6 +1427,10 @@ class JoomSportMetaMatch {
     }
     public static function saveMetaLineup($post_id, $post){
         global $wpdb;
+        $canEditLineUp = apply_filters( 'joomsport_can_edit_lineup', true, $post_id);
+        if(!$canEditLineUp){
+            return;
+        }
         $home_team = get_post_meta( $post_id, '_joomsport_home_team', true );
         $away_team = get_post_meta( $post_id, '_joomsport_away_team', true );
         $season_id = JoomSportHelperObjects::getMatchSeason($post_id);
