@@ -4,7 +4,7 @@ Tags: sports, football, hockey, sports team, league
 Requires at least: 4.0
 Tested up to: 7.1
 Requires PHP: 7.0
-Stable tag: 5.7.14
+Stable tag: 5.7.15
 License: GPLv3 
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 

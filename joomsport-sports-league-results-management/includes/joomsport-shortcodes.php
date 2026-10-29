@@ -490,6 +490,7 @@ class JoomsportShortcodes {
             return false;
         }
         $args['season_id'] = intval($args['season_id']);
+        $args['pgroup'] = intval($args['pgroup']);
         $ttype = JoomSportHelperObjects::getTournamentType($args['season_id']);
 
         if(!$args['team_id'] && !$ttype){

@@ -324,9 +324,9 @@ class classJsportTeam
         $players = $players['list'];
 
         
-        $groupBySelect = JoomsportSettings::get('set_teampgplayertab_groupby',0);
+        $groupBySelect = (int) JoomsportSettings::get('set_teampgplayertab_groupby',0);
         if(isset($options['groupBySelect'])){
-            $groupBySelect = $options['groupBySelect'];
+            $groupBySelect = (int) $options['groupBySelect'];
             unset($ef_type);
         }
         $playerPhotoTab = JoomsportSettings::get('show_rostertab',1);
@@ -420,7 +420,7 @@ class classJsportTeam
         if ($players) {
             
             if($groupBySelect && $playerPhotoTab){
-                $query = "SELECT sel_value FROM {$jsDatabase->db->joomsport_ef_select} WHERE fid={$groupBySelect} ORDER BY eordering";
+                $query = "SELECT sel_value FROM {$jsDatabase->db->joomsport_ef_select} WHERE fid=".intval($groupBySelect)." ORDER BY eordering";
                 $efgroup = $jsDatabase->selectColumn($query);
                 if(count($efgroup)){
                     $playerGroups = array_merge($playerGroups,$efgroup);
